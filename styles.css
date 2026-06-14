@@ -1,0 +1,275 @@
+/* ---- Reset ---- */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  width: 100%; height: 100%;
+  overflow: hidden;
+  font-family: 'Arial Rounded MT Bold', 'Nunito', Arial, sans-serif;
+  touch-action: manipulation; /* removes 300ms tap delay */
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+}
+
+/* ---- Scene ---- */
+#scene {
+  position: fixed; inset: 0; z-index: 0;
+  display: flex; flex-direction: column;
+}
+#sky {
+  flex: 1;
+  background: linear-gradient(180deg, #87CEEB 0%, #B0E0FF 100%);
+}
+#ground {
+  height: 120px;
+  background: linear-gradient(180deg, #8B6914 0%, #6B4F10 100%);
+}
+
+/* ---- Word Track ---- */
+#word-track {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  z-index: 10;
+}
+
+.letter-block {
+  width: 100px;
+  height: 100px;
+  border-radius: 16px;
+  background: #FFF9E6;
+  border: 5px solid #E8C84A;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 52px;
+  font-weight: 900;
+  color: #333;
+  box-shadow: 0 6px 0 #C8A830, 0 8px 20px rgba(0,0,0,0.2);
+  position: relative;
+  transition: transform 0.15s ease;
+}
+
+/* Active letter glows and pops bigger */
+.letter-block.active {
+  background: #FFF3B0;
+  border-color: #F5A623;
+  box-shadow: 0 6px 0 #C8831A, 0 0 30px rgba(245,166,35,0.6), 0 8px 20px rgba(0,0,0,0.2);
+  transform: scale(1.35);
+  z-index: 2;
+  animation: pulse-block 1.2s ease-in-out infinite;
+}
+
+/* Completed letter */
+.letter-block.done {
+  background: #E8FFE8;
+  border-color: #4CAF50;
+  box-shadow: 0 6px 0 #388E3C, 0 8px 20px rgba(0,0,0,0.2);
+}
+
+@keyframes pulse-block {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.06); }
+}
+
+/* ---- Mud Pit ---- */
+#mudpit {
+  position: fixed;
+  bottom: 80px;
+  z-index: 9;
+  /* positioned by JS to sit after the last letter block */
+}
+#mudpit-svg {
+  width: 180px;
+  height: 80px;
+}
+
+/* ---- Digger ---- */
+#digger-wrapper {
+  position: fixed;
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  /* JS sets left / bottom */
+}
+
+#digger {
+  width: 120px;
+  height: 80px;
+  filter: drop-shadow(0 4px 8px rgba(0,0,0,0.3));
+  transition: filter 0.1s;
+}
+
+#digger:active {
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+}
+
+/* Tap hint bubble */
+#tap-hint {
+  background: #FF6B35;
+  color: white;
+  border-radius: 20px;
+  padding: 4px 14px;
+  font-size: 14px;
+  font-weight: 900;
+  letter-spacing: 1px;
+  margin-top: 4px;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.25);
+  opacity: 0;
+  transform: translateY(4px);
+  transition: opacity 0.3s, transform 0.3s;
+}
+
+#tap-hint.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ---- Parent Confirm Button ---- */
+#confirm-btn {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 30;
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  background: #4CAF50;
+  color: white;
+  font-size: 58px;
+  font-weight: 900;
+  border: 5px solid #388E3C;
+  box-shadow: 0 8px 0 #2E7D32, 0 10px 28px rgba(0,0,0,0.35);
+  cursor: pointer;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.1s, box-shadow 0.1s;
+}
+
+#confirm-btn:active {
+  transform: translateY(3px);
+  box-shadow: 0 3px 0 #2E7D32, 0 4px 10px rgba(0,0,0,0.2);
+}
+
+#confirm-btn.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* ---- Dirt Puffs ---- */
+#dirt-puffs {
+  position: fixed;
+  inset: 0;
+  z-index: 25;
+  pointer-events: none;
+}
+
+.puff {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #8B6914;
+  opacity: 0;
+}
+
+/* ---- Celebration ---- */
+#celebration {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0,0,0,0.55);
+  opacity: 0;
+  pointer-events: none;
+}
+
+#celebration.active {
+  pointer-events: auto;
+}
+
+#big-digger {
+  width: 300px;
+  height: 200px;
+  filter: drop-shadow(0 10px 30px rgba(0,0,0,0.5));
+  transform: scale(0);
+}
+
+#celebration-text {
+  font-size: 52px;
+  font-weight: 900;
+  color: #FFF;
+  text-shadow: 0 4px 16px rgba(0,0,0,0.6), 0 0 30px #F5A623;
+  margin-top: 24px;
+  text-align: center;
+  opacity: 0;
+  letter-spacing: 2px;
+}
+
+/* ---- Word Banner ---- */
+#word-banner {
+  position: fixed;
+  top: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 60;
+  font-size: 64px;
+  font-weight: 900;
+  color: #FFF;
+  text-shadow: 0 4px 16px rgba(0,0,0,0.7);
+  letter-spacing: 6px;
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* ---- Confetti ---- */
+#confetti-container, #stars-container {
+  position: fixed;
+  inset: 0;
+  z-index: 55;
+  pointer-events: none;
+}
+
+.confetti-piece {
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  opacity: 0;
+  border-radius: 2px;
+}
+
+.star {
+  position: absolute;
+  font-size: 28px;
+  opacity: 0;
+}
+
+/* ---- Screen shake keyframe ---- */
+@keyframes rumble {
+  0%, 100% { transform: translate(0, 0); }
+  20% { transform: translate(-6px, 3px); }
+  40% { transform: translate(6px, -3px); }
+  60% { transform: translate(-4px, 5px); }
+  80% { transform: translate(4px, -5px); }
+}
+
+body.rumble {
+  animation: rumble 0.4s ease-in-out;
+}
+
+/* ---- Responsive: lock to landscape feel on small screens ---- */
+@media (max-height: 500px) {
+  .letter-block { width: 72px; height: 72px; font-size: 36px; }
+  #confirm-btn { width: 80px; height: 80px; font-size: 38px; bottom: 12px; right: 12px; }
+}
