@@ -2,7 +2,7 @@
 
 A browser-based phonics app for toddlers learning to blend 3 and 4 letter words. Built for a 3.5-year-old.
 
-**[Try it live →](https://phonics-digger.vercel.app)**
+**[Try it live →](https://phonics-digger.vercel.app)** · [Inspect deploy →](https://vercel.com/ankitasayal-4894s-projects/phonics-digger)
 
 ---
 
