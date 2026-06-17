@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <title>Phonics Digger</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect x='2' y='14' width='20' height='10' rx='2' fill='%23F5A623'/><rect x='12' y='8' width='10' height='9' rx='2' fill='%23F5A623'/><rect x='13' y='10' width='7' height='5' rx='1' fill='%23AEE4FF'/><line x1='21' y1='10' x2='29' y2='6' stroke='%23E8941A' stroke-width='2.5' stroke-linecap='round'/><polygon points='27,4 31,4 30,9 26,9' fill='%23D4800A'/><circle cx='6' cy='25' r='4' fill='%23333'/><circle cx='6' cy='25' r='2' fill='%23555'/><circle cx='18' cy='25' r='4' fill='%23333'/><circle cx='18' cy='25' r='2' fill='%23555'/><rect x='2' y='23' width='20' height='3' rx='1.5' fill='%23222'/></svg>">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- Home button -->
+  <a href="index.html" id="home-btn" aria-label="Back to home">⌂</a>
+
+  <!-- Sky / ground scene -->
+  <div id="scene">
+    <div id="sky"></div>
+    <div id="ground"></div>
+  </div>
+
+  <!-- Word display: letter blocks in a row -->
+  <div id="word-track">
+    <!-- Letter blocks injected by app.js -->
+  </div>
+
+  <!-- Mud pit at the end of the track -->
+  <div id="mudpit">
+    <svg id="mudpit-svg" viewBox="0 0 180 80" xmlns="http://www.w3.org/2000/svg">
+      <ellipse cx="90" cy="55" rx="80" ry="25" fill="#6B4226"/>
+      <ellipse cx="90" cy="50" rx="75" ry="18" fill="#8B5E3C"/>
+      <ellipse cx="90" cy="50" rx="50" ry="10" fill="none" stroke="#6B4226" stroke-width="2" opacity="0.5"/>
+      <ellipse cx="90" cy="50" rx="30" ry="6" fill="none" stroke="#6B4226" stroke-width="2" opacity="0.5"/>
+    </svg>
+  </div>
+
+  <!-- Digger SVG — this is what the child taps -->
+  <div id="digger-wrapper">
+    <svg id="digger" viewBox="0 0 120 80" xmlns="http://www.w3.org/2000/svg" aria-label="Tap the digger!">
+      <!-- Body -->
+      <rect x="10" y="30" width="70" height="30" rx="6" fill="#F5A623"/>
+      <!-- Cab -->
+      <rect x="45" y="15" width="35" height="25" rx="4" fill="#F5A623"/>
+      <!-- Cab window -->
+      <rect x="50" y="19" width="25" height="15" rx="3" fill="#AEE4FF" opacity="0.85"/>
+      <!-- Arm base -->
+      <rect x="78" y="22" width="12" height="8" rx="2" fill="#E8941A" id="arm-base"/>
+      <!-- Arm boom -->
+      <line x1="84" y1="26" x2="108" y2="18" stroke="#E8941A" stroke-width="6" stroke-linecap="round" id="arm-boom"/>
+      <!-- Bucket -->
+      <polygon points="104,14 114,14 110,26 100,26" fill="#D4800A" id="bucket"/>
+      <!-- Exhaust pipe -->
+      <rect x="46" y="8" width="5" height="9" rx="2" fill="#333"/>
+      <!-- Left wheel -->
+      <circle cx="22" cy="62" r="11" fill="#333"/>
+      <circle cx="22" cy="62" r="6" fill="#555"/>
+      <circle cx="22" cy="62" r="2" fill="#888"/>
+      <!-- Right wheel -->
+      <circle cx="62" cy="62" r="11" fill="#333"/>
+      <circle cx="62" cy="62" r="6" fill="#555"/>
+      <circle cx="62" cy="62" r="2" fill="#888"/>
+      <!-- Track belt -->
+      <rect x="10" y="58" width="72" height="8" rx="4" fill="#222"/>
+    </svg>
+  </div>
+
+  <!-- Dirt puff particles (shown on correct phoneme) -->
+  <div id="dirt-puffs"></div>
+
+  <!-- Big celebration digger -->
+  <div id="celebration" aria-hidden="true">
+    <svg id="big-digger" viewBox="0 0 120 80" xmlns="http://www.w3.org/2000/svg">
+      <rect x="10" y="30" width="70" height="30" rx="6" fill="#F5A623"/>
+      <rect x="45" y="15" width="35" height="25" rx="4" fill="#F5A623"/>
+      <rect x="50" y="19" width="25" height="15" rx="3" fill="#AEE4FF" opacity="0.85"/>
+      <rect x="78" y="22" width="12" height="8" rx="2" fill="#E8941A"/>
+      <line x1="84" y1="26" x2="108" y2="18" stroke="#E8941A" stroke-width="6" stroke-linecap="round"/>
+      <polygon points="104,14 114,14 110,26 100,26" fill="#D4800A"/>
+      <rect x="46" y="8" width="5" height="9" rx="2" fill="#333"/>
+      <circle cx="22" cy="62" r="11" fill="#333"/>
+      <circle cx="22" cy="62" r="6" fill="#555"/>
+      <circle cx="22" cy="62" r="2" fill="#888"/>
+      <circle cx="62" cy="62" r="11" fill="#333"/>
+      <circle cx="62" cy="62" r="6" fill="#555"/>
+      <circle cx="62" cy="62" r="2" fill="#888"/>
+      <rect x="10" y="58" width="72" height="8" rx="4" fill="#222"/>
+    </svg>
+    <div id="celebration-emoji"></div>
+    <div id="celebration-text"></div>
+  </div>
+
+  <!-- Confetti container -->
+  <div id="confetti-container" aria-hidden="true"></div>
+
+  <!-- Stars container -->
+  <div id="stars-container" aria-hidden="true"></div>
+
+  <!-- Parent confirm button -->
+  <button id="confirm-btn" aria-label="Confirm phoneme correct">✓</button>
+
+  <!-- Word label shown during celebration -->
+  <div id="word-banner" aria-hidden="true"></div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

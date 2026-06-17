@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <title>Maths Digger</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    #number-display {
+      position: fixed;
+      top: 46%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 10;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 22px;
+    }
+
+    #number-block {
+      width: 140px;
+      height: 140px;
+      border-radius: 20px;
+      background: #FFF9E6;
+      border: 6px solid #E8C84A;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 900;
+      color: #333;
+      box-shadow: 0 8px 0 #C8A830, 0 12px 30px rgba(0,0,0,0.2);
+      font-family: 'Arial Rounded MT Bold', Arial, sans-serif;
+      opacity: 0;
+    }
+
+    #digger-grid {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 8px;
+      max-width: 292px; /* exactly 5 × 52px + 4 × 8px gaps */
+    }
+
+    .digger-icon {
+      width: 52px;
+      height: 35px;
+      opacity: 0;
+      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+    }
+
+    .digger-icon svg {
+      width: 100%;
+      height: 100%;
+    }
+
+    @media (max-height: 600px) {
+      #number-block { width: 100px; height: 100px; }
+      .digger-icon  { width: 40px; height: 27px; }
+      #number-display { gap: 14px; }
+    }
+  </style>
+</head>
+<body>
+
+  <a href="index.html" id="home-btn">⌂ Home</a>
+
+  <div id="scene">
+    <div id="sky"></div>
+    <div id="ground"></div>
+  </div>
+
+  <div id="number-display">
+    <div id="number-block"></div>
+    <div id="digger-grid"></div>
+  </div>
+
+  <div id="dirt-puffs"></div>
+
+  <div id="celebration" aria-hidden="true">
+    <svg id="big-digger" viewBox="0 0 120 80" xmlns="http://www.w3.org/2000/svg">
+      <rect x="10" y="30" width="70" height="30" rx="6" fill="#F5A623"/>
+      <rect x="45" y="15" width="35" height="25" rx="4" fill="#F5A623"/>
+      <rect x="50" y="19" width="25" height="15" rx="3" fill="#AEE4FF" opacity="0.85"/>
+      <rect x="78" y="22" width="12" height="8" rx="2" fill="#E8941A"/>
+      <line x1="84" y1="26" x2="108" y2="18" stroke="#E8941A" stroke-width="6" stroke-linecap="round"/>
+      <polygon points="104,14 114,14 110,26 100,26" fill="#D4800A"/>
+      <rect x="46" y="8" width="5" height="9" rx="2" fill="#333"/>
+      <circle cx="22" cy="62" r="11" fill="#333"/>
+      <circle cx="22" cy="62" r="6" fill="#555"/>
+      <circle cx="22" cy="62" r="2" fill="#888"/>
+      <circle cx="62" cy="62" r="11" fill="#333"/>
+      <circle cx="62" cy="62" r="6" fill="#555"/>
+      <circle cx="62" cy="62" r="2" fill="#888"/>
+      <rect x="10" y="58" width="72" height="8" rx="4" fill="#222"/>
+    </svg>
+    <div id="celebration-text"></div>
+  </div>
+
+  <div id="confetti-container" aria-hidden="true"></div>
+  <div id="stars-container"    aria-hidden="true"></div>
+
+  <button id="confirm-btn" aria-label="Confirm number correct">✓</button>
+
+  <!-- Reuses #word-banner style from styles.css to show the number during celebration -->
+  <div id="word-banner" aria-hidden="true"></div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="maths.js"></script>
+</body>
+</html>

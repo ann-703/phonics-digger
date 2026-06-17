@@ -1,3 +1,21 @@
+/* ---- Home button (shown on subject pages) ---- */
+#home-btn {
+  position: fixed;
+  top: 16px;
+  left: 16px;
+  z-index: 100;
+  background: rgba(0,0,0,0.28);
+  color: #fff;
+  text-decoration: none;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 18px;
+  font-weight: 900;
+  letter-spacing: 1px;
+  backdrop-filter: blur(4px);
+  -webkit-tap-highlight-color: transparent;
+}
+
 /* ---- Reset ---- */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -85,6 +103,16 @@ html, body {
 #mudpit-svg {
   width: 180px;
   height: 80px;
+}
+
+/* ---- Celebration illustration (big, above digger) ---- */
+#celebration-emoji {
+  width: 120px;
+  height: 120px;
+  margin-bottom: 12px;
+  opacity: 0;
+  transform: scale(0);
+  filter: drop-shadow(0 6px 18px rgba(0,0,0,0.4));
 }
 
 /* ---- Digger ---- */

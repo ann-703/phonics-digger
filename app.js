@@ -4,14 +4,142 @@
 // Child taps digger to advance. Mud pit + big digger celebration.
 // ============================================================
 
-// --- Word data (Phase 2 will load from words.xlsx) ---
-const WORDS = [
+// --- Word data ---
+const ALL_WORDS = [
   { word: "hat", display: ["h", "a", "t"] },
+  { word: "cat", display: ["c", "a", "t"] },
+  { word: "mat", display: ["m", "a", "t"] },
+  { word: "bat", display: ["b", "a", "t"] },
+  { word: "sat", display: ["s", "a", "t"] },
   { word: "big", display: ["b", "i", "g"] },
+  { word: "dig", display: ["d", "i", "g"] },
+  { word: "pig", display: ["p", "i", "g"] },
   { word: "cup", display: ["c", "u", "p"] },
   { word: "sun", display: ["s", "u", "n"] },
-  { word: "cat", display: ["c", "a", "t"] },
+  { word: "hot", display: ["h", "o", "t"] },
+  { word: "pot", display: ["p", "o", "t"] },
 ];
+
+// Word → inline SVG illustration for the bucket badge
+const WORD_SVG = {
+  hat: `<svg viewBox="0 0 44 44" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
+    <rect x="7" y="30" width="30" height="6" rx="3" fill="#1a1a2e"/>
+    <rect x="15" y="12" width="14" height="18" rx="2" fill="#16213e"/>
+    <line x1="15" y1="21" x2="29" y2="21" stroke="#FFD700" stroke-width="2.5" stroke-linecap="round"/>
+  </svg>`,
+
+  cat: `<svg viewBox="0 0 44 44" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
+    <polygon points="12,20 9,8 19,17" fill="#FF8C42"/>
+    <polygon points="32,20 35,8 25,17" fill="#FF8C42"/>
+    <circle cx="22" cy="26" r="13" fill="#FF8C42"/>
+    <circle cx="17" cy="24" r="2.5" fill="#222"/>
+    <circle cx="27" cy="24" r="2.5" fill="#222"/>
+    <circle cx="17.8" cy="23.2" r="0.9" fill="#fff"/>
+    <circle cx="27.8" cy="23.2" r="0.9" fill="#fff"/>
+    <ellipse cx="22" cy="30" rx="3" ry="2" fill="#FF6B9D"/>
+    <line x1="22" y1="30" x2="22" y2="33" stroke="#FF6B9D" stroke-width="1.5"/>
+  </svg>`,
+
+  mat: `<svg viewBox="0 0 44 44" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
+    <rect x="4" y="15" width="36" height="18" rx="3" fill="#7B5533"/>
+    <rect x="7" y="18" width="30" height="12" rx="2" fill="#9E6B44"/>
+    <line x1="13" y1="18" x2="13" y2="30" stroke="#7B5533" stroke-width="2.5"/>
+    <line x1="19" y1="18" x2="19" y2="30" stroke="#7B5533" stroke-width="2.5"/>
+    <line x1="25" y1="18" x2="25" y2="30" stroke="#7B5533" stroke-width="2.5"/>
+    <line x1="31" y1="18" x2="31" y2="30" stroke="#7B5533" stroke-width="2.5"/>
+  </svg>`,
+
+  bat: `<svg viewBox="0 0 44 44" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
+    <path d="M22,22 Q14,12 4,17 Q10,24 18,23" fill="#5B3A8A"/>
+    <path d="M22,22 Q30,12 40,17 Q34,24 26,23" fill="#5B3A8A"/>
+    <ellipse cx="22" cy="26" rx="5" ry="6.5" fill="#5B3A8A"/>
+    <polygon points="18,19 16,11 21,18" fill="#5B3A8A"/>
+    <polygon points="26,19 28,11 23,18" fill="#5B3A8A"/>
+    <circle cx="19.5" cy="23" r="1.8" fill="#FF4444"/>
+    <circle cx="24.5" cy="23" r="1.8" fill="#FF4444"/>
+  </svg>`,
+
+  sat: `<svg viewBox="0 0 44 44" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
+    <rect x="10" y="10" width="4" height="14" rx="2" fill="#8B4513"/>
+    <rect x="10" y="21" width="24" height="5" rx="2" fill="#A0522D"/>
+    <rect x="10" y="26" width="4" height="13" rx="2" fill="#8B4513"/>
+    <rect x="30" y="26" width="4" height="13" rx="2" fill="#8B4513"/>
+  </svg>`,
+
+  big: `<svg viewBox="0 0 44 44" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
+    <ellipse cx="20" cy="30" rx="11" ry="8" fill="#8FAACC"/>
+    <circle cx="26" cy="20" r="10" fill="#A0B8D8"/>
+    <path d="M24 29 Q32 32 31 40" stroke="#8FAACC" stroke-width="4" fill="none" stroke-linecap="round"/>
+    <circle cx="23" cy="17" r="2" fill="#222"/>
+    <circle cx="23.8" cy="16.2" r="0.7" fill="#fff"/>
+    <ellipse cx="30" cy="13" rx="3" ry="4" fill="#A0B8D8"/>
+  </svg>`,
+
+  dig: `<svg viewBox="0 0 44 44" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
+    <rect x="20" y="6" width="5" height="22" rx="2.5" fill="#8B4513"/>
+    <rect x="19" y="27" width="7" height="3" rx="1" fill="#666"/>
+    <path d="M16 30 Q16 40 22 40 Q28 40 28 30 Z" fill="#888"/>
+    <rect x="14" y="26" width="5" height="3" rx="1.5" fill="#8B4513"/>
+  </svg>`,
+
+  pig: `<svg viewBox="0 0 44 44" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
+    <ellipse cx="13" cy="17" rx="5" ry="6" fill="#FFB6C1"/>
+    <ellipse cx="31" cy="17" rx="5" ry="6" fill="#FFB6C1"/>
+    <circle cx="22" cy="25" r="13" fill="#FFB6C1"/>
+    <ellipse cx="22" cy="30" rx="6.5" ry="4.5" fill="#FF9BAA"/>
+    <circle cx="20" cy="29" r="1.5" fill="#CC4466"/>
+    <circle cx="24" cy="29" r="1.5" fill="#CC4466"/>
+    <circle cx="16.5" cy="22" r="2.5" fill="#222"/>
+    <circle cx="27.5" cy="22" r="2.5" fill="#222"/>
+    <circle cx="17.2" cy="21.3" r="0.9" fill="#fff"/>
+    <circle cx="28.2" cy="21.3" r="0.9" fill="#fff"/>
+  </svg>`,
+
+  cup: `<svg viewBox="0 0 44 44" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
+    <path d="M11 15 L14 37 L30 37 L33 15 Z" fill="#E74C3C"/>
+    <rect x="9" y="12" width="26" height="5" rx="2.5" fill="#C0392B"/>
+    <path d="M33 19 Q41 19 41 26 Q41 33 33 33" stroke="#C0392B" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+    <line x1="15" y1="21" x2="29" y2="21" stroke="#FF8080" stroke-width="1.5" stroke-linecap="round"/>
+  </svg>`,
+
+  sun: `<svg viewBox="0 0 44 44" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
+    <line x1="22" y1="3" x2="22" y2="10" stroke="#FFD700" stroke-width="3" stroke-linecap="round"/>
+    <line x1="22" y1="34" x2="22" y2="41" stroke="#FFD700" stroke-width="3" stroke-linecap="round"/>
+    <line x1="3" y1="22" x2="10" y2="22" stroke="#FFD700" stroke-width="3" stroke-linecap="round"/>
+    <line x1="34" y1="22" x2="41" y2="22" stroke="#FFD700" stroke-width="3" stroke-linecap="round"/>
+    <line x1="7.5" y1="7.5" x2="12.4" y2="12.4" stroke="#FFD700" stroke-width="3" stroke-linecap="round"/>
+    <line x1="31.6" y1="31.6" x2="36.5" y2="36.5" stroke="#FFD700" stroke-width="3" stroke-linecap="round"/>
+    <line x1="36.5" y1="7.5" x2="31.6" y2="12.4" stroke="#FFD700" stroke-width="3" stroke-linecap="round"/>
+    <line x1="7.5" y1="36.5" x2="12.4" y2="31.6" stroke="#FFD700" stroke-width="3" stroke-linecap="round"/>
+    <circle cx="22" cy="22" r="9" fill="#FFD700"/>
+    <circle cx="22" cy="22" r="6" fill="#FFF176"/>
+  </svg>`,
+
+  hot: `<svg viewBox="0 0 44 44" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
+    <path d="M22 39 Q9 30 13 19 Q15 27 20 23 Q16 15 22 7 Q25 16 29 13 Q37 22 31 31 Q33 24 27 27 Q31 35 22 39Z" fill="#FF4500"/>
+    <path d="M22 35 Q15 28 18 22 Q19 27 22 24 Q20 17 22 13 Q24 20 27 18 Q32 25 27 30 Q29 24 25 27 Q27 31 22 35Z" fill="#FFD700"/>
+  </svg>`,
+
+  pot: `<svg viewBox="0 0 44 44" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
+    <rect x="16" y="9" width="12" height="5" rx="2.5" fill="#546E7A"/>
+    <path d="M10 19 Q10 39 22 39 Q34 39 34 19 Z" fill="#607D8B"/>
+    <ellipse cx="22" cy="19" rx="12" ry="4" fill="#78909C"/>
+    <line x1="5" y1="24" x2="10" y2="24" stroke="#455A64" stroke-width="4.5" stroke-linecap="round"/>
+    <line x1="34" y1="24" x2="39" y2="24" stroke="#455A64" stroke-width="4.5" stroke-linecap="round"/>
+  </svg>`,
+};
+
+// Deck shuffle: Fisher-Yates, returns a new shuffled copy
+function shuffleDeck(arr) {
+  const deck = [...arr];
+  for (let i = deck.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [deck[i], deck[j]] = [deck[j], deck[i]];
+  }
+  return deck;
+}
+
+let WORDS = shuffleDeck(ALL_WORDS);
 
 // --- State ---
 let state = {
@@ -36,6 +164,7 @@ const wordBanner   = document.getElementById("word-banner");
 const confettiCont = document.getElementById("confetti-container");
 const starsCont    = document.getElementById("stars-container");
 const dirtPuffs    = document.getElementById("dirt-puffs");
+const celebEmoji   = document.getElementById("celebration-emoji");
 
 // --- Layout constants (calculated after render) ---
 const LETTER_BLOCK_W = 100;
@@ -281,6 +410,13 @@ function celebrate() {
     { scale: 1, y: 0, duration: 0.8, ease: "back.out(1.7)", delay: 0.2 }
   );
 
+  // Big illustration pops in above the digger
+  celebEmoji.innerHTML = WORD_SVG[word] || "";
+  gsap.fromTo(celebEmoji,
+    { opacity: 0, scale: 0, y: 40 },
+    { opacity: 1, scale: 1, y: 0, duration: 0.6, ease: "back.out(2)", delay: 0.7 }
+  );
+
 
   // Confetti
   spawnConfetti();
@@ -304,6 +440,7 @@ function nextWord() {
       celebration.classList.remove("active");
       gsap.set(bigDigger, { scale: 0 });
       gsap.set(celebText, { opacity: 0 });
+      gsap.set(celebEmoji, { opacity: 0, scale: 0 });
     }
   });
 
@@ -311,8 +448,12 @@ function nextWord() {
   confettiCont.innerHTML = "";
   starsCont.innerHTML = "";
 
-  // Next word (loop around)
-  state.wordIndex = (state.wordIndex + 1) % WORDS.length;
+  // Next word — reshuffle deck when exhausted so every word plays before repeating
+  state.wordIndex++;
+  if (state.wordIndex >= WORDS.length) {
+    WORDS = shuffleDeck(ALL_WORDS);
+    state.wordIndex = 0;
+  }
   state.currentPhoneme = 0;
   state.phonemeConfirmed = false;
 
@@ -326,6 +467,7 @@ function nextWord() {
   // Small delay before repositioning digger
   setTimeout(() => {
     placeDiggerAtIndex(0, false);
+    showBucketImage(state.currentWord.word);
     setPhase("listening");
   }, 600);
 }
