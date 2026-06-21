@@ -186,22 +186,20 @@ function nextNumber() {
     opacity: 0,
     duration: 0.5,
     onComplete: () => {
+      // Overlay fully gone — pointer-events cleared — NOW safe to proceed
       celebration.classList.remove("active");
       gsap.set(bigDigger, { scale: 0 });
+
+      wordBanner.style.opacity = "0";
+      confettiCont.innerHTML = "";
+      starsCont.innerHTML = "";
+
+      state.current = state.current < MAX_NUMBER ? state.current + 1 : 1;
+      renderNumber(state.current);
+
+      setTimeout(() => setPhase("listening"), 100);
     }
   });
-
-  wordBanner.style.opacity = "0";
-  confettiCont.innerHTML = "";
-  starsCont.innerHTML = "";
-
-  state.current = state.current < MAX_NUMBER ? state.current + 1 : 1;
-  confirmBtn.classList.remove("hidden");
-
-  renderNumber(state.current);
-
-  // Small pause so celebration can fade before new number animates in
-  setTimeout(() => setPhase("listening"), 450);
 }
 
 // --- Confetti ---
