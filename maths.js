@@ -48,10 +48,10 @@ function renderNumber(n) {
 
   diggerGrid.innerHTML = "";
   for (let i = 0; i < n; i++) {
-    const icon = document.createElement("div");
-    icon.className = "digger-icon";
-    icon.innerHTML = miniDiggerSVG();
-    diggerGrid.appendChild(icon);
+    const wrap = document.createElement("div");
+    wrap.className = "digger-icon";
+    wrap.innerHTML = miniDiggerSVG() + `<div class="digger-num">${i + 1}</div>`;
+    diggerGrid.appendChild(wrap);
   }
 }
 
@@ -114,8 +114,49 @@ function setPhase(newPhase) {
   }
 }
 
+// --- Celebration sound (Web Audio API, no file needed) ---
+function playCelebrationSound() {
+  try {
+    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+    // Ascending fanfare: C4 E4 G4 C5, then a held sparkle chord
+    const notes = [261.6, 329.6, 392.0, 523.3];
+    notes.forEach((freq, i) => {
+      const osc  = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.type = "sine";
+      osc.frequency.value = freq;
+      const start = ctx.currentTime + i * 0.13;
+      gain.gain.setValueAtTime(0, start);
+      gain.gain.linearRampToValueAtTime(0.35, start + 0.05);
+      gain.gain.exponentialRampToValueAtTime(0.001, start + 0.55);
+      osc.start(start);
+      osc.stop(start + 0.6);
+    });
+    // Sparkle shimmer on top
+    [1046.5, 1318.5].forEach((freq, i) => {
+      const osc  = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.type = "sine";
+      osc.frequency.value = freq;
+      const start = ctx.currentTime + 0.52 + i * 0.08;
+      gain.gain.setValueAtTime(0, start);
+      gain.gain.linearRampToValueAtTime(0.18, start + 0.04);
+      gain.gain.exponentialRampToValueAtTime(0.001, start + 0.4);
+      osc.start(start);
+      osc.stop(start + 0.45);
+    });
+  } catch (e) {
+    // Audio not available — silently skip
+  }
+}
+
 // --- Celebration ---
 function celebrate() {
+  playCelebrationSound();
   celebration.classList.add("active");
   confettiCont.innerHTML = "";
   starsCont.innerHTML = "";

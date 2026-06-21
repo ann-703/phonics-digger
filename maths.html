@@ -39,15 +39,19 @@
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
-      gap: 8px;
-      max-width: 292px; /* exactly 5 × 52px + 4 × 8px gaps */
+      gap: 18px;
+      max-width: 414px; /* 4 × 90px + 3 × 18px gaps */
     }
 
     .digger-icon {
-      width: 52px;
-      height: 35px;
+      width: 90px;
+      height: 60px;
       opacity: 0;
-      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+      filter: drop-shadow(0 3px 6px rgba(0,0,0,0.25));
+      pointer-events: none;
+      -webkit-touch-callout: none;
+      user-select: none;
+      -webkit-user-select: none;
     }
 
     .digger-icon svg {
@@ -55,10 +59,34 @@
       height: 100%;
     }
 
+    .digger-num {
+      text-align: center;
+      font-size: 22px;
+      font-weight: 900;
+      color: #5D3A00;
+      margin-top: 4px;
+      line-height: 1;
+      font-family: 'Arial Rounded MT Bold', Arial, sans-serif;
+      -webkit-user-select: none;
+      user-select: none;
+    }
+
+    /* Lock down everything except #confirm-btn */
+    #home-btn {
+      pointer-events: none;
+    }
+    #number-display, #number-block {
+      pointer-events: none;
+      -webkit-touch-callout: none;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+
     @media (max-height: 600px) {
       #number-block { width: 100px; height: 100px; }
-      .digger-icon  { width: 40px; height: 27px; }
+      .digger-icon  { width: 65px; height: 44px; }
       #number-display { gap: 14px; }
+      #digger-grid { gap: 12px; max-width: 308px; }
     }
   </style>
 </head>
