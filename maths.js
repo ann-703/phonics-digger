@@ -1,208 +1,326 @@
 // ============================================================
-// Maths Digger — Number Recognition 1–20
-// Numbers appear sequentially. Parent taps ✓ after child
-// says the number. N digger icons appear for number N.
+// Maths Digger — Drag-a-Number Game
+// Parent enters up to 5 numbers. Child drags each number tile
+// onto the big digger. The digger BOOMS with stars. When all
+// numbers are dug, a full celebration plays and the tray refills.
 // ============================================================
 
-const MAX_NUMBER = 20;
+const MAX_NUMBERS = 5;
+const TILE_COLORS = ["#FF6B35", "#4CAF50", "#2196F3", "#E91E63", "#7C4DFF"];
 
-let state = {
-  current: 1,
-  phase: "idle", // idle | listening | confirmed | celebrating
-};
+let SESSION_NUMBERS = [];   // numbers the parent entered
+let remaining = 0;          // how many tiles still to dig this round
 
 // --- DOM refs ---
-const numberBlock  = document.getElementById("number-block");
-const diggerGrid   = document.getElementById("digger-grid");
-const confirmBtn   = document.getElementById("confirm-btn");
+const tray         = document.getElementById("number-tray");
+const dropDigger   = document.getElementById("drop-digger");
+const dropGlow     = document.getElementById("drop-glow");
+const numberFlash  = document.getElementById("number-flash");
+const dirtPuffs    = document.getElementById("dirt-puffs");
 const celebration  = document.getElementById("celebration");
 const bigDigger    = document.getElementById("big-digger");
-const wordBanner   = document.getElementById("word-banner");
+const celebText    = document.getElementById("celebration-text");
 const confettiCont = document.getElementById("confetti-container");
 const starsCont    = document.getElementById("stars-container");
 
-// --- Mini digger SVG (inline, same design as the main digger) ---
-function miniDiggerSVG() {
-  return `<svg viewBox="0 0 120 80" xmlns="http://www.w3.org/2000/svg">
-    <rect x="10" y="30" width="70" height="30" rx="6" fill="#F5A623"/>
-    <rect x="45" y="15" width="35" height="25" rx="4" fill="#F5A623"/>
-    <rect x="50" y="19" width="25" height="15" rx="3" fill="#AEE4FF" opacity="0.85"/>
-    <rect x="78" y="22" width="12" height="8" rx="2" fill="#E8941A"/>
-    <line x1="84" y1="26" x2="108" y2="18" stroke="#E8941A" stroke-width="6" stroke-linecap="round"/>
-    <polygon points="104,14 114,14 110,26 100,26" fill="#D4800A"/>
-    <rect x="46" y="8" width="5" height="9" rx="2" fill="#333"/>
-    <circle cx="22" cy="62" r="11" fill="#333"/>
-    <circle cx="22" cy="62" r="6" fill="#555"/>
-    <circle cx="22" cy="62" r="2" fill="#888"/>
-    <circle cx="62" cy="62" r="11" fill="#333"/>
-    <circle cx="62" cy="62" r="6" fill="#555"/>
-    <circle cx="62" cy="62" r="2" fill="#888"/>
-    <rect x="10" y="58" width="72" height="8" rx="4" fill="#222"/>
-  </svg>`;
-}
+// ============================================================
+// Parent setup screen
+// ============================================================
+function showSetup() {
+  const overlay  = document.getElementById("number-setup");
+  const input    = document.getElementById("number-input");
+  const btn      = document.getElementById("setup-btn");
+  const errorDiv = document.getElementById("setup-error");
 
-// --- Render number and its digger grid ---
-function renderNumber(n) {
-  numberBlock.textContent = n;
-  numberBlock.style.fontSize = n < 10 ? "82px" : "58px";
+  overlay.style.display = "flex";
+  setTimeout(() => input.focus(), 300);
 
-  diggerGrid.innerHTML = "";
-  for (let i = 0; i < n; i++) {
-    const wrap = document.createElement("div");
-    wrap.className = "digger-icon";
-    wrap.innerHTML = miniDiggerSVG() + `<div class="digger-num">${i + 1}</div>`;
-    diggerGrid.appendChild(wrap);
+  function tryStart() {
+    const raw = input.value.trim();
+    if (!raw) {
+      errorDiv.textContent = "Please type at least one number!";
+      return;
+    }
+
+    const cleaned = raw
+      .split(",")
+      .map(n => n.trim())
+      .filter(n => n.length > 0);
+
+    const bad = cleaned.find(n => !/^\d{1,3}$/.test(n));
+    if (bad) {
+      errorDiv.textContent = `"${bad}" is not a number — digits only please.`;
+      return;
+    }
+
+    const parsed = cleaned.map(n => String(parseInt(n, 10))).slice(0, MAX_NUMBERS);
+    if (parsed.length === 0) {
+      errorDiv.textContent = "Please type at least one number!";
+      return;
+    }
+
+    SESSION_NUMBERS = parsed;
+    overlay.style.display = "none";
+    startRound();
   }
+
+  btn.addEventListener("pointerdown", (e) => { e.stopPropagation(); tryStart(); });
+  input.addEventListener("keydown", (e) => { if (e.key === "Enter") tryStart(); });
 }
 
-// --- Phase machine ---
-function setPhase(newPhase) {
-  state.phase = newPhase;
+// ============================================================
+// Round setup — build the tray of draggable number tiles
+// ============================================================
+function startRound() {
+  tray.innerHTML = "";
+  remaining = SESSION_NUMBERS.length;
 
-  switch (newPhase) {
+  SESSION_NUMBERS.forEach((value, i) => {
+    const tile = document.createElement("div");
+    tile.className = "num-tile";
+    tile.textContent = value;
+    tile.dataset.value = value;
+    tile.style.background = TILE_COLORS[i % TILE_COLORS.length];
+    tile.addEventListener("pointerdown", (e) => startDrag(e, tile));
+    tray.appendChild(tile);
 
-    case "listening":
-      confirmBtn.classList.remove("hidden");
+    // Pop each tile in
+    gsap.fromTo(tile,
+      { scale: 0, opacity: 0 },
+      { scale: 1, opacity: 1, duration: 0.4, ease: "back.out(2)", delay: 0.1 + i * 0.08 }
+    );
+  });
+}
 
-      // Number block pops in
-      gsap.fromTo(numberBlock,
-        { scale: 0.4, opacity: 0 },
-        { scale: 1, opacity: 1, duration: 0.5, ease: "back.out(2)" }
-      );
+// ============================================================
+// Drag handling (pointer events — works on touch + mouse)
+// ============================================================
+let drag = null;  // { tile, clone, offsetX, offsetY, value }
 
-      // Digger icons stagger in from below
-      const icons = diggerGrid.querySelectorAll(".digger-icon");
-      if (icons.length > 0) {
-        gsap.fromTo(icons,
-          { scale: 0, opacity: 0, y: 18 },
-          {
-            scale: 1, opacity: 1, y: 0,
-            duration: 0.35,
-            ease: "back.out(1.8)",
-            stagger: 0.07,
-            delay: 0.3
-          }
-        );
-      }
-      break;
+function startDrag(e, tile) {
+  if (drag || tile.classList.contains("done")) return;
+  e.preventDefault();
 
-    case "confirmed":
-      confirmBtn.classList.add("hidden");
+  const rect = tile.getBoundingClientRect();
+  const clone = tile.cloneNode(true);
+  clone.classList.add("drag-clone");
+  clone.style.left   = rect.left + "px";
+  clone.style.top    = rect.top + "px";
+  clone.style.width  = rect.width + "px";
+  clone.style.height = rect.height + "px";
+  document.body.appendChild(clone);
 
-      // Diggers bounce up then land, staggered
-      const allIcons = diggerGrid.querySelectorAll(".digger-icon");
-      gsap.to(allIcons, {
-        y: -16,
-        duration: 0.18,
-        ease: "power2.out",
-        stagger: 0.06,
-        onComplete: () => {
-          gsap.to(allIcons, {
-            y: 0,
-            duration: 0.3,
-            ease: "bounce.out",
-            stagger: 0.06,
-            onComplete: () => setTimeout(() => setPhase("celebrating"), 250)
-          });
-        }
-      });
-      break;
+  tile.style.opacity = "0.25";
 
-    case "celebrating":
-      celebrate();
-      break;
+  drag = {
+    tile,
+    clone,
+    value: tile.dataset.value,
+    offsetX: e.clientX - rect.left,
+    offsetY: e.clientY - rect.top,
+  };
+
+  window.addEventListener("pointermove", onDragMove);
+  window.addEventListener("pointerup", onDragEnd);
+  window.addEventListener("pointercancel", onDragEnd);
+}
+
+function onDragMove(e) {
+  if (!drag) return;
+  drag.clone.style.left = (e.clientX - drag.offsetX) + "px";
+  drag.clone.style.top  = (e.clientY - drag.offsetY) + "px";
+
+  // Highlight the digger when the finger hovers over it
+  dropDigger.classList.toggle("drop-ready", isOverDigger(e.clientX, e.clientY));
+}
+
+function onDragEnd(e) {
+  if (!drag) return;
+  window.removeEventListener("pointermove", onDragMove);
+  window.removeEventListener("pointerup", onDragEnd);
+  window.removeEventListener("pointercancel", onDragEnd);
+
+  const over = isOverDigger(e.clientX, e.clientY);
+  dropDigger.classList.remove("drop-ready");
+
+  if (over) {
+    dropOnDigger(drag);
+  } else {
+    snapBack(drag);
   }
+  drag = null;
 }
 
-// --- Celebration sound (Web Audio API, no file needed) ---
-function playCelebrationSound() {
-  try {
-    const ctx = new (window.AudioContext || window.webkitAudioContext)();
-    // Ascending fanfare: C4 E4 G4 C5, then a held sparkle chord
-    const notes = [261.6, 329.6, 392.0, 523.3];
-    notes.forEach((freq, i) => {
-      const osc  = ctx.createOscillator();
-      const gain = ctx.createGain();
-      osc.connect(gain);
-      gain.connect(ctx.destination);
-      osc.type = "sine";
-      osc.frequency.value = freq;
-      const start = ctx.currentTime + i * 0.13;
-      gain.gain.setValueAtTime(0, start);
-      gain.gain.linearRampToValueAtTime(0.35, start + 0.05);
-      gain.gain.exponentialRampToValueAtTime(0.001, start + 0.55);
-      osc.start(start);
-      osc.stop(start + 0.6);
-    });
-    // Sparkle shimmer on top
-    [1046.5, 1318.5].forEach((freq, i) => {
-      const osc  = ctx.createOscillator();
-      const gain = ctx.createGain();
-      osc.connect(gain);
-      gain.connect(ctx.destination);
-      osc.type = "sine";
-      osc.frequency.value = freq;
-      const start = ctx.currentTime + 0.52 + i * 0.08;
-      gain.gain.setValueAtTime(0, start);
-      gain.gain.linearRampToValueAtTime(0.18, start + 0.04);
-      gain.gain.exponentialRampToValueAtTime(0.001, start + 0.4);
-      osc.start(start);
-      osc.stop(start + 0.45);
-    });
-  } catch (e) {
-    // Audio not available — silently skip
-  }
+// Generous hit area so little hands don't have to be precise
+function isOverDigger(x, y) {
+  const r = dropDigger.getBoundingClientRect();
+  const pad = 50;
+  return x >= r.left - pad && x <= r.right + pad &&
+         y >= r.top - pad  && y <= r.bottom + pad;
 }
 
-// --- Celebration ---
-function celebrate() {
+function snapBack(d) {
+  const homeRect = d.tile.getBoundingClientRect();
+  gsap.to(d.clone, {
+    left: homeRect.left,
+    top: homeRect.top,
+    duration: 0.3,
+    ease: "back.out(1.5)",
+    onComplete: () => {
+      d.clone.remove();
+      d.tile.style.opacity = "1";
+    }
+  });
+}
+
+// ============================================================
+// Successful drop — BOOM!
+// ============================================================
+function dropOnDigger(d) {
+  d.clone.remove();
+  d.tile.classList.add("done");
+
+  remaining--;
+
   playCelebrationSound();
+  boomDigger();
+  flashNumber(d.value);
+  sprayDirt(dropDigger.getBoundingClientRect());
+  spawnStars(8);
+
+  if (remaining <= 0) {
+    setTimeout(finalCelebration, 900);
+  }
+}
+
+function boomDigger() {
+  document.body.classList.add("rumble");
+  setTimeout(() => document.body.classList.remove("rumble"), 450);
+
+  const bucket = document.getElementById("dd-bucket");
+  const boom   = document.getElementById("dd-boom");
+
+  // Bucket scoops down then back
+  gsap.timeline()
+    .to([bucket, boom], { y: 10, duration: 0.15, ease: "power2.out" })
+    .to([bucket, boom], { y: 0,  duration: 0.4,  ease: "bounce.out" });
+
+  // Whole digger pops
+  gsap.fromTo(dropDigger,
+    { scale: 1 },
+    { scale: 1.12, duration: 0.18, yoyo: true, repeat: 1, ease: "power2.out",
+      transformOrigin: "center center" }
+  );
+}
+
+function flashNumber(value) {
+  const r = dropDigger.getBoundingClientRect();
+  numberFlash.textContent = value;
+  numberFlash.style.left = (r.left + r.width / 2) + "px";
+  numberFlash.style.top  = (r.top + r.height * 0.35) + "px";
+
+  gsap.fromTo(numberFlash,
+    { opacity: 0, scale: 0.3, y: 0 },
+    { opacity: 1, scale: 1, duration: 0.35, ease: "back.out(2.5)",
+      onComplete: () => {
+        gsap.to(numberFlash, { opacity: 0, scale: 1.4, y: -60, duration: 0.7, delay: 0.5, ease: "power2.in" });
+      }
+    }
+  );
+}
+
+// ============================================================
+// Final celebration (all numbers dug) + refill
+// ============================================================
+function finalCelebration() {
   celebration.classList.add("active");
   confettiCont.innerHTML = "";
   starsCont.innerHTML = "";
 
   gsap.to(celebration, { opacity: 1, duration: 0.4 });
-
-  // Big digger rises from the mud
   gsap.fromTo(bigDigger,
     { scale: 0.1, y: 100 },
     { scale: 1, y: 0, duration: 0.8, ease: "back.out(1.7)", delay: 0.2 }
   );
-
-  // Show number at the top
-  wordBanner.textContent = state.current;
-  wordBanner.style.opacity = "1";
-  wordBanner.style.pointerEvents = "none";
+  gsap.fromTo(celebText,
+    { opacity: 0, y: 20 },
+    { opacity: 1, y: 0, duration: 0.5, ease: "power2.out", delay: 0.7 }
+  );
 
   spawnConfetti();
-  spawnStars();
+  spawnStars(14);
+  playCelebrationSound();
 
-  setTimeout(nextNumber, 4000);
+  setTimeout(endCelebration, 4000);
 }
 
-// --- Advance to next number ---
-function nextNumber() {
+function endCelebration() {
   gsap.to(celebration, {
     opacity: 0,
     duration: 0.5,
     onComplete: () => {
-      // Overlay fully gone — pointer-events cleared — NOW safe to proceed
       celebration.classList.remove("active");
       gsap.set(bigDigger, { scale: 0 });
-
-      wordBanner.style.opacity = "0";
       confettiCont.innerHTML = "";
       starsCont.innerHTML = "";
-
-      state.current = state.current < MAX_NUMBER ? state.current + 1 : 1;
-      renderNumber(state.current);
-
-      setTimeout(() => setPhase("listening"), 100);
+      startRound();   // refill the tray with the same numbers
     }
   });
 }
 
-// --- Confetti ---
+// ============================================================
+// Celebration sound (Web Audio API, no file needed)
+// ============================================================
+function playCelebrationSound() {
+  try {
+    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+    const notes = [261.6, 329.6, 392.0, 523.3];
+    notes.forEach((freq, i) => {
+      const osc  = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.connect(gain); gain.connect(ctx.destination);
+      osc.type = "sine";
+      osc.frequency.value = freq;
+      const start = ctx.currentTime + i * 0.10;
+      gain.gain.setValueAtTime(0, start);
+      gain.gain.linearRampToValueAtTime(0.35, start + 0.04);
+      gain.gain.exponentialRampToValueAtTime(0.001, start + 0.5);
+      osc.start(start);
+      osc.stop(start + 0.55);
+    });
+  } catch (e) { /* audio unavailable — skip */ }
+}
+
+// ============================================================
+// Particle effects
+// ============================================================
+function sprayDirt(rect) {
+  const cx = rect.left + rect.width * 0.7;
+  const cy = rect.top + rect.height * 0.45;
+
+  for (let i = 0; i < 14; i++) {
+    const puff = document.createElement("div");
+    puff.className = "puff";
+    puff.style.left = cx + "px";
+    puff.style.top  = cy + "px";
+    puff.style.width  = (12 + Math.random() * 16) + "px";
+    puff.style.height = puff.style.width;
+    dirtPuffs.appendChild(puff);
+
+    gsap.fromTo(puff,
+      { opacity: 0.9, scale: 0.4 },
+      {
+        opacity: 0, scale: 2,
+        x: (Math.random() - 0.4) * 120,
+        y: -(30 + Math.random() * 80),
+        duration: 0.8 + Math.random() * 0.4,
+        ease: "power3.out",
+        onComplete: () => puff.remove()
+      }
+    );
+  }
+}
+
 const CONFETTI_COLORS = ["#FF6B35", "#F5A623", "#4CAF50", "#2196F3", "#E91E63", "#9C27B0", "#00BCD4"];
 
 function spawnConfetti() {
@@ -228,41 +346,29 @@ function spawnConfetti() {
   }
 }
 
-function spawnStars() {
+function spawnStars(count) {
   const emojis = ["⭐", "🌟", "✨", "💫"];
-  for (let i = 0; i < 12; i++) {
+  for (let i = 0; i < count; i++) {
     const el = document.createElement("div");
     el.className = "star";
     el.textContent = emojis[Math.floor(Math.random() * emojis.length)];
-    el.style.left  = (5  + Math.random() * 90) + "vw";
-    el.style.top   = (10 + Math.random() * 70) + "vh";
+    el.style.left = (5  + Math.random() * 90) + "vw";
+    el.style.top  = (10 + Math.random() * 70) + "vh";
     starsCont.appendChild(el);
 
     gsap.fromTo(el,
       { opacity: 0, scale: 0 },
       {
         opacity: 1, scale: 1.5, duration: 0.4,
-        delay: 0.3 + Math.random() * 0.8,
+        delay: Math.random() * 0.5,
         ease: "back.out(2)",
-        onComplete: () => gsap.to(el, { opacity: 0, scale: 0, duration: 0.3, delay: 1.5 + Math.random() })
+        onComplete: () => gsap.to(el, { opacity: 0, scale: 0, duration: 0.3, delay: 1 + Math.random(), onComplete: () => el.remove() })
       }
     );
   }
 }
 
-// --- Confirm button ---
-confirmBtn.addEventListener("pointerdown", (e) => {
-  e.stopPropagation();
-  if (state.phase !== "listening") return;
-  setPhase("confirmed");
-});
-
-// --- Start ---
-window.addEventListener("DOMContentLoaded", () => {
-  setTimeout(init, 150);
-});
-
-function init() {
-  renderNumber(state.current);
-  setPhase("listening");
-}
+// ============================================================
+// Start
+// ============================================================
+window.addEventListener("DOMContentLoaded", showSetup);

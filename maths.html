@@ -7,86 +7,200 @@
   <title>Maths Digger</title>
   <link rel="stylesheet" href="styles.css">
   <style>
-    #number-display {
+    /* Child-proof: lock down everything by default */
+    #home-btn { pointer-events: none; }
+    #scene, #drop-digger, #number-flash, #dirt-puffs {
+      pointer-events: none;
+      -webkit-touch-callout: none;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+
+    /* ---- Number tray (left side) ---- */
+    #number-tray {
       position: fixed;
-      top: 46%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      z-index: 10;
+      left: 5%;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 15;
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 22px;
+      gap: 20px;
     }
 
-    #number-block {
-      width: 140px;
-      height: 140px;
-      border-radius: 20px;
-      background: #FFF9E6;
-      border: 6px solid #E8C84A;
+    .num-tile {
+      width: 104px;
+      height: 104px;
+      border-radius: 22px;
       display: flex;
       align-items: center;
       justify-content: center;
+      font-size: 60px;
       font-weight: 900;
-      color: #333;
-      box-shadow: 0 8px 0 #C8A830, 0 12px 30px rgba(0,0,0,0.2);
+      color: #fff;
       font-family: 'Arial Rounded MT Bold', Arial, sans-serif;
-      opacity: 0;
+      box-shadow: 0 7px 0 rgba(0,0,0,0.22), 0 10px 26px rgba(0,0,0,0.22);
+      cursor: grab;
+      touch-action: none;          /* let JS own the drag, no scrolling */
+      -webkit-user-select: none;
+      user-select: none;
+      -webkit-touch-callout: none;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+      transition: transform 0.12s ease;
     }
 
-    #digger-grid {
+    .num-tile.done {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    /* Floating copy that follows the finger */
+    .drag-clone {
+      position: fixed;
+      z-index: 300;
+      pointer-events: none;
+      margin: 0;
+      transform: scale(1.12);
+      box-shadow: 0 12px 0 rgba(0,0,0,0.25), 0 18px 36px rgba(0,0,0,0.3);
+    }
+
+    /* ---- Big digger drop target (right side) ---- */
+    #drop-digger {
+      position: fixed;
+      right: 7%;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 12;
+      width: 320px;
+      height: 213px;
+      filter: drop-shadow(0 8px 18px rgba(0,0,0,0.3));
+    }
+
+    #drop-digger svg { width: 100%; height: 100%; }
+
+    /* Pulsing hint ring behind the digger bucket */
+    #drop-glow {
+      position: fixed;
+      right: 7%;
+      top: 50%;
+      transform: translate(0, -50%);
+      width: 320px;
+      height: 213px;
+      z-index: 11;
+      pointer-events: none;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(255,221,87,0.55) 0%, rgba(255,221,87,0) 62%);
+      animation: glow-pulse 1.6s ease-in-out infinite;
+    }
+
+    @keyframes glow-pulse {
+      0%, 100% { opacity: 0.5; transform: translate(0, -50%) scale(0.95); }
+      50%      { opacity: 1;   transform: translate(0, -50%) scale(1.06); }
+    }
+
+    #drop-digger.drop-ready { filter: drop-shadow(0 0 26px #FFD700) drop-shadow(0 8px 18px rgba(0,0,0,0.3)); }
+
+    /* Number that flashes on the digger after a drop */
+    #number-flash {
+      position: fixed;
+      z-index: 40;
+      font-size: 120px;
+      font-weight: 900;
+      color: #fff;
+      font-family: 'Arial Rounded MT Bold', Arial, sans-serif;
+      text-shadow: 0 4px 16px rgba(0,0,0,0.5), 0 0 30px #F5A623;
+      opacity: 0;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+    }
+
+    /* ---- Parent number-setup overlay ---- */
+    #number-setup {
+      position: fixed;
+      inset: 0;
+      z-index: 200;
       display: flex;
-      flex-wrap: wrap;
+      align-items: center;
       justify-content: center;
+      background: linear-gradient(160deg, #87CEEB 0%, #B0E0FF 60%, #8B6914 100%);
+    }
+
+    #setup-card {
+      background: #FFF9E6;
+      border: 5px solid #E8C84A;
+      border-radius: 28px;
+      box-shadow: 0 10px 0 #C8A830, 0 16px 40px rgba(0,0,0,0.22);
+      padding: 36px 32px 32px;
+      max-width: 480px;
+      width: 90vw;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
       gap: 18px;
-      max-width: 414px; /* 4 × 90px + 3 × 18px gaps */
     }
 
-    .digger-icon {
-      width: 90px;
-      height: 60px;
-      opacity: 0;
-      filter: drop-shadow(0 3px 6px rgba(0,0,0,0.25));
-      pointer-events: none;
-      -webkit-touch-callout: none;
-      user-select: none;
-      -webkit-user-select: none;
-    }
+    #setup-card h2 { font-size: 24px; font-weight: 900; color: #333; text-align: center; line-height: 1.3; }
+    #setup-card p  { font-size: 15px; color: #666; text-align: center; }
 
-    .digger-icon svg {
+    #number-setup, #setup-card, #setup-btn, #number-input { pointer-events: auto; touch-action: auto; }
+
+    #number-input {
       width: 100%;
-      height: 100%;
-    }
-
-    .digger-num {
-      text-align: center;
-      font-size: 22px;
-      font-weight: 900;
-      color: #5D3A00;
-      margin-top: 4px;
-      line-height: 1;
+      font-size: 24px;
+      font-weight: 700;
       font-family: 'Arial Rounded MT Bold', Arial, sans-serif;
-      -webkit-user-select: none;
-      user-select: none;
+      padding: 16px 18px;
+      border: 4px solid #E8C84A;
+      border-radius: 16px;
+      background: #fff;
+      color: #333;
+      outline: none;
+      text-align: center;
+      box-shadow: inset 0 2px 6px rgba(0,0,0,0.08);
+      -webkit-user-select: text !important;
+      user-select: text !important;
+      -webkit-touch-callout: default !important;
     }
 
-    /* Lock down everything except #confirm-btn */
-    #home-btn {
-      pointer-events: none;
-    }
-    #number-display, #number-block {
-      pointer-events: none;
-      -webkit-touch-callout: none;
-      user-select: none;
-      -webkit-user-select: none;
+    #number-input:focus {
+      border-color: #F5A623;
+      box-shadow: 0 0 0 3px rgba(245,166,35,0.25), inset 0 2px 6px rgba(0,0,0,0.08);
     }
 
-    @media (max-height: 600px) {
-      #number-block { width: 100px; height: 100px; }
-      .digger-icon  { width: 65px; height: 44px; }
-      #number-display { gap: 14px; }
-      #digger-grid { gap: 12px; max-width: 308px; }
+    #setup-error { font-size: 14px; color: #E53935; font-weight: 700; min-height: 18px; text-align: center; }
+
+    #setup-btn {
+      width: 100%;
+      padding: 18px;
+      font-size: 24px;
+      font-weight: 900;
+      font-family: 'Arial Rounded MT Bold', Arial, sans-serif;
+      background: #7C4DFF;
+      color: #fff;
+      border: 4px solid #512DA8;
+      border-radius: 20px;
+      box-shadow: 0 7px 0 #4527A0, 0 10px 24px rgba(0,0,0,0.2);
+      cursor: pointer;
+      touch-action: manipulation;
+      -webkit-tap-highlight-color: transparent;
+      transition: transform 0.1s, box-shadow 0.1s;
+    }
+
+    #setup-btn:active { transform: translateY(4px); box-shadow: 0 3px 0 #4527A0, 0 4px 10px rgba(0,0,0,0.15); }
+
+    /* ---- Responsive ---- */
+    @media (max-width: 760px) {
+      .num-tile { width: 80px; height: 80px; font-size: 46px; border-radius: 18px; }
+      #number-tray { gap: 14px; left: 4%; }
+      #drop-digger, #drop-glow { width: 230px; height: 153px; right: 4%; }
+      #number-flash { font-size: 90px; }
+    }
+
+    @media (max-height: 560px) {
+      .num-tile { width: 66px; height: 66px; font-size: 38px; }
+      #number-tray { gap: 10px; }
+      #drop-digger, #drop-glow { width: 200px; height: 133px; }
     }
   </style>
 </head>
@@ -99,13 +213,38 @@
     <div id="ground"></div>
   </div>
 
-  <div id="number-display">
-    <div id="number-block"></div>
-    <div id="digger-grid"></div>
+  <!-- Number tiles injected by maths.js -->
+  <div id="number-tray"></div>
+
+  <!-- Pulsing hint glow behind the digger -->
+  <div id="drop-glow"></div>
+
+  <!-- Big digger: the drop target -->
+  <div id="drop-digger">
+    <svg viewBox="0 0 120 80" xmlns="http://www.w3.org/2000/svg">
+      <rect x="10" y="30" width="70" height="30" rx="6" fill="#F5A623"/>
+      <rect x="45" y="15" width="35" height="25" rx="4" fill="#F5A623"/>
+      <rect x="50" y="19" width="25" height="15" rx="3" fill="#AEE4FF" opacity="0.85"/>
+      <rect x="78" y="22" width="12" height="8" rx="2" fill="#E8941A" id="dd-arm-base"/>
+      <line x1="84" y1="26" x2="108" y2="18" stroke="#E8941A" stroke-width="6" stroke-linecap="round" id="dd-boom"/>
+      <polygon points="104,14 114,14 110,26 100,26" fill="#D4800A" id="dd-bucket"/>
+      <rect x="46" y="8" width="5" height="9" rx="2" fill="#333"/>
+      <circle cx="22" cy="62" r="11" fill="#333"/>
+      <circle cx="22" cy="62" r="6" fill="#555"/>
+      <circle cx="22" cy="62" r="2" fill="#888"/>
+      <circle cx="62" cy="62" r="11" fill="#333"/>
+      <circle cx="62" cy="62" r="6" fill="#555"/>
+      <circle cx="62" cy="62" r="2" fill="#888"/>
+      <rect x="10" y="58" width="72" height="8" rx="4" fill="#222"/>
+    </svg>
   </div>
+
+  <!-- Number that flashes on the digger after a successful drop -->
+  <div id="number-flash"></div>
 
   <div id="dirt-puffs"></div>
 
+  <!-- Full-screen celebration when ALL numbers are done -->
   <div id="celebration" aria-hidden="true">
     <svg id="big-digger" viewBox="0 0 120 80" xmlns="http://www.w3.org/2000/svg">
       <rect x="10" y="30" width="70" height="30" rx="6" fill="#F5A623"/>
@@ -123,16 +262,32 @@
       <circle cx="62" cy="62" r="2" fill="#888"/>
       <rect x="10" y="58" width="72" height="8" rx="4" fill="#222"/>
     </svg>
-    <div id="celebration-text"></div>
+    <div id="celebration-text">GREAT DIGGING!</div>
   </div>
 
   <div id="confetti-container" aria-hidden="true"></div>
   <div id="stars-container"    aria-hidden="true"></div>
 
-  <button id="confirm-btn" aria-label="Confirm number correct">✓</button>
-
-  <!-- Reuses #word-banner style from styles.css to show the number during celebration -->
-  <div id="word-banner" aria-hidden="true"></div>
+  <!-- Parent number-entry screen — shown before every session -->
+  <div id="number-setup">
+    <div id="setup-card">
+      <div style="font-size:48px;line-height:1">🔢🚜</div>
+      <h2>Which numbers shall we dig today?</h2>
+      <p>Type up to 5 numbers, separated by commas</p>
+      <input
+        id="number-input"
+        type="text"
+        inputmode="numeric"
+        placeholder="3, 7, 1, 9, 5"
+        autocomplete="off"
+        autocorrect="off"
+        autocapitalize="off"
+        spellcheck="false"
+      >
+      <div id="setup-error"></div>
+      <button id="setup-btn">Let's Dig! 🚜</button>
+    </div>
+  </div>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script src="maths.js"></script>
