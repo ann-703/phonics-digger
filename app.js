@@ -625,14 +625,20 @@ function showSetup() {
       errorDiv.textContent = "Please type at least one word!";
       return;
     }
-    const parsed = raw
+    const cleaned = raw
       .split(",")
-      .map(w => w.trim().toLowerCase().replace(/[^a-z]/g, ""))
-      .filter(w => w.length >= 2)
-      .slice(0, 5);
+      .map(w => w.trim().toLowerCase().replace(/[^a-z]/g, ""));
+
+    const wrongLength = cleaned.filter(w => w.length > 0 && w.length !== 3);
+    if (wrongLength.length > 0) {
+      errorDiv.textContent = `"${wrongLength[0]}" is not 3 letters — please use three-letter words only.`;
+      return;
+    }
+
+    const parsed = cleaned.filter(w => w.length === 3).slice(0, 5);
 
     if (parsed.length === 0) {
-      errorDiv.textContent = "No valid words found — letters only, at least 2 each.";
+      errorDiv.textContent = "Please type at least one three-letter word!";
       return;
     }
 
