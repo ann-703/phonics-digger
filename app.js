@@ -139,7 +139,8 @@ function shuffleDeck(arr) {
   return deck;
 }
 
-let WORDS = shuffleDeck(ALL_WORDS);
+let SESSION_WORDS = []; // set at session start from parent input
+let WORDS = [];
 
 // --- State ---
 let state = {
@@ -448,10 +449,10 @@ function nextWord() {
   confettiCont.innerHTML = "";
   starsCont.innerHTML = "";
 
-  // Next word — reshuffle deck when exhausted so every word plays before repeating
+  // Next word — cycle through session words, reshuffling when exhausted
   state.wordIndex++;
   if (state.wordIndex >= WORDS.length) {
-    WORDS = shuffleDeck(ALL_WORDS);
+    WORDS = shuffleDeck([...SESSION_WORDS]);
     state.wordIndex = 0;
   }
   state.currentPhoneme = 0;
@@ -608,8 +609,46 @@ confirmBtn.addEventListener("pointerdown", (e) => {
   setPhase("confirmed");
 });
 
+// --- Word setup screen ---
+function showSetup() {
+  const overlay   = document.getElementById("word-setup");
+  const input     = document.getElementById("word-input");
+  const btn       = document.getElementById("setup-btn");
+  const errorDiv  = document.getElementById("setup-error");
+
+  overlay.style.display = "flex";
+  setTimeout(() => input.focus(), 300);
+
+  function tryStart() {
+    const raw = input.value.trim();
+    if (!raw) {
+      errorDiv.textContent = "Please type at least one word!";
+      return;
+    }
+    const parsed = raw
+      .split(",")
+      .map(w => w.trim().toLowerCase().replace(/[^a-z]/g, ""))
+      .filter(w => w.length >= 2)
+      .slice(0, 5);
+
+    if (parsed.length === 0) {
+      errorDiv.textContent = "No valid words found — letters only, at least 2 each.";
+      return;
+    }
+
+    SESSION_WORDS = parsed.map(w => ({ word: w, display: w.split("") }));
+    WORDS = shuffleDeck([...SESSION_WORDS]);
+    state.wordIndex = 0;
+
+    overlay.style.display = "none";
+    setTimeout(init, 150);
+  }
+
+  btn.addEventListener("pointerdown", (e) => { e.stopPropagation(); tryStart(); });
+  input.addEventListener("keydown", (e) => { if (e.key === "Enter") tryStart(); });
+}
+
 // --- Start ---
 window.addEventListener("DOMContentLoaded", () => {
-  // Short delay so layout is ready before we read getBoundingClientRect
-  setTimeout(init, 150);
+  showSetup();
 });

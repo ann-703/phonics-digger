@@ -16,6 +16,98 @@
       user-select: none;
       -webkit-user-select: none;
     }
+
+    /* ---- Word setup overlay (parent only) ---- */
+    #word-setup {
+      position: fixed;
+      inset: 0;
+      z-index: 200;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(160deg, #87CEEB 0%, #B0E0FF 60%, #8B6914 100%);
+    }
+
+    #setup-card {
+      background: #FFF9E6;
+      border: 5px solid #E8C84A;
+      border-radius: 28px;
+      box-shadow: 0 10px 0 #C8A830, 0 16px 40px rgba(0,0,0,0.22);
+      padding: 36px 32px 32px;
+      max-width: 480px;
+      width: 90vw;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 18px;
+    }
+
+    #setup-card h2 {
+      font-size: 24px;
+      font-weight: 900;
+      color: #333;
+      text-align: center;
+      line-height: 1.3;
+    }
+
+    #setup-card p {
+      font-size: 15px;
+      color: #666;
+      text-align: center;
+    }
+
+    #word-input {
+      width: 100%;
+      font-size: 22px;
+      font-weight: 700;
+      font-family: 'Arial Rounded MT Bold', Arial, sans-serif;
+      padding: 16px 18px;
+      border: 4px solid #E8C84A;
+      border-radius: 16px;
+      background: #fff;
+      color: #333;
+      outline: none;
+      text-align: center;
+      box-shadow: inset 0 2px 6px rgba(0,0,0,0.08);
+      -webkit-user-select: auto;
+      user-select: auto;
+      touch-action: auto;
+    }
+
+    #word-input:focus {
+      border-color: #F5A623;
+      box-shadow: 0 0 0 3px rgba(245,166,35,0.25), inset 0 2px 6px rgba(0,0,0,0.08);
+    }
+
+    #setup-error {
+      font-size: 14px;
+      color: #E53935;
+      font-weight: 700;
+      min-height: 18px;
+      text-align: center;
+    }
+
+    #setup-btn {
+      width: 100%;
+      padding: 18px;
+      font-size: 24px;
+      font-weight: 900;
+      font-family: 'Arial Rounded MT Bold', Arial, sans-serif;
+      background: #4CAF50;
+      color: #fff;
+      border: 4px solid #388E3C;
+      border-radius: 20px;
+      box-shadow: 0 7px 0 #2E7D32, 0 10px 24px rgba(0,0,0,0.2);
+      cursor: pointer;
+      touch-action: manipulation;
+      -webkit-tap-highlight-color: transparent;
+      transition: transform 0.1s, box-shadow 0.1s;
+    }
+
+    #setup-btn:active {
+      transform: translateY(4px);
+      box-shadow: 0 3px 0 #2E7D32, 0 4px 10px rgba(0,0,0,0.15);
+    }
   </style>
 </head>
 <body>
@@ -110,6 +202,27 @@
 
   <!-- Word label shown during celebration -->
   <div id="word-banner" aria-hidden="true"></div>
+
+  <!-- Parent word-entry screen — shown before every session -->
+  <div id="word-setup">
+    <div id="setup-card">
+      <div style="font-size:48px;line-height:1">🚜</div>
+      <h2>What words shall we dig today?</h2>
+      <p>Type up to 5 words separated by commas</p>
+      <input
+        id="word-input"
+        type="text"
+        inputmode="text"
+        placeholder="cat, hat, big, sun, pot"
+        autocomplete="off"
+        autocorrect="off"
+        autocapitalize="off"
+        spellcheck="false"
+      >
+      <div id="setup-error"></div>
+      <button id="setup-btn">Let's Dig! 🚜</button>
+    </div>
+  </div>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script src="app.js"></script>
