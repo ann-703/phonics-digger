@@ -468,7 +468,6 @@ function nextWord() {
   // Small delay before repositioning digger
   setTimeout(() => {
     placeDiggerAtIndex(0, false);
-    showBucketImage(state.currentWord.word);
     setPhase("listening");
   }, 600);
 }
