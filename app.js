@@ -154,16 +154,6 @@ function pickVehicle() {
   return i;
 }
 
-// Deck shuffle: Fisher-Yates, returns a new shuffled copy
-function shuffleDeck(arr) {
-  const deck = [...arr];
-  for (let i = deck.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [deck[i], deck[j]] = [deck[j], deck[i]];
-  }
-  return deck;
-}
-
 let SESSION_WORDS = []; // set at session start from parent input
 let WORDS = [];
 
@@ -476,10 +466,11 @@ function nextWord() {
   confettiCont.innerHTML = "";
   starsCont.innerHTML = "";
 
-  // Next word — cycle through session words, reshuffling when exhausted
+  // Next word — cycle through session words in the typed order, looping back
+  // to the start when we reach the end
   state.wordIndex++;
   if (state.wordIndex >= WORDS.length) {
-    WORDS = shuffleDeck([...SESSION_WORDS]);
+    WORDS = [...SESSION_WORDS];
     state.wordIndex = 0;
   }
   state.currentPhoneme = 0;
@@ -669,7 +660,7 @@ function showSetup() {
     }
 
     SESSION_WORDS = parsed.map(w => ({ word: w, display: w.split("") }));
-    WORDS = shuffleDeck([...SESSION_WORDS]);
+    WORDS = [...SESSION_WORDS]; // keep the typed order (good for sentences)
     state.wordIndex = 0;
 
     overlay.style.display = "none";
