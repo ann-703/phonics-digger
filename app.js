@@ -135,10 +135,12 @@ const VEHICLES = [
   "vehicles/digger.jpg",
   "vehicles/roller.jpg",
   "vehicles/jackhammer.jpg",
-  "vehicles/piledriver.jpg",
   "vehicles/helicopter.jpg",
   "vehicles/aeroplane.jpg",
   "vehicles/blimp.jpg",
+  "vehicles/firetruck.jpg",
+  "vehicles/train.jpg",
+  "vehicles/rocket.jpg",
 ];
 
 let lastVehicle = -1;
@@ -653,16 +655,16 @@ function showSetup() {
       .split(",")
       .map(w => w.trim().toLowerCase().replace(/[^a-z]/g, ""));
 
-    const wrongLength = cleaned.filter(w => w.length > 0 && w.length !== 3);
+    const wrongLength = cleaned.filter(w => w.length > 4);
     if (wrongLength.length > 0) {
-      errorDiv.textContent = `"${wrongLength[0]}" is not 3 letters — please use three-letter words only.`;
+      errorDiv.textContent = `"${wrongLength[0]}" is too long — please use words of 1 to 4 letters.`;
       return;
     }
 
-    const parsed = cleaned.filter(w => w.length === 3).slice(0, 5);
+    const parsed = cleaned.filter(w => w.length >= 1 && w.length <= 4).slice(0, 5);
 
     if (parsed.length === 0) {
-      errorDiv.textContent = "Please type at least one three-letter word!";
+      errorDiv.textContent = "Please type at least one word (1 to 4 letters)!";
       return;
     }
 

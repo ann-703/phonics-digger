@@ -8,10 +8,12 @@ The surprise-reveal photos in `vehicles/` were sourced from
 | digger.jpg | Kobelco excavator | Wikimedia Commons |
 | roller.jpg | Cat road roller | Wikimedia Commons |
 | jackhammer.jpg | Worker with jackhammer | Wikimedia Commons |
-| piledriver.jpg | Piling rig (pile driver) | Wikimedia Commons |
 | helicopter.jpg | Helicopter in flight | Wikimedia Commons |
 | aeroplane.jpg | Boeing 747 taking off | Wikimedia Commons |
 | blimp.jpg | Goodyear blimp | Wikimedia Commons |
+| firetruck.jpg | Red fire truck | Wikimedia Commons |
+| train.jpg | Steam locomotive | Wikimedia Commons |
+| rocket.jpg | Rocket launch | Wikimedia Commons |
 
 Individual images carry their own licenses (public domain / Creative Commons).
 For a full public re-distribution, confirm each image's specific attribution on
