@@ -129,6 +129,29 @@ const WORD_SVG = {
   </svg>`,
 };
 
+// Surprise vehicles — one is revealed at random after each word.
+// Repeats are fine; we just avoid showing the same one twice in a row.
+const VEHICLES = [
+  "vehicles/digger.jpg",
+  "vehicles/roller.jpg",
+  "vehicles/jackhammer.jpg",
+  "vehicles/piledriver.jpg",
+  "vehicles/helicopter.jpg",
+  "vehicles/aeroplane.jpg",
+  "vehicles/blimp.jpg",
+];
+
+let lastVehicle = -1;
+function pickVehicle() {
+  if (VEHICLES.length <= 1) return 0;
+  let i;
+  do {
+    i = Math.floor(Math.random() * VEHICLES.length);
+  } while (i === lastVehicle);
+  lastVehicle = i;
+  return i;
+}
+
 // Deck shuffle: Fisher-Yates, returns a new shuffled copy
 function shuffleDeck(arr) {
   const deck = [...arr];
@@ -159,7 +182,8 @@ const tapHint      = document.getElementById("tap-hint");
 const confirmBtn   = document.getElementById("confirm-btn");
 const mudpit       = document.getElementById("mudpit");
 const celebration  = document.getElementById("celebration");
-const bigDigger    = document.getElementById("big-digger");
+const surpriseVehicle    = document.getElementById("surprise-vehicle");
+const surpriseVehicleImg = document.getElementById("surprise-vehicle-img");
 const celebText    = document.getElementById("celebration-text");
 const wordBanner   = document.getElementById("word-banner");
 const confettiCont = document.getElementById("confetti-container");
@@ -405,10 +429,11 @@ function celebrate() {
   // Fade in overlay
   gsap.to(celebration, { opacity: 1, duration: 0.4 });
 
-  // Big digger rises from mud
-  gsap.fromTo(bigDigger,
-    { scale: 0.1, y: 100 },
-    { scale: 1, y: 0, duration: 0.8, ease: "back.out(1.7)", delay: 0.2 }
+  // Surprise! A random vehicle rises from the mud
+  surpriseVehicleImg.src = VEHICLES[pickVehicle()];
+  gsap.fromTo(surpriseVehicle,
+    { scale: 0.1, y: 100, opacity: 0 },
+    { scale: 1, y: 0, opacity: 1, duration: 0.8, ease: "back.out(1.7)", delay: 0.2 }
   );
 
   // Big illustration pops in above the digger
@@ -439,7 +464,7 @@ function nextWord() {
     opacity: 0, duration: 0.5,
     onComplete: () => {
       celebration.classList.remove("active");
-      gsap.set(bigDigger, { scale: 0 });
+      gsap.set(surpriseVehicle, { scale: 0, opacity: 0 });
       gsap.set(celebText, { opacity: 0 });
       gsap.set(celebEmoji, { opacity: 0, scale: 0 });
     }
