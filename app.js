@@ -181,6 +181,18 @@ const wordBanner   = document.getElementById("word-banner");
 const confettiCont = document.getElementById("confetti-container");
 const starsCont    = document.getElementById("stars-container");
 const dirtPuffs    = document.getElementById("dirt-puffs");
+const diggerBody   = document.getElementById("digger-body");
+const diggerCab    = document.getElementById("digger-cab");
+
+// --- Digger color cycling (each ✓ tap moves to the next color) ---
+const DIGGER_COLORS = ["red", "green", "yellow", "blue", "black", "pink"];
+let diggerColorIndex = -1;
+function cycleDiggerColor() {
+  diggerColorIndex = (diggerColorIndex + 1) % DIGGER_COLORS.length;
+  const color = DIGGER_COLORS[diggerColorIndex];
+  diggerBody.setAttribute("fill", color);
+  diggerCab.setAttribute("fill", color);
+}
 const celebEmoji   = document.getElementById("celebration-emoji");
 
 // --- Layout constants (calculated after render) ---
@@ -623,6 +635,7 @@ function spawnStars() {
 confirmBtn.addEventListener("pointerdown", (e) => {
   e.stopPropagation();
   if (state.phase !== "listening") return;
+  cycleDiggerColor();
   setPhase("confirmed");
 });
 
