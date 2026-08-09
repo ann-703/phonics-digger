@@ -1,24 +1,16 @@
-# Vehicle photo credits
+# Vehicle image credits
 
-The surprise-reveal images in `vehicles/` are a mix of AI-generated 3D
-Pixar-style character art (Gamma AI) and real photos sourced from
-[Wikimedia Commons](https://commons.wikimedia.org/) (free/openly-licensed media).
+All surprise-reveal images in `vehicles/` are AI-generated 3D Pixar-style
+character art (Gamma AI and Google Gemini).
 
 | File | Subject | Source |
 |------|---------|--------|
 | digger.jpg | Digger, 3D Pixar-style character | Gamma AI (generated) |
-| roller.jpg | Cat road roller | Wikimedia Commons |
-| jackhammer.jpg | Worker with jackhammer | Wikimedia Commons |
+| roller.jpg | Road roller, 3D Pixar-style character | Google Gemini (generated) |
+| jackhammer.jpg | Worker with jackhammer, 3D Pixar-style character | Google Gemini (generated) |
 | helicopter.jpg | Helicopter, 3D Pixar-style character | Gamma AI (generated) |
-| aeroplane.jpg | Boeing 747 taking off | Wikimedia Commons |
-| blimp.jpg | Goodyear blimp | Wikimedia Commons |
+| aeroplane.jpg | Airplane, 3D Pixar-style character | Google Gemini (generated) |
+| blimp.jpg | Blimp airship, 3D Pixar-style character | Google Gemini (generated) |
 | firetruck.jpg | Fire truck, 3D Pixar-style character | Gamma AI (generated) |
 | train.jpg | Steam locomotive, 3D Pixar-style character | Gamma AI (generated) |
 | rocket.jpg | Rocket, 3D Pixar-style character | Gamma AI (generated) |
-
-Remaining photo-style vehicles (roller, jackhammer, aeroplane, blimp) can be
-regenerated in the same Pixar style once more Gamma image credits are available.
-
-Individual images carry their own licenses (public domain / Creative Commons).
-For a full public re-distribution, confirm each image's specific attribution on
-Wikimedia Commons.
