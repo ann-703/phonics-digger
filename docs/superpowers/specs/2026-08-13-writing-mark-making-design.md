@@ -39,6 +39,7 @@ Diagonal lines are deliberately excluded from this first module — OT research 
 ## Repetition & Progression
 
 - Each shape is attempted **3 times (reps)** before advancing, to build motor memory (per OT guidance on repetition)
+- A **"Refill Dirt" button** sits below the dirt pad, letting Pranik (or a parent) manually reset the current rep's dirt pad back to solid dirt at any time — e.g. if he wants to redo a messy attempt rather than wait for it to auto-clear. Tapping it does not count as completing a rep; it just re-covers the same rep's path and he tries again.
 - Between reps: the dirt pad quickly refills/resets to solid dirt, guide path stays the same
 - After the 3rd successful rep of a shape: a short digger cheer animation plays (reuse `digger-small.svg`'s wiggle animation from the Phonics module), then the module auto-advances (~1 second delay) to the next shape — no manual "next" button, to keep momentum for a 3-year-old's attention span
 - After all 5 shapes × 3 reps are complete, the module loops back to shape 1 — matching the session-loop pattern already used in Phonics and Maths. No separate "session complete" screen for this MVP.
@@ -55,23 +56,26 @@ None. This module is visual-only, unlike Phonics which uses spoken phoneme cues.
 
 ## Frontend Stack (matches existing app)
 
-| Layer | Choice |
-|---|---|
-| HTML/CSS/JS | Vanilla — no framework, no build step |
-| Touch input | Pointer events (`pointerdown`/`pointermove`/`pointerup`) |
-| Dirt reveal | HTML5 `<canvas>`, `globalCompositeOperation: destination-out` |
-| Digger graphics | Reuse existing `digger-small.svg` |
+| Layer           | Choice                                                           |
+| --------------- | ---------------------------------------------------------------- |
+| HTML/CSS/JS     | Vanilla — no framework, no build step                           |
+| Touch input     | Pointer events (`pointerdown`/`pointermove`/`pointerup`)   |
+| Dirt reveal     | HTML5`<canvas>`, `globalCompositeOperation: destination-out` |
+| Digger graphics | Reuse existing`digger-small.svg`                               |
 
 ## MVP Scope
 
 **In scope:**
+
 - 5 shapes in fixed order, 3 reps each
 - Scratch-off dirt reveal with tolerance-corridor detection
+- Manual "Refill Dirt" reset button
 - Digger cheer + auto-advance between shapes
 - Session loop back to shape 1
 - New WRITING home card
 
 **Out of scope for this module:**
+
 - Voice/audio prompts
 - Diagonal lines, square, X, triangle (future mark-making modules)
 - Progress tracking / persistence across sessions
@@ -80,18 +84,19 @@ None. This module is visual-only, unlike Phonics which uses spoken phoneme cues.
 
 ## Testing Plan
 
-| Test | How to test | Pass condition |
-|---|---|---|
-| WRITING card appears on home page | Open `index.html` | Third card visible, styled consistently with Phonics/Maths, links to `writing.html` |
-| Shape 1 (vertical line) loads first | Open `writing.html` | Left panel shows vertical line example, right panel shows dirt pad |
-| Tracing within tolerance reveals color | Drag finger along the guide path | Dirt clears progressively along the path |
-| Tracing off-path does not reveal | Drag finger far from guide path | No dirt clears outside the tolerance corridor |
-| Rep completes at ~80% coverage | Trace most of the shape | Dirt pad registers rep as complete, resets to solid dirt |
-| 3 reps required before advancing | Complete reps 1 and 2 | Module stays on the same shape until rep 3 completes |
-| Digger cheer plays after 3rd rep | Complete rep 3 | Digger wiggle animation plays |
-| Auto-advance to next shape | Wait after cheer animation | Next shape (horizontal line) loads within ~1s, no tap required |
-| All 5 shapes cycle in order | Complete all shapes | Order matches: vertical, horizontal, circle, cross, curvy |
-| Session loops after shape 5 | Complete curvy line's 3rd rep | Module returns to shape 1 (vertical line) |
-| No crash on rapid/erratic input | Scribble quickly across the canvas | App remains stable, no errors |
-| Works in Chrome on iPad, landscape | Open on iPad in Chrome | Layout renders correctly, touch tracing responsive |
-| 3-year-old can complete one shape unassisted | Sit with Pranik, run once | He can trace and clear one shape with minimal parent help |
+| Test                                         | How to test                        | Pass condition                                                                       |
+| -------------------------------------------- | ---------------------------------- | ------------------------------------------------------------------------------------ |
+| WRITING card appears on home page            | Open`index.html`                 | Third card visible, styled consistently with Phonics/Maths, links to`writing.html` |
+| Shape 1 (vertical line) loads first          | Open`writing.html`               | Left panel shows vertical line example, right panel shows dirt pad                   |
+| Tracing within tolerance reveals color       | Drag finger along the guide path   | Dirt clears progressively along the path                                             |
+| Tracing off-path does not reveal             | Drag finger far from guide path    | No dirt clears outside the tolerance corridor                                        |
+| Rep completes at ~80% coverage               | Trace most of the shape            | Dirt pad registers rep as complete, resets to solid dirt                             |
+| 3 reps required before advancing             | Complete reps 1 and 2              | Module stays on the same shape until rep 3 completes                                 |
+| Refill Dirt button resets current rep        | Partially trace, tap Refill Dirt   | Dirt pad returns to fully covered; same rep (not counted as complete); progress toward the 3 reps is unaffected |
+| Digger cheer plays after 3rd rep             | Complete rep 3                     | Digger wiggle animation plays                                                        |
+| Auto-advance to next shape                   | Wait after cheer animation         | Next shape (horizontal line) loads within ~1s, no tap required                       |
+| All 5 shapes cycle in order                  | Complete all shapes                | Order matches: vertical, horizontal, circle, cross, curvy                            |
+| Session loops after shape 5                  | Complete curvy line's 3rd rep      | Module returns to shape 1 (vertical line)                                            |
+| No crash on rapid/erratic input              | Scribble quickly across the canvas | App remains stable, no errors                                                        |
+| Works in Chrome on iPad, landscape           | Open on iPad in Chrome             | Layout renders correctly, touch tracing responsive                                   |
+| 3-year-old can complete one shape unassisted | Sit with Pranik, run once          | He can trace and clear one shape with minimal parent help                            |
