@@ -69,18 +69,12 @@ const SHAPES = [
   },
 ];
 
-const REPS_PER_SHAPE = 3;
 const ERASE_TOLERANCE = 40;   // logical units — how far off-path a touch can still erase
-const COVER_RADIUS = 22;      // logical units — how close a touch must get to mark a sample "covered"
 const BRUSH_RADIUS = 26;      // logical units — visual size of the eraser brush
-const COMPLETE_FRACTION = 0.8;
 
 // ---- State ----
 
 let shapeIndex = 0;
-let repIndex = 0;
-let covered = [];       // covered[strokeIdx] = boolean[] matching stroke.points
-let repCompleted = false;
 let isDrawing = false;
 
 // ---- DOM refs ----
@@ -90,10 +84,10 @@ const shapeLabel = document.getElementById("shape-label");
 const dirtCanvas = document.getElementById("dirt-canvas");
 const ctx = dirtCanvas.getContext("2d");
 const refillBtn = document.getElementById("refill-btn");
-const repDots = document.querySelectorAll(".rep-dot");
+const nextBtn = document.getElementById("next-btn");
 const diggerEl = document.getElementById("writing-digger");
 
-const SCALE = dirtCanvas.width / 300; // canvas is drawn at 2x logical resolution for crispness
+const SCALE = dirtCanvas.width / 300; // canvas internal resolution vs. the 300x300 logical coordinate space
 
 // ---- Guide panel (left) ----
 
@@ -156,27 +150,10 @@ function resetDirtCanvas() {
   ctx.fillRect(0, 0, 300, 300);
 }
 
-function resetCoverage(shape) {
-  covered = shape.strokes.map((s) => new Array(s.points.length).fill(false));
-}
-
 function loadShape() {
   const shape = SHAPES[shapeIndex];
-  repCompleted = false;
   renderGuide(shape);
   resetDirtCanvas();
-  resetCoverage(shape);
-  updateRepDots();
-}
-
-function refillCurrentRep() {
-  repCompleted = false;
-  resetDirtCanvas();
-  resetCoverage(SHAPES[shapeIndex]);
-}
-
-function updateRepDots() {
-  repDots.forEach((dot, i) => dot.classList.toggle("filled", i < repIndex));
 }
 
 // ---- Pointer tracing ----
@@ -198,22 +175,13 @@ function nearestDistance(strokePoints, x, y) {
 }
 
 function handlePointerMove(evt) {
-  if (!isDrawing || repCompleted) return;
+  if (!isDrawing) return;
   const { x, y } = canvasPoint(evt);
   const shape = SHAPES[shapeIndex];
 
-  let withinTolerance = false;
-  shape.strokes.forEach((stroke, si) => {
-    const dist = nearestDistance(stroke.points, x, y);
-    if (dist <= ERASE_TOLERANCE) {
-      withinTolerance = true;
-      stroke.points.forEach((p, pi) => {
-        if (!covered[si][pi] && Math.hypot(p.x - x, p.y - y) <= COVER_RADIUS) {
-          covered[si][pi] = true;
-        }
-      });
-    }
-  });
+  const withinTolerance = shape.strokes.some(
+    (stroke) => nearestDistance(stroke.points, x, y) <= ERASE_TOLERANCE
+  );
 
   if (withinTolerance) {
     ctx.save();
@@ -223,39 +191,13 @@ function handlePointerMove(evt) {
     ctx.fill();
     ctx.restore();
   }
-
-  checkCompletion();
 }
 
-function checkCompletion() {
-  let total = 0;
-  let done = 0;
-  covered.forEach((arr) => {
-    total += arr.length;
-    done += arr.filter(Boolean).length;
-  });
-  if (total > 0 && done / total >= COMPLETE_FRACTION) {
-    completeRep();
-  }
-}
-
-function completeRep() {
-  if (repCompleted) return;
-  repCompleted = true;
+// Parent-controlled: tapping Next Shape is the only way the module advances.
+function goToNextShape() {
   cheerDigger();
-  setTimeout(advance, 900);
-}
-
-function advance() {
-  if (repIndex < REPS_PER_SHAPE - 1) {
-    repIndex++;
-    refillCurrentRep();
-    updateRepDots();
-  } else {
-    repIndex = 0;
-    shapeIndex = (shapeIndex + 1) % SHAPES.length;
-    loadShape();
-  }
+  shapeIndex = (shapeIndex + 1) % SHAPES.length;
+  loadShape();
 }
 
 function cheerDigger() {
@@ -285,7 +227,12 @@ window.addEventListener("pointercancel", () => { isDrawing = false; });
 
 refillBtn.addEventListener("pointerdown", (e) => {
   e.stopPropagation();
-  refillCurrentRep();
+  resetDirtCanvas();
+});
+
+nextBtn.addEventListener("pointerdown", (e) => {
+  e.stopPropagation();
+  goToNextShape();
 });
 
 // ---- Init ----

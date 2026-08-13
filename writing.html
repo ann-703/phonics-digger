@@ -14,15 +14,16 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 6vw;
-      padding: 0 4vw;
+      gap: 3vw;
+      padding: 56px 2vw 110px;
     }
 
     .panel {
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 14px;
+      gap: 12px;
+      min-width: 0;
     }
 
     .panel-label {
@@ -34,8 +35,12 @@
     }
 
     .panel-box {
-      width: min(38vh, 38vw, 340px);
-      height: min(38vh, 38vw, 340px);
+      /* Sized against actual chrome (padding + label + button row) rather
+         than a flat vh guess, so it fills the space without overflowing
+         past the ground/digger on short landscape windows. */
+      width: min(42vw, calc(100vh - 290px), 520px);
+      height: min(42vw, calc(100vh - 290px), 520px);
+      flex: 0 1 auto;
       background: rgba(255,255,255,0.9);
       border-radius: 24px;
       border: 5px solid #FF6B35;
@@ -57,39 +62,40 @@
       touch-action: none;
     }
 
-    #refill-btn {
+    #action-row {
+      display: flex;
+      gap: 14px;
+    }
+
+    #action-row button {
       padding: 12px 22px;
       font-size: 17px;
       font-weight: 900;
       font-family: 'Arial Rounded MT Bold', Arial, sans-serif;
       color: #fff;
-      background: #7C4DFF;
-      border: 4px solid #512DA8;
       border-radius: 18px;
-      box-shadow: 0 6px 0 #4527A0, 0 8px 20px rgba(0,0,0,0.2);
       cursor: pointer;
       touch-action: manipulation;
       -webkit-tap-highlight-color: transparent;
       transition: transform 0.1s, box-shadow 0.1s;
     }
-    #refill-btn:active {
+    #action-row button:active {
       transform: translateY(3px);
-      box-shadow: 0 3px 0 #4527A0, 0 4px 10px rgba(0,0,0,0.15);
     }
 
-    #rep-dots {
-      display: flex;
-      gap: 8px;
+    #refill-btn {
+      background: #7C4DFF;
+      border: 4px solid #512DA8;
+      box-shadow: 0 6px 0 #4527A0, 0 8px 20px rgba(0,0,0,0.2);
     }
-    .rep-dot {
-      width: 14px;
-      height: 14px;
-      border-radius: 50%;
-      background: rgba(255,255,255,0.55);
-      border: 2px solid #fff;
-      transition: background 0.2s;
+    #refill-btn:active { box-shadow: 0 3px 0 #4527A0, 0 4px 10px rgba(0,0,0,0.15); }
+
+    #next-btn {
+      background: #4CAF50;
+      border: 4px solid #2E7D32;
+      box-shadow: 0 6px 0 #1B5E20, 0 8px 20px rgba(0,0,0,0.2);
     }
-    .rep-dot.filled { background: #FFD700; }
+    #next-btn:active { box-shadow: 0 3px 0 #1B5E20, 0 4px 10px rgba(0,0,0,0.15); }
 
     #writing-digger {
       position: fixed;
@@ -104,8 +110,9 @@
     }
 
     @media (max-width: 760px) {
-      #writing-stage { flex-direction: column; gap: 20px; }
-      .panel-box { width: min(30vh, 62vw, 300px); height: min(30vh, 62vw, 300px); }
+      #writing-stage { flex-direction: column; gap: 10px; padding: 52px 4vw 110px; }
+      .panel-box { width: min(78vw, calc(50vh - 165px), 320px); height: min(78vw, calc(50vh - 165px), 320px); }
+      .panel-label { font-size: 17px; }
     }
   </style>
 </head>
@@ -128,15 +135,14 @@
     </div>
 
     <div class="panel">
-      <div id="rep-dots">
-        <div class="rep-dot"></div>
-        <div class="rep-dot"></div>
-        <div class="rep-dot"></div>
-      </div>
+      <div class="panel-label">Dig It Out</div>
       <div class="panel-box" id="dirt-box">
-        <canvas id="dirt-canvas" width="600" height="600"></canvas>
+        <canvas id="dirt-canvas" width="900" height="900"></canvas>
       </div>
-      <button id="refill-btn">🔄 Refill Dirt</button>
+      <div id="action-row">
+        <button id="refill-btn">🔄 Refill Dirt</button>
+        <button id="next-btn">Next Shape ▶</button>
+      </div>
     </div>
 
   </div>
