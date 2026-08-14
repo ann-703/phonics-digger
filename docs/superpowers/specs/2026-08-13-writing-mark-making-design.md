@@ -8,15 +8,15 @@ Runs in Chrome on iPad and Android tablet, landscape orientation, touch-only. No
 
 ## Teaching Method
 
-Based on standard occupational-therapy pre-writing stroke progression, adapted to Pranik's age (3):
+Starting point was standard occupational-therapy pre-writing stroke progression (adapted to Pranik's age of 3), which orders shapes as: vertical → horizontal → circle → cross → curvy. Ankita subsequently reordered it, moving circle to last:
 
 1. Vertical straight line (top → bottom)
 2. Horizontal straight line (left → right)
-3. Circle
-4. Cross (+)
-5. Curvy line (single wave — lead-in to letters like c/s/e)
+3. Cross (+)
+4. Curvy line (single wave — lead-in to letters like c/s/e)
+5. Circle
 
-Diagonal lines are deliberately excluded from this first module — OT research places them at ~4.5yo, later than Pranik's current age. Order and ages are sourced from OT pre-writing developmental references (griffinot.com, empoweringotresources.com, hoggtherapy.com).
+Diagonal lines are deliberately excluded from this first module — OT research places them at ~4.5yo, later than Pranik's current age. OT reference order/ages are sourced from griffinot.com, empoweringotresources.com, hoggtherapy.com; the final in-app order above is Ankita's preference, not a strict OT sequence.
 
 ## App Structure
 
@@ -41,7 +41,7 @@ Diagonal lines are deliberately excluded from this first module — OT research 
 - No reps, no automatic "correct" detection, no checkmark. The parent watches and decides when Pranik is done with a shape.
 - A **"Next Shape ▶" button** sits below the dirt pad. Tapping it plays a short digger cheer animation (reuse `digger-small.svg`'s wiggle animation from the Phonics module) and advances to the next shape in the sequence, loading a fresh dirt pad.
 - A **"Refill Dirt" button** sits alongside it, letting Pranik or a parent manually reset the current shape's dirt pad back to solid dirt at any time — e.g. to redo a messy attempt without moving on.
-- After the 5th shape (curvy line), tapping "Next Shape" loops back to shape 1 — matching the session-loop pattern already used in Phonics and Maths. No separate "session complete" screen for this MVP.
+- After the 5th shape (circle), tapping "Next Shape" loops back to shape 1 — matching the session-loop pattern already used in Phonics and Maths. No separate "session complete" screen for this MVP.
 
 ## Audio
 
@@ -93,8 +93,8 @@ None. This module is visual-only, unlike Phonics which uses spoken phoneme cues.
 | No auto-advance ever happens                 | Fully trace a shape, wait          | Shape stays on screen indefinitely until the parent taps Next Shape                  |
 | Refill Dirt button resets current shape      | Partially trace, tap Refill Dirt   | Dirt pad returns to fully covered, same shape stays loaded                           |
 | Next Shape button advances + cheers          | Tap Next Shape                     | Digger wiggle plays, next shape loads with a fresh dirt pad                          |
-| All 5 shapes cycle in order                  | Tap Next Shape 5 times             | Order matches: vertical, horizontal, circle, cross, curvy                            |
-| Session loops after shape 5                  | Tap Next Shape on curvy line       | Module returns to shape 1 (vertical line)                                            |
+| All 5 shapes cycle in order                  | Tap Next Shape 5 times             | Order matches: vertical, horizontal, cross, curvy, circle                            |
+| Session loops after shape 5                  | Tap Next Shape on circle           | Module returns to shape 1 (vertical line)                                            |
 | No crash on rapid/erratic input              | Scribble quickly across the canvas | App remains stable, no errors                                                        |
 | Dirt pad is large and responsive             | Resize browser / test on iPad and phone-sized viewport | Pad scales up on large screens, stays usable and fully visible on small ones |
 | Works in Chrome on iPad, landscape           | Open on iPad in Chrome             | Layout renders correctly, touch tracing responsive                                   |

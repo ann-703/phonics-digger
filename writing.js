@@ -50,11 +50,6 @@ const SHAPES = [
     strokes: [lineStroke(40, 150, 260, 150, 40)],
   },
   {
-    id: "circle",
-    label: "Circle",
-    strokes: [circleStroke(150, 150, 100, 72)],
-  },
-  {
     id: "cross",
     label: "Cross",
     strokes: [
@@ -66,6 +61,11 @@ const SHAPES = [
     id: "curvy",
     label: "Curvy Line",
     strokes: [bezierStroke({ x: 40, y: 150 }, { x: 100, y: 60 }, { x: 200, y: 240 }, { x: 260, y: 150 }, 60)],
+  },
+  {
+    id: "circle",
+    label: "Circle",
+    strokes: [circleStroke(150, 150, 100, 72)],
   },
 ];
 
