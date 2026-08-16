@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <title>Digraphs — Phonics Digger</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect x='2' y='14' width='20' height='10' rx='2' fill='%23F5A623'/><rect x='12' y='8' width='10' height='9' rx='2' fill='%23F5A623'/><rect x='13' y='10' width='7' height='5' rx='1' fill='%23AEE4FF'/><line x1='21' y1='10' x2='29' y2='6' stroke='%23E8941A' stroke-width='2.5' stroke-linecap='round'/><polygon points='27,4 31,4 30,9 26,9' fill='%23D4800A'/><circle cx='6' cy='25' r='4' fill='%23333'/><circle cx='6' cy='25' r='2' fill='%23555'/><circle cx='18' cy='25' r='4' fill='%23333'/><circle cx='18' cy='25' r='2' fill='%23555'/><rect x='2' y='23' width='20' height='3' rx='1.5' fill='%23222'/></svg>">
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    body { overflow-y: auto; overflow-x: hidden; height: auto; min-height: 100%; }
+    #scene { position: fixed; inset: 0; z-index: -1; }
+
+    #page {
+      position: relative;
+      min-height: 100vh;
+      padding: 40px 20px 40px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* ---- Next-digraph arrow ---- */
+    #next-digraph-btn {
+      position: fixed;
+      top: 50%;
+      right: 24px;
+      transform: translateY(-50%);
+      z-index: 40;
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      background: #FF3D9A;
+      border: 5px solid #D6006B;
+      box-shadow: 0 6px 0 #A0004F, 0 8px 20px rgba(0,0,0,0.25);
+      color: #fff;
+      font-size: 30px;
+      font-weight: 900;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      touch-action: manipulation;
+      -webkit-tap-highlight-color: transparent;
+      transition: transform 0.1s, box-shadow 0.1s;
+    }
+    #next-digraph-btn:active {
+      transform: translateY(4px);
+      box-shadow: 0 2px 0 #A0004F, 0 4px 10px rgba(0,0,0,0.2);
+    }
+
+    /* ---- Grid: center "sh" box + 6 word cards around it ---- */
+    #digraph-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(150px, 210px));
+      grid-auto-rows: minmax(150px, 210px);
+      gap: 18px;
+      justify-content: center;
+      align-items: center;
+    }
+
+    /* Center hub — the two letters boxed together */
+    #sh-hub {
+      grid-column: 2;
+      grid-row: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      background: #FFF3B0;
+      border: 6px solid #F5A623;
+      border-radius: 24px;
+      box-shadow: 0 8px 0 #C8831A, 0 12px 30px rgba(0,0,0,0.25);
+    }
+    #sh-hub .letters {
+      display: flex;
+      position: relative;
+    }
+    #sh-hub .letters span {
+      font-size: 88px;
+      font-weight: 900;
+      color: #C8501E;
+      line-height: 1;
+    }
+
+    /* Word cards */
+    .word-card {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      background: rgba(255,255,255,0.95);
+      border-radius: 22px;
+      border: 4px solid #ddd;
+      box-shadow: 0 6px 0 rgba(0,0,0,0.15), 0 10px 24px rgba(0,0,0,0.15);
+      cursor: pointer;
+      touch-action: manipulation;
+      -webkit-tap-highlight-color: transparent;
+      transition: transform 0.1s ease, box-shadow 0.1s ease, border-color 0.3s ease;
+      padding: 12px;
+      position: relative;
+      overflow: hidden;
+    }
+    .word-card:active {
+      transform: translateY(4px);
+      box-shadow: 0 2px 0 rgba(0,0,0,0.15), 0 5px 12px rgba(0,0,0,0.12);
+    }
+    .word-card.colored {
+      border-color: #4CAF50;
+      animation: pop 0.45s ease;
+    }
+    @keyframes pop {
+      0% { transform: scale(1); }
+      40% { transform: scale(1.12); }
+      100% { transform: scale(1); }
+    }
+
+    .word-card svg {
+      width: 90px;
+      height: 78px;
+      filter: grayscale(1) brightness(1.05);
+      transition: filter 0.5s ease;
+    }
+    .word-card.colored svg {
+      filter: grayscale(0);
+    }
+
+    .word-label {
+      font-size: 20px;
+      font-weight: 900;
+      letter-spacing: 0.5px;
+      color: #444;
+    }
+    .word-label .sh-part {
+      color: #C8501E;
+    }
+
+    /* Sparkle burst on first colorize */
+    .sparkle {
+      position: absolute;
+      font-size: 20px;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    @media (max-width: 640px) {
+      #digraph-grid {
+        grid-template-columns: repeat(2, minmax(130px, 1fr));
+        grid-auto-rows: minmax(130px, 1fr);
+      }
+      #sh-hub { grid-column: 1 / -1; grid-row: 1; order: -1; }
+      .word-card svg { width: 70px; height: 60px; }
+      .word-label { font-size: 16px; }
+      #next-digraph-btn { width: 52px; height: 52px; font-size: 24px; right: 14px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Home button -->
+  <a href="index.html" id="home-btn" aria-label="Back to home">⌂</a>
+
+  <!-- Sky / ground scene -->
+  <div id="scene">
+    <div id="sky"></div>
+    <div id="ground"></div>
+  </div>
+
+  <div id="page">
+    <div id="digraph-grid">
+      <!-- Center hub: letters boxed together -->
+      <div id="sh-hub">
+        <div class="letters" id="hub-letters">
+          <span>s</span><span>h</span>
+        </div>
+      </div>
+
+      <!-- Word cards injected by digraphs.js -->
+    </div>
+  </div>
+
+  <button id="next-digraph-btn" aria-label="Next digraph">▶</button>
+
+  <script src="digraph-words.js"></script>
+  <script src="digraphs.js"></script>
+</body>
+</html>

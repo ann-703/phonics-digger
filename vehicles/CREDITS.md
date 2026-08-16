@@ -14,3 +14,8 @@ character art (Gamma AI and Google Gemini).
 | firetruck.jpg | Fire truck, 3D Pixar-style character | Gamma AI (generated) |
 | train.jpg | Steam locomotive, 3D Pixar-style character | Gamma AI (generated) |
 | rocket.jpg | Rocket, 3D Pixar-style character | Gamma AI (generated) |
+| ship.jpg | Cargo ship "Captain Cargo", 3D Pixar-style character, used on the digraphs "ship" detail page | Google Gemini (generated) |
+| shop.jpg | Little shop character, 3D Pixar-style, used on the digraphs "shop" detail page | Google Gemini (generated) |
+| shed.jpg | Garden shed character, 3D Pixar-style, used on the digraphs "shed" detail page | Google Gemini (generated) |
+| shell.jpg | Seashell character, 3D Pixar-style, used on the digraphs "shell" detail page | Google Gemini (generated) |
+| shark.jpg | Friendly shark character, 3D Pixar-style, used on the digraphs "shark" detail page | Google Gemini (generated) |

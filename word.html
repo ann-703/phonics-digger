@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <title>Word — Phonics Digger</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect x='2' y='14' width='20' height='10' rx='2' fill='%23F5A623'/><rect x='12' y='8' width='10' height='9' rx='2' fill='%23F5A623'/><rect x='13' y='10' width='7' height='5' rx='1' fill='%23AEE4FF'/><line x1='21' y1='10' x2='29' y2='6' stroke='%23E8941A' stroke-width='2.5' stroke-linecap='round'/><polygon points='27,4 31,4 30,9 26,9' fill='%23D4800A'/><circle cx='6' cy='25' r='4' fill='%23333'/><circle cx='6' cy='25' r='2' fill='%23555'/><circle cx='18' cy='25' r='4' fill='%23333'/><circle cx='18' cy='25' r='2' fill='%23555'/><rect x='2' y='23' width='20' height='3' rx='1.5' fill='%23222'/></svg>">
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    body { overflow: hidden; }
+    #scene { position: fixed; inset: 0; z-index: -1; }
+
+    #back-btn {
+      position: fixed;
+      top: 14px;
+      left: 92px;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: #FF3D9A;
+      border: 4px solid #D6006B;
+      color: #fff;
+      text-decoration: none;
+      padding: 6px 18px;
+      border-radius: 20px;
+      font-size: 20px;
+      font-weight: 900;
+      text-transform: lowercase;
+      box-shadow: 0 5px 0 #A0004F;
+      -webkit-tap-highlight-color: transparent;
+      cursor: pointer;
+      transition: transform 0.1s, box-shadow 0.1s;
+    }
+    #back-btn::before {
+      content: "←";
+      font-size: 16px;
+    }
+    #back-btn:active {
+      transform: translateY(4px);
+      box-shadow: 0 1px 0 #A0004F;
+    }
+
+    #page {
+      position: relative;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 34px;
+      padding: 20px;
+    }
+
+    /* ---- Hero image card ---- */
+    #hero-card {
+      position: relative;
+      width: min(520px, 78vw);
+      height: min(360px, 42vh);
+      background: #FFF9E6;
+      border: 6px solid #FFFFFF;
+      border-radius: 32px;
+      box-shadow: 0 12px 0 rgba(0,0,0,0.15), 0 18px 40px rgba(0,0,0,0.28);
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    #hero-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    #hero-card svg {
+      width: 70%;
+      height: 70%;
+    }
+    #hero-canvas {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    /* ---- Parent reveal button (unpixelates the image) ---- */
+    #reveal-btn {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 5;
+      width: 88px;
+      height: 88px;
+      border-radius: 50%;
+      background: #4CAF50;
+      color: #fff;
+      font-size: 42px;
+      font-weight: 900;
+      border: 5px solid #388E3C;
+      box-shadow: 0 8px 0 #2E7D32, 0 12px 26px rgba(0,0,0,0.35);
+      cursor: pointer;
+      touch-action: manipulation;
+      -webkit-tap-highlight-color: transparent;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: opacity 0.35s ease, transform 0.25s ease;
+    }
+    #reveal-btn:active {
+      transform: translate(-50%, -50%) translateY(3px);
+      box-shadow: 0 3px 0 #2E7D32, 0 5px 12px rgba(0,0,0,0.25);
+    }
+    #reveal-btn.hidden {
+      opacity: 0;
+      transform: translate(-50%, -50%) scale(0.5);
+      pointer-events: none;
+    }
+
+    /* ---- Chunk boxes ---- */
+    #chunk-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 20px;
+    }
+
+    .chunk {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .chunk-box {
+      min-width: 74px;
+      height: 84px;
+      padding: 0 14px;
+      border-radius: 18px;
+      background: #FFF9E6;
+      border: 5px solid #E8C84A;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 40px;
+      font-weight: 900;
+      color: #333;
+      box-shadow: 0 6px 0 #C8A830, 0 9px 20px rgba(0,0,0,0.2);
+    }
+
+    .chunk.digraph .chunk-box {
+      background: #FFF3B0;
+      border-color: #F5A623;
+      color: #C8501E;
+      box-shadow: 0 6px 0 #C8831A, 0 9px 20px rgba(0,0,0,0.2);
+    }
+
+    .chunk-dot {
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: #C8501E;
+    }
+
+    @media (max-width: 640px) {
+      .chunk-box { min-width: 56px; height: 64px; font-size: 28px; }
+      .chunk-dot { width: 12px; height: 12px; }
+      #chunk-row { gap: 12px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Home button -->
+  <a href="index.html" id="home-btn" aria-label="Back to home">⌂</a>
+  <!-- Back to digraphs grid -->
+  <button id="back-btn" aria-label="Back to digraphs">←</button>
+
+  <!-- Sky / ground scene -->
+  <div id="scene">
+    <div id="sky"></div>
+    <div id="ground"></div>
+  </div>
+
+  <div id="page">
+    <div id="hero-card">
+      <canvas id="hero-canvas"></canvas>
+      <button id="reveal-btn" aria-label="Reveal picture">✓</button>
+    </div>
+    <div id="chunk-row"></div>
+  </div>
+
+  <script src="digraph-words.js"></script>
+  <script src="word.js"></script>
+</body>
+</html>
