@@ -19,3 +19,13 @@ character art (Gamma AI and Google Gemini).
 | shed.jpg | Garden shed character, 3D Pixar-style, used on the digraphs "shed" detail page | Google Gemini (generated) |
 | shell.jpg | Seashell character, 3D Pixar-style, used on the digraphs "shell" detail page | Google Gemini (generated) |
 | shark.jpg | Friendly shark character, 3D Pixar-style, used on the digraphs "shark" detail page | Google Gemini (generated) |
+| chop.jpg | Child chopping ripe pears on a cutting board, 3D Pixar-style, used on the digraphs "chop" detail page | Google Gemini (generated) |
+| chin.jpg | Round friendly chin character, 3D Pixar-style, used on the digraphs "chin" detail page | Google Gemini (generated) |
+| chick.jpg | Fluffy baby chick character, 3D Pixar-style, used on the digraphs "chick" detail page | Google Gemini (generated) |
+| chess.jpg | Full wooden chess set mid-game by a fireplace, 3D Pixar-style, used on the digraphs "chess" detail page | Google Gemini (generated) |
+| check.jpg | Cheerful green checkmark character, 3D Pixar-style, used on the digraphs "check" detail page | Google Gemini (generated) |
+| thick.jpg | "The Cozy Chronicles" thick storybook character in a library, 3D Pixar-style, used on the digraphs "thick" detail page | Google Gemini (generated) |
+| thin.jpg | "Tiny Tales" thin storybook character in the same library, 3D Pixar-style, used on the digraphs "thin" detail page | Google Gemini (generated) |
+| thumb.jpg | Cartoon thumb character giving a thumbs-up, 3D Pixar-style, used on the digraphs "thumb" detail page | Google Gemini (generated) |
+| thorn.jpg | Rose thorn character beside a rose, 3D Pixar-style, used on the digraphs "thorn" detail page | Google Gemini (generated) |
+| throw.jpg | Child throwing a beach ball, 3D Pixar-style, used on the digraphs "throw" detail page | Google Gemini (generated) |

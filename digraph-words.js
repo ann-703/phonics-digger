@@ -68,10 +68,117 @@ const DIGRAPHS = {
       }
     ]
   },
-  ch: { words: [] },
-  th: { words: [] }
+  ch: {
+    words: [
+      {
+        word: 'chop',
+        chunks: ['ch', 'o', 'p'],
+        image: 'vehicles/chop.jpg',
+        svg: `<svg viewBox="0 0 120 100" xmlns="http://www.w3.org/2000/svg">
+          <rect x="14" y="70" width="36" height="14" rx="3" fill="#8B5E3C"/>
+          <rect x="54" y="66" width="10" height="30" rx="2" fill="#B5834A" transform="rotate(-25 59 81)"/>
+          <path d="M56 30 L92 30 L84 52 L48 52 Z" fill="#9E9E9E"/>
+          <rect x="88" y="14" width="8" height="42" rx="3" fill="#8B5E3C" transform="rotate(28 92 35)"/>
+        </svg>`
+      },
+      {
+        word: 'chin',
+        chunks: ['ch', 'i', 'n'],
+        image: 'vehicles/chin.jpg',
+        svg: `<svg viewBox="0 0 120 100" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="60" cy="50" r="34" fill="#FFCBA4"/>
+          <circle cx="48" cy="42" r="4" fill="#222"/>
+          <circle cx="72" cy="42" r="4" fill="#222"/>
+          <path d="M48 62 Q60 70 72 62" stroke="#C97B5A" stroke-width="3" fill="none" stroke-linecap="round"/>
+        </svg>`
+      },
+      {
+        word: 'chick',
+        chunks: ['ch', 'i', 'ck'],
+        image: 'vehicles/chick.jpg',
+        svg: `<svg viewBox="0 0 120 100" xmlns="http://www.w3.org/2000/svg">
+          <ellipse cx="60" cy="60" rx="30" ry="26" fill="#FFD54F"/>
+          <circle cx="60" cy="34" r="18" fill="#FFD54F"/>
+          <circle cx="53" cy="30" r="3" fill="#222"/>
+          <circle cx="65" cy="30" r="3" fill="#222"/>
+          <path d="M56 36 L64 36 L60 42 Z" fill="#FB8C00"/>
+          <path d="M60 12 L52 22 L68 22 Z" fill="#E53935"/>
+        </svg>`
+      },
+      {
+        word: 'chess',
+        chunks: ['ch', 'e', 'ss'],
+        image: 'vehicles/chess.jpg',
+        svg: `<svg viewBox="0 0 120 100" xmlns="http://www.w3.org/2000/svg">
+          <rect x="30" y="70" width="60" height="16" fill="#8B5E3C"/>
+          <path d="M42 70 C38 50 46 38 40 26 C52 22 66 30 62 46 C70 50 68 62 60 70 Z" fill="#D7A86E"/>
+        </svg>`
+      },
+      {
+        word: 'check',
+        chunks: ['ch', 'e', 'ck'],
+        image: 'vehicles/check.jpg',
+        svg: `<svg viewBox="0 0 120 100" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="60" cy="50" r="36" fill="#7CB342"/>
+          <path d="M40 52 L54 66 L82 34" stroke="#fff" stroke-width="8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>`
+      }
+    ]
+  },
+  th: {
+    words: [
+      {
+        word: 'thick',
+        chunks: ['th', 'i', 'ck'],
+        image: 'vehicles/thick.jpg',
+        svg: `<svg viewBox="0 0 120 100" xmlns="http://www.w3.org/2000/svg">
+          <rect x="32" y="14" width="56" height="72" rx="4" fill="#E07A3F"/>
+          <rect x="32" y="14" width="56" height="72" rx="4" fill="none" stroke="#A85426" stroke-width="3"/>
+          <rect x="40" y="26" width="40" height="6" rx="2" fill="#FBE3C7"/>
+          <rect x="40" y="38" width="40" height="6" rx="2" fill="#FBE3C7"/>
+        </svg>`
+      },
+      {
+        word: 'thin',
+        chunks: ['th', 'i', 'n'],
+        image: 'vehicles/thin.jpg',
+        svg: `<svg viewBox="0 0 120 100" xmlns="http://www.w3.org/2000/svg">
+          <rect x="48" y="14" width="24" height="72" rx="3" fill="#3D7DCB"/>
+          <rect x="48" y="14" width="24" height="72" rx="3" fill="none" stroke="#28578F" stroke-width="2.5"/>
+          <rect x="53" y="30" width="14" height="4" rx="1.5" fill="#FBE3C7"/>
+        </svg>`
+      },
+      {
+        word: 'thumb',
+        chunks: ['th', 'u', 'm', 'b'],
+        image: 'vehicles/thumb.jpg',
+        svg: `<svg viewBox="0 0 120 100" xmlns="http://www.w3.org/2000/svg">
+          <rect x="42" y="40" width="30" height="46" rx="14" fill="#FFCBA4"/>
+          <path d="M50 40 C50 20 68 20 68 40" fill="none" stroke="#FFCBA4" stroke-width="18" stroke-linecap="round"/>
+        </svg>`
+      },
+      {
+        word: 'thorn',
+        chunks: ['th', 'o', 'r', 'n'],
+        image: 'vehicles/thorn.jpg',
+        svg: `<svg viewBox="0 0 120 100" xmlns="http://www.w3.org/2000/svg">
+          <path d="M60 86 C56 60 50 40 68 16 C74 40 66 62 66 86 Z" fill="#66BB6A"/>
+        </svg>`
+      },
+      {
+        word: 'throw',
+        chunks: ['th', 'r', 'o', 'w'],
+        image: 'vehicles/throw.jpg',
+        svg: `<svg viewBox="0 0 120 100" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="80" cy="30" r="16" fill="#E53935"/>
+          <path d="M80 14 A16 16 0 0 1 80 46" fill="#FFF176"/>
+          <path d="M20 70 Q40 50 62 44" stroke="#90A4AE" stroke-width="3" fill="none" stroke-dasharray="4 5"/>
+        </svg>`
+      }
+    ]
+  }
 };
 
 // Words with a finished, ready-to-open detail page (word.html).
 // Add a word here once its dedicated page has been approved.
-const DETAIL_PAGE_READY = ['ship', 'shop', 'shed', 'shell', 'shark'];
+const DETAIL_PAGE_READY = ['ship', 'shop', 'shed', 'shell', 'shark', 'chop', 'chin', 'chick', 'chess', 'check', 'thick', 'thin', 'thumb', 'thorn', 'throw'];
