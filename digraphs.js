@@ -86,9 +86,19 @@ function burstSparkles(card) {
   });
 }
 
-nextBtn.addEventListener('click', () => {
+// Bound to both 'click' and 'pointerup': on some mobile browsers a tap
+// near the screen edge gets intercepted by the back/forward swipe
+// gesture and never fires 'click', so 'pointerup' is a fallback. The
+// timestamp guard stops the two from double-advancing when both fire.
+let lastAdvanceAt = 0;
+function advanceDigraph() {
+  const now = Date.now();
+  if (now - lastAdvanceAt < 400) return;
+  lastAdvanceAt = now;
   currentIndex = (currentIndex + 1) % ORDER.length;
   renderDigraph(ORDER[currentIndex]);
-});
+}
+nextBtn.addEventListener('click', advanceDigraph);
+nextBtn.addEventListener('pointerup', advanceDigraph);
 
 renderDigraph(ORDER[currentIndex]);
