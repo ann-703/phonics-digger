@@ -65,6 +65,37 @@ const DIGRAPHS = {
           <path d="M12 58 Q30 68 50 60" stroke="#455A64" stroke-width="2.5" fill="none"/>
           <ellipse cx="60" cy="66" rx="40" ry="8" fill="#B0BEC5" opacity="0.7"/>
         </svg>`
+      },
+      {
+        // No `image` yet — falls back to the flat svg icon on the grid
+        // (and skips the word.html detail page) until a photo is added
+        // and the word is listed in DETAIL_PAGE_READY below.
+        word: 'shut',
+        chunks: ['sh', 'u', 't'],
+        svg: `<svg viewBox="0 0 120 100" xmlns="http://www.w3.org/2000/svg">
+          <rect x="34" y="12" width="52" height="76" rx="3" fill="#8B5E3C"/>
+          <rect x="34" y="12" width="52" height="76" rx="3" fill="none" stroke="#5C3A21" stroke-width="3"/>
+          <circle cx="76" cy="50" r="3" fill="#F5C542"/>
+        </svg>`
+      },
+      {
+        word: 'shin',
+        chunks: ['sh', 'i', 'n'],
+        svg: `<svg viewBox="0 0 120 100" xmlns="http://www.w3.org/2000/svg">
+          <rect x="46" y="10" width="28" height="58" rx="10" fill="#FFCBA4"/>
+          <ellipse cx="60" cy="80" rx="22" ry="14" fill="#FFCBA4"/>
+          <path d="M50 26 L50 60" stroke="#E8A97A" stroke-width="3" fill="none" stroke-linecap="round"/>
+        </svg>`
+      },
+      {
+        word: 'shack',
+        chunks: ['sh', 'a', 'ck'],
+        svg: `<svg viewBox="0 0 120 100" xmlns="http://www.w3.org/2000/svg">
+          <rect x="26" y="52" width="60" height="34" rx="2" fill="#A9744F"/>
+          <path d="M18 52 L60 30 L102 52 Z" fill="#7A5230"/>
+          <rect x="46" y="64" width="16" height="22" fill="#4A2F1A"/>
+          <rect x="70" y="58" width="12" height="12" rx="1" fill="#AEE4FF"/>
+        </svg>`
       }
     ]
   },

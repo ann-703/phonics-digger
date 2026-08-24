@@ -1,11 +1,14 @@
 // Word data (DIGRAPHS, DETAIL_PAGE_READY) comes from digraph-words.js,
 // loaded before this file.
 
-// Fixed grid slots around the center "sh" hub (col, row) in the 3-col grid
+// Fixed grid slots around the center hub (col, row) in the 4-col grid.
+// Hub occupies col 2-3, row 2. Words fill row 1 first, then the row-2
+// sides, then row 3 under the hub — digraphs with fewer than 8 words
+// (ch, th) just leave the later slots empty.
 const SLOTS = [
-  { col: 1, row: 1 }, { col: 2, row: 1 }, { col: 3, row: 1 },
-  { col: 1, row: 2 },                     { col: 3, row: 2 },
-                       { col: 2, row: 3 }
+  { col: 1, row: 1 }, { col: 2, row: 1 }, { col: 3, row: 1 }, { col: 4, row: 1 },
+  { col: 1, row: 2 },                                          { col: 4, row: 2 },
+                       { col: 2, row: 3 }, { col: 3, row: 3 }
 ];
 
 const grid = document.getElementById('digraph-grid');
