@@ -23,6 +23,22 @@ function circleStroke(cx, cy, r, n) {
   return { points, svgPath };
 }
 
+function semicircleStroke(cx, cy, r, n) {
+  const points = [];
+  // Start at top (-90deg), sweep clockwise a half turn (bulging right) —
+  // this is the "bump" shape shared by the standalone semicircle exercise
+  // and the top of the letter P below.
+  for (let i = 0; i <= n; i++) {
+    const t = i / n;
+    const angle = -Math.PI / 2 + t * Math.PI;
+    points.push({ x: cx + r * Math.cos(angle), y: cy + r * Math.sin(angle) });
+  }
+  const top = `${cx},${cy - r}`;
+  const bottom = `${cx},${cy + r}`;
+  const svgPath = `M${top} A${r},${r} 0 1,1 ${bottom}`;
+  return { points, svgPath };
+}
+
 function bezierStroke(p0, p1, p2, p3, n) {
   const points = [];
   for (let i = 0; i <= n; i++) {
@@ -66,6 +82,19 @@ const SHAPES = [
     id: "circle",
     label: "Circle",
     strokes: [circleStroke(150, 150, 100, 72)],
+  },
+  {
+    id: "semicircle",
+    label: "Half Circle",
+    strokes: [semicircleStroke(150, 150, 100, 40)],
+  },
+  {
+    id: "letter-p",
+    label: "Letter P",
+    strokes: [
+      lineStroke(150, 40, 150, 260, 40),
+      semicircleStroke(150, 90, 50, 40),
+    ],
   },
 ];
 
