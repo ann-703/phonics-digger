@@ -32,3 +32,5 @@ character art (Gamma AI and Google Gemini).
 | shut.jpg | Closed wooden cottage door character with a brass doorknob, 3D Pixar-style, used on the digraphs "shut" detail page | Google Gemini (generated) |
 | shin.jpg | Cartoon shin/lower-leg character in a sock and sneaker kicking a soccer ball, 3D Pixar-style, used on the digraphs "shin" detail page | Google Gemini (generated) |
 | shack.jpg | Small rustic wooden shack character with a lopsided tin roof, 3D Pixar-style, used on the digraphs "shack" detail page | Google Gemini (generated) |
+
+See also `sentences/CREDITS.md` for Sentence Reader scene images.

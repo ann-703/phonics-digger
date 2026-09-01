@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <title>Sentences — Phonics Digger</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect x='2' y='14' width='20' height='10' rx='2' fill='%23F5A623'/><rect x='12' y='8' width='10' height='9' rx='2' fill='%23F5A623'/><rect x='13' y='10' width='7' height='5' rx='1' fill='%23AEE4FF'/><line x1='21' y1='10' x2='29' y2='6' stroke='%23E8941A' stroke-width='2.5' stroke-linecap='round'/><polygon points='27,4 31,4 30,9 26,9' fill='%23D4800A'/><circle cx='6' cy='25' r='4' fill='%23333'/><circle cx='6' cy='25' r='2' fill='%23555'/><circle cx='18' cy='25' r='4' fill='%23333'/><circle cx='18' cy='25' r='2' fill='%23555'/><rect x='2' y='23' width='20' height='3' rx='1.5' fill='%23222'/></svg>">
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <style>
+    body { overflow: hidden; }
+    #scene { position: fixed; inset: 0; z-index: -1; }
+
+    #page {
+      position: relative;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 28px;
+      padding: 20px;
+    }
+
+    /* ---- Sentence row: one word-group per word ---- */
+    #sentence-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 22px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .word-group {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      touch-action: manipulation;
+      -webkit-tap-highlight-color: transparent;
+      padding: 10px 8px 8px;
+      border-radius: 20px;
+      transition: background 0.25s ease;
+    }
+
+    .word-chunks {
+      display: flex;
+      gap: 8px;
+    }
+
+    .chunk-box {
+      min-width: 46px;
+      height: 56px;
+      padding: 0 10px;
+      border-radius: 14px;
+      background: #FFF9E6;
+      border: 4px solid #E8C84A;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 26px;
+      font-weight: 900;
+      color: #999;
+      box-shadow: 0 4px 0 #C8A830, 0 6px 14px rgba(0,0,0,0.15);
+      transition: color 0.3s ease, background 0.3s ease, border-color 0.3s ease;
+    }
+
+    .chunk-box.digraph {
+      background: #FFF3B0;
+      border-color: #F5A623;
+      color: #C8A97A;
+    }
+
+    .word-group.read .chunk-box { color: #333; }
+    .word-group.read .chunk-box.digraph { color: #C8501E; }
+    .word-group.read {
+      background: rgba(76, 175, 80, 0.12);
+      animation: pop 0.4s ease;
+    }
+    @keyframes pop {
+      0% { transform: scale(1); }
+      40% { transform: scale(1.08); }
+      100% { transform: scale(1); }
+    }
+
+    .word-check {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: #ddd;
+      color: #fff;
+      font-size: 22px;
+      font-weight: 900;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.3s ease, transform 0.3s ease;
+      transform: scale(0.8);
+      touch-action: manipulation;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .word-group.read .word-check {
+      background: #4CAF50;
+      transform: scale(1);
+    }
+
+    /* ---- Hero scene card ---- */
+    #hero-card {
+      position: relative;
+      width: min(480px, 78vw);
+      height: min(320px, 40vh);
+      background: #FFF9E6;
+      border: 6px solid #FFFFFF;
+      border-radius: 32px;
+      box-shadow: 0 12px 0 rgba(0,0,0,0.15), 0 18px 40px rgba(0,0,0,0.28);
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    #hero-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      filter: blur(22px) saturate(0.7);
+      transform: scale(1.08); /* hides blur edge softening */
+      transition: filter 1.1s ease, transform 1.1s ease;
+    }
+    #hero-card img.revealed {
+      filter: blur(0) saturate(1);
+      transform: scale(1);
+    }
+    #hero-card img.alive {
+      animation: breathe 2.6s ease-in-out infinite;
+    }
+    @keyframes breathe {
+      0%, 100% { transform: scale(1) rotate(0deg); }
+      50% { transform: scale(1.025) rotate(-0.6deg); }
+    }
+
+    /* ---- Reveal button (green check, matches word.html #reveal-btn) ---- */
+    #star-btn {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 5;
+      width: 88px;
+      height: 88px;
+      border-radius: 50%;
+      background: #4CAF50;
+      color: #fff;
+      font-size: 42px;
+      font-weight: 900;
+      border: 5px solid #388E3C;
+      box-shadow: 0 8px 0 #2E7D32, 0 12px 26px rgba(0,0,0,0.35);
+      cursor: pointer;
+      touch-action: manipulation;
+      -webkit-tap-highlight-color: transparent;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: opacity 0.35s ease, transform 0.25s ease, filter 0.25s ease;
+    }
+    #star-btn.disabled {
+      opacity: 0.45;
+      filter: grayscale(0.6);
+      pointer-events: none;
+      animation: none;
+    }
+    #star-btn:not(.disabled) {
+      animation: star-invite 1.4s ease-in-out infinite;
+    }
+    @keyframes star-invite {
+      0%, 100% { transform: translate(-50%, -50%) scale(1); }
+      50% { transform: translate(-50%, -50%) scale(1.08); }
+    }
+    #star-btn:active {
+      transform: translate(-50%, -50%) translateY(3px);
+      box-shadow: 0 3px 0 #2E7D32, 0 5px 12px rgba(0,0,0,0.25);
+    }
+    #star-btn.hidden {
+      opacity: 0;
+      transform: translate(-50%, -50%) scale(0.5);
+      pointer-events: none;
+    }
+
+    .sparkle {
+      position: absolute;
+      font-size: 24px;
+      opacity: 0;
+      pointer-events: none;
+      z-index: 6;
+    }
+
+    /* ---- Next-sentence arrow (matches digraphs' next-digraph-btn) ---- */
+    #next-sentence-btn {
+      position: fixed;
+      top: 50%;
+      right: 40px;
+      transform: translateY(-50%);
+      z-index: 40;
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      background: #FF3D9A;
+      border: 5px solid #D6006B;
+      box-shadow: 0 6px 0 #A0004F, 0 8px 20px rgba(0,0,0,0.25);
+      color: #fff;
+      font-size: 30px;
+      font-weight: 900;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      touch-action: manipulation;
+      -webkit-tap-highlight-color: transparent;
+      transition: transform 0.1s, box-shadow 0.1s;
+    }
+    #next-sentence-btn:active {
+      transform: translateY(4px);
+      box-shadow: 0 2px 0 #A0004F, 0 4px 10px rgba(0,0,0,0.2);
+    }
+
+    @media (max-width: 640px) {
+      .chunk-box { min-width: 34px; height: 44px; font-size: 20px; }
+      .word-chunks { gap: 6px; }
+      #sentence-row { gap: 14px; }
+      #star-btn { width: 72px; height: 72px; font-size: 34px; }
+      .word-check { width: 32px; height: 32px; font-size: 18px; }
+      #next-sentence-btn { width: 52px; height: 52px; font-size: 24px; right: 24px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Home button -->
+  <a href="index.html" id="home-btn" aria-label="Back to home">⌂</a>
+
+  <!-- Sky / ground scene -->
+  <div id="scene">
+    <div id="sky"></div>
+    <div id="ground"></div>
+  </div>
+
+  <div id="page">
+    <div id="sentence-row"></div>
+
+    <div id="hero-card">
+      <img id="hero-img" alt="">
+      <button id="star-btn" class="disabled" aria-label="Reveal the scene">✓</button>
+    </div>
+  </div>
+
+  <button id="next-sentence-btn" aria-label="Next sentence">▶</button>
+
+  <script src="sentence-data.js"></script>
+  <script src="sentences.js"></script>
+</body>
+</html>
