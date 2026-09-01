@@ -145,6 +145,33 @@
     }
     #counting-digger svg { width: 100%; height: 100%; }
 
+    /* ---- Celebration: the number pops up on the digger ---- */
+    #celebration-stage {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    #celebration-stage #big-digger { width: min(560px, 74vw); height: auto; }
+
+    #celebration-number {
+      position: absolute;
+      /* centred on the digger's body, clear of the cab and arm */
+      top: 54%;
+      left: 39%;
+      transform: translate(-50%, -50%) scale(0);
+      font-size: clamp(120px, 22vw, 260px);
+      font-weight: 900;
+      font-family: 'Arial Rounded MT Bold', Arial, sans-serif;
+      color: #fff;
+      line-height: 1;
+      -webkit-text-stroke: 9px #00838F;
+      paint-order: stroke fill;
+      text-shadow: 0 8px 26px rgba(0,0,0,0.55);
+      pointer-events: none;
+    }
+
     /* ---- Parent setup ---- */
     #setup-btn-corner {
       position: fixed;
@@ -316,6 +343,7 @@
 
   <!-- Celebration when the bucket holds the target number -->
   <div id="celebration" aria-hidden="true">
+    <div id="celebration-stage">
     <svg id="big-digger" viewBox="0 0 120 80" xmlns="http://www.w3.org/2000/svg">
       <rect x="10" y="30" width="70" height="30" rx="6" fill="#F5A623"/>
       <rect x="45" y="15" width="35" height="25" rx="4" fill="#F5A623"/>
@@ -332,7 +360,8 @@
       <circle cx="62" cy="62" r="2" fill="#888"/>
       <rect x="10" y="58" width="72" height="8" rx="4" fill="#222"/>
     </svg>
-    <div id="celebration-text">THAT'S 3!</div>
+    <div id="celebration-number">3</div>
+    </div>
   </div>
 
   <div id="confetti-container" aria-hidden="true"></div>

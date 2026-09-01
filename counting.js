@@ -34,7 +34,7 @@ const targetNumber = document.getElementById("target-number");
 const targetSign   = document.getElementById("target-sign");
 const celebration  = document.getElementById("celebration");
 const bigDigger    = document.getElementById("big-digger");
-const celebText    = document.getElementById("celebration-text");
+const celebNumber  = document.getElementById("celebration-number");
 const doneMsg      = document.getElementById("setup-done");
 
 // ============================================================
@@ -301,7 +301,7 @@ function resetIdleTimer() {
 // ============================================================
 function celebrate() {
   rumbleScreen();
-  celebText.textContent = `THAT'S ${target}!`;
+  celebNumber.textContent = target;
   celebration.classList.add("active");
 
   gsap.to(celebration, { opacity: 1, duration: 0.4 });
@@ -309,9 +309,10 @@ function celebrate() {
     { scale: 0.1, y: 100 },
     { scale: 1, y: 0, duration: 0.8, ease: "back.out(1.7)", delay: 0.2 }
   );
-  gsap.fromTo(celebText,
-    { opacity: 0, y: 20 },
-    { opacity: 1, y: 0, duration: 0.5, ease: "power2.out", delay: 0.7 }
+  // The number they just counted pops up on the digger
+  gsap.fromTo(celebNumber,
+    { scale: 0, rotation: -18 },
+    { scale: 1, rotation: 0, duration: 0.6, ease: "back.out(2.6)", delay: 0.75 }
   );
 
   spawnConfetti();
@@ -328,6 +329,7 @@ function endCelebration() {
     onComplete: () => {
       celebration.classList.remove("active");
       gsap.set(bigDigger, { scale: 0 });
+      gsap.set(celebNumber, { scale: 0 });
       document.getElementById("confetti-container").innerHTML = "";
       document.getElementById("stars-container").innerHTML = "";
       startRound();

@@ -55,7 +55,9 @@ invites tapping along it without counting. Tap targets are large (min 72px).
    not reflow.
 4. Rocks stack visibly in the bucket, so the quantity is countable on screen.
 5. The Nth rock lands → remaining rocks fade to 35% and stop accepting taps →
-   celebration fires: big digger rises, confetti, stars, `THAT'S 3!`.
+   celebration fires: big digger rises with confetti and stars, and **the
+   number itself pops up on the digger's body** (3, 7, 2...). No text banner —
+   the numeral is the reward, tying the quantity he just built to its symbol.
 6. ~4s later: rocks reset to 10 and the **next number in the parent's list**
    loads. Rounds walk the typed list in order.
 7. When the list runs out, the game returns to the **parent setup screen**
