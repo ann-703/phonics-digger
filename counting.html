@@ -239,6 +239,19 @@
 
     #setup-error { font-size: 14px; color: #E53935; font-weight: 700; min-height: 18px; text-align: center; }
 
+    #setup-done {
+      font-size: 19px;
+      font-weight: 900;
+      color: #2E7D32;
+      text-align: center;
+      background: #E8F5E9;
+      border: 3px solid #A5D6A7;
+      border-radius: 14px;
+      padding: 10px 18px;
+    }
+
+    #setup-done.hidden { display: none; }
+
     #start-btn {
       width: 100%;
       padding: 18px;
@@ -352,6 +365,7 @@
   <div id="count-setup">
     <div id="setup-card">
       <div style="font-size:44px;line-height:1">🪨🚜</div>
+      <div id="setup-done" class="hidden">🎉 All done! Great counting.</div>
       <h2>How high shall we count today?</h2>
       <div id="range-row">
         <button class="range-btn" data-max="3">up to 3</button>

@@ -20,8 +20,8 @@ const ROCK_TONES = [
 ];
 
 let TARGET_POOL = [1, 2, 3, 4, 5];  // numbers the parent chose
+let roundIndex  = 0;                 // how far through the list we are
 let target      = 3;                 // this round's ask
-let lastTarget  = null;              // avoid repeating back to back
 let inBucket    = 0;                 // rocks delivered this round
 let locked      = false;             // target reached — ignore taps
 let idleTimer   = null;
@@ -35,6 +35,7 @@ const targetSign   = document.getElementById("target-sign");
 const celebration  = document.getElementById("celebration");
 const bigDigger    = document.getElementById("big-digger");
 const celebText    = document.getElementById("celebration-text");
+const doneMsg      = document.getElementById("setup-done");
 
 // ============================================================
 // Parent setup
@@ -48,6 +49,9 @@ function showSetup() {
 
   overlay.classList.remove("hidden");
   errorDiv.textContent = "";
+
+  // Reopening with a typed list still in the box: don't also show a range as chosen
+  if (input.value.trim()) rangeBtns.forEach(b => b.classList.remove("selected"));
 
   rangeBtns.forEach(btn => {
     btn.onclick = () => {
@@ -90,7 +94,8 @@ function showSetup() {
     }
 
     overlay.classList.add("hidden");
-    lastTarget = null;
+    doneMsg.classList.add("hidden");
+    roundIndex = 0;
     startRound();
   }
 
@@ -101,20 +106,19 @@ function showSetup() {
 // ============================================================
 // Round setup
 // ============================================================
-function pickTarget() {
-  if (TARGET_POOL.length === 1) return TARGET_POOL[0];
-  let n;
-  do {
-    n = TARGET_POOL[Math.floor(Math.random() * TARGET_POOL.length)];
-  } while (n === lastTarget);
-  return n;
-}
-
+// Rounds walk the parent's list in order. Once it runs out we hand the
+// tablet back to the parent rather than looping forever.
 function startRound() {
-  target     = pickTarget();
-  lastTarget = target;
-  inBucket   = 0;
-  locked     = false;
+  if (roundIndex >= TARGET_POOL.length) {
+    doneMsg.classList.remove("hidden");
+    showSetup();
+    return;
+  }
+
+  target   = TARGET_POOL[roundIndex];
+  roundIndex++;
+  inBucket = 0;
+  locked   = false;
 
   targetNumber.textContent = target;
   bucket.innerHTML = "";
