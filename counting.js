@@ -19,7 +19,7 @@ const ROCK_TONES = [
   { light: "#96968E", mid: "#73736B", dark: "#575751" }
 ];
 
-let TARGET_POOL = [1, 2, 3, 4, 5];  // numbers the parent chose
+let TARGET_POOL = [];                // numbers the parent typed
 let roundIndex  = 0;                 // how far through the list we are
 let target      = 3;                 // this round's ask
 let inBucket    = 0;                 // rocks delivered this round
@@ -45,54 +45,40 @@ function showSetup() {
   const input    = document.getElementById("count-input");
   const startBtn = document.getElementById("start-btn");
   const errorDiv = document.getElementById("setup-error");
-  const rangeBtns = Array.from(document.querySelectorAll(".range-btn"));
 
   overlay.classList.remove("hidden");
   errorDiv.textContent = "";
 
-  // Reopening with a typed list still in the box: don't also show a range as chosen
-  if (input.value.trim()) rangeBtns.forEach(b => b.classList.remove("selected"));
+  // Always hand back an empty box — the parent shouldn't have to clear
+  // the last session's numbers before typing the next ones.
+  input.value = "";
+  setTimeout(() => input.focus(), 300);
 
-  rangeBtns.forEach(btn => {
-    btn.onclick = () => {
-      rangeBtns.forEach(b => b.classList.remove("selected"));
-      btn.classList.add("selected");
-      input.value = "";          // a range and a custom list are alternatives
-      errorDiv.textContent = "";
-    };
-  });
-
-  // Typing a custom list clears the range choice
-  input.oninput = () => {
-    if (input.value.trim()) rangeBtns.forEach(b => b.classList.remove("selected"));
-    errorDiv.textContent = "";
-  };
+  input.oninput = () => { errorDiv.textContent = ""; };
 
   function start() {
     const raw = input.value.trim();
-
-    if (raw) {
-      const cleaned = raw.split(",").map(n => n.trim()).filter(n => n.length > 0);
-      const bad = cleaned.find(n => !/^\d{1,2}$/.test(n));
-      if (bad) {
-        errorDiv.textContent = `"${bad}" is not a number — digits only please.`;
-        return;
-      }
-      const parsed = cleaned
-        .map(n => parseInt(n, 10))
-        .filter(n => n >= 1 && n <= ROCK_COUNT);
-      if (parsed.length === 0) {
-        errorDiv.textContent = `Please use numbers between 1 and ${ROCK_COUNT}.`;
-        return;
-      }
-      TARGET_POOL = parsed;
-    } else {
-      const selected = rangeBtns.find(b => b.classList.contains("selected"));
-      const max = selected ? parseInt(selected.dataset.max, 10) : 5;
-      TARGET_POOL = [];
-      for (let n = 1; n <= max; n++) TARGET_POOL.push(n);
+    if (!raw) {
+      errorDiv.textContent = "Please type at least one number!";
+      return;
     }
 
+    const cleaned = raw.split(",").map(n => n.trim()).filter(n => n.length > 0);
+    const bad = cleaned.find(n => !/^\d{1,2}$/.test(n));
+    if (bad) {
+      errorDiv.textContent = `"${bad}" is not a number — digits only please.`;
+      return;
+    }
+
+    const parsed = cleaned
+      .map(n => parseInt(n, 10))
+      .filter(n => n >= 1 && n <= ROCK_COUNT);
+    if (parsed.length === 0) {
+      errorDiv.textContent = `Please use numbers between 1 and ${ROCK_COUNT}.`;
+      return;
+    }
+
+    TARGET_POOL = parsed;
     overlay.classList.add("hidden");
     doneMsg.classList.add("hidden");
     roundIndex = 0;

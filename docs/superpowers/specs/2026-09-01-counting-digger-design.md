@@ -57,8 +57,7 @@ invites tapping along it without counting. Tap targets are large (min 72px).
 5. The Nth rock lands → remaining rocks fade to 35% and stop accepting taps →
    celebration fires: big digger rises, confetti, stars, `THAT'S 3!`.
 6. ~4s later: rocks reset to 10 and the **next number in the parent's list**
-   loads. Rounds walk the list in order — a typed list in the order it was
-   typed, a range ascending (1, 2, 3...).
+   loads. Rounds walk the typed list in order.
 7. When the list runs out, the game returns to the **parent setup screen**
    with an "All done! Great counting." message, rather than looping forever.
    This gives a session a natural end and hands the tablet back to the parent.
@@ -73,10 +72,13 @@ invites tapping along it without counting. Tap targets are large (min 72px).
 
 ## Parent setup
 
-Same overlay pattern as `maths.js`'s `showSetup()`:
+Same overlay pattern as `maths.js`'s `showSetup()`, kept deliberately plain:
 
-- Quick buttons: **up to 3 / up to 5 / up to 10**
-- Free-text field to drill specific numbers (`2, 5, 3`)
+- A single text field — type the numbers for this session (`2, 5, 3`)
+- The field is **cleared and focused every time the screen opens**, so the
+  parent never has to delete the last session's numbers first
+- Numbers must be 1–10; an empty submit is rejected with a message rather
+  than starting an empty session
 - A ⚙ button in the corner reopens setup mid-session without going home
 
 Setup produces a `TARGET_POOL` array. Rounds consume it in order via
