@@ -50,6 +50,24 @@ function playDingSound() {
   } catch (e) { /* audio unavailable — skip */ }
 }
 
+// Short soft "tock" — for tapping a card/tile to select it
+// (distinct from playDingSound, which means "correct").
+function playClickSound() {
+  try {
+    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+    const osc  = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.connect(gain); gain.connect(ctx.destination);
+    osc.type = "triangle";
+    osc.frequency.setValueAtTime(700, ctx.currentTime);
+    osc.frequency.exponentialRampToValueAtTime(380, ctx.currentTime + 0.08);
+    gain.gain.setValueAtTime(0.22, ctx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.09);
+    osc.start();
+    osc.stop(ctx.currentTime + 0.1);
+  } catch (e) { /* audio unavailable — skip */ }
+}
+
 // Dirt puffs bursting from a screen rect
 function sprayDirt(rect, count) {
   const dirtPuffs = document.getElementById("dirt-puffs");

@@ -57,6 +57,7 @@ function renderDigraph(key) {
 function colorize(card, digraphKey, word) {
   if (card.classList.contains('colored')) return;
   card.classList.add('colored');
+  playClickSound();
   burstSparkles(card);
 
   if (DETAIL_PAGE_READY.includes(word)) {
