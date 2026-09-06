@@ -522,6 +522,27 @@ function spinWheels(fast) {
   });
 }
 
+// --- Duolingo-style "ding" for the parent's ✓ confirm tap ---
+function playDingSound() {
+  try {
+    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+    const notes = [1318.5, 1760]; // E6 -> A6, quick upward "ding"
+    notes.forEach((freq, i) => {
+      const osc  = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.connect(gain); gain.connect(ctx.destination);
+      osc.type = "sine";
+      osc.frequency.value = freq;
+      const start = ctx.currentTime + i * 0.09;
+      gain.gain.setValueAtTime(0, start);
+      gain.gain.linearRampToValueAtTime(0.3, start + 0.015);
+      gain.gain.exponentialRampToValueAtTime(0.001, start + 0.28);
+      osc.start(start);
+      osc.stop(start + 0.3);
+    });
+  } catch (e) { /* audio unavailable — skip */ }
+}
+
 // --- Dirt puff on correct phoneme ---
 function playDirtPuff() {
   const rect = diggerWrap.getBoundingClientRect();
@@ -635,6 +656,7 @@ function spawnStars() {
 confirmBtn.addEventListener("pointerdown", (e) => {
   e.stopPropagation();
   if (state.phase !== "listening") return;
+  playDingSound();
   cycleDiggerColor();
   setPhase("confirmed");
 });

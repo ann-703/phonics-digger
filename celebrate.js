@@ -1,7 +1,8 @@
 // ============================================================
 // Shared celebration effects
-// Used by maths.js and counting.js. All container elements are
-// looked up at call time so any page can use these.
+// Used by app.js, sentences.js, word.js, maths.js and counting.js.
+// All container elements are looked up at call time so any page
+// can use these.
 // ============================================================
 
 const CONFETTI_COLORS = ["#FF6B35", "#F5A623", "#4CAF50", "#2196F3", "#E91E63", "#9C27B0", "#00BCD4"];
@@ -23,6 +24,28 @@ function playCelebrationSound() {
       gain.gain.exponentialRampToValueAtTime(0.001, start + 0.5);
       osc.start(start);
       osc.stop(start + 0.55);
+    });
+  } catch (e) { /* audio unavailable — skip */ }
+}
+
+// Short bright two-note "ding" — Duolingo-style, for every green
+// checkmark tap (confirm buttons, word checks, reveal buttons).
+function playDingSound() {
+  try {
+    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+    const notes = [1318.5, 1760]; // E6 -> A6, quick upward "ding"
+    notes.forEach((freq, i) => {
+      const osc  = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.connect(gain); gain.connect(ctx.destination);
+      osc.type = "sine";
+      osc.frequency.value = freq;
+      const start = ctx.currentTime + i * 0.09;
+      gain.gain.setValueAtTime(0, start);
+      gain.gain.linearRampToValueAtTime(0.3, start + 0.015);
+      gain.gain.exponentialRampToValueAtTime(0.001, start + 0.28);
+      osc.start(start);
+      osc.stop(start + 0.3);
     });
   } catch (e) { /* audio unavailable — skip */ }
 }

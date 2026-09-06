@@ -49,6 +49,7 @@ function renderSentence(index) {
 function markRead(group) {
   if (group.classList.contains('read')) return;
   group.classList.add('read');
+  playDingSound();
   readCount++;
 
   if (readCount >= totalWords) {
@@ -61,6 +62,7 @@ starBtn.addEventListener('click', reveal);
 function reveal() {
   if (starBtn.classList.contains('disabled') || starBtn.classList.contains('hidden')) return;
 
+  playDingSound();
   heroImg.classList.add('revealed');
   burstSparkles(heroCard);
 

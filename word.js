@@ -76,6 +76,7 @@ function setupPixelReveal(canvas, revealBtn, src) {
     ctx.drawImage(tiny, 0, 0, PIXEL_COLS, pixelRows, 0, 0, cardWidth, cardHeight);
 
     revealBtn.addEventListener('click', () => {
+      playDingSound();
       ctx.imageSmoothingEnabled = true;
       drawCover(ctx, img, cardWidth, cardHeight);
       revealBtn.classList.add('hidden');
