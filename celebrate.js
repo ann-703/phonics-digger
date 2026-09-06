@@ -7,10 +7,26 @@
 
 const CONFETTI_COLORS = ["#FF6B35", "#F5A623", "#4CAF50", "#2196F3", "#E91E63", "#9C27B0", "#00BCD4"];
 
+// One AudioContext, reused for every sound. iOS Safari/Chrome caps how
+// many AudioContexts can ever produce sound (roughly 4-6) — creating a
+// fresh one per tap works fine on desktop but goes silent on iPad after
+// a handful of taps. Reusing a single context, resumed on each play,
+// sidesteps that limit.
+let sharedAudioCtx = null;
+function getAudioCtx() {
+  if (!sharedAudioCtx) {
+    sharedAudioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  }
+  if (sharedAudioCtx.state === "suspended") {
+    sharedAudioCtx.resume();
+  }
+  return sharedAudioCtx;
+}
+
 // Short rising chime — no audio file needed
 function playCelebrationSound() {
   try {
-    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+    const ctx = getAudioCtx();
     const notes = [261.6, 329.6, 392.0, 523.3];
     notes.forEach((freq, i) => {
       const osc  = ctx.createOscillator();
@@ -32,7 +48,7 @@ function playCelebrationSound() {
 // checkmark tap (confirm buttons, word checks, reveal buttons).
 function playDingSound() {
   try {
-    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+    const ctx = getAudioCtx();
     const notes = [1318.5, 1760]; // E6 -> A6, quick upward "ding"
     notes.forEach((freq, i) => {
       const osc  = ctx.createOscillator();
@@ -54,7 +70,7 @@ function playDingSound() {
 // (distinct from playDingSound, which means "correct").
 function playClickSound() {
   try {
-    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+    const ctx = getAudioCtx();
     const osc  = ctx.createOscillator();
     const gain = ctx.createGain();
     osc.connect(gain); gain.connect(ctx.destination);

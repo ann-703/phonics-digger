@@ -523,9 +523,25 @@ function spinWheels(fast) {
 }
 
 // --- Duolingo-style "ding" for the parent's ✓ confirm tap ---
+// One AudioContext, reused for every ding. iOS Safari/Chrome caps how
+// many AudioContexts can ever produce sound (roughly 4-6) — creating a
+// fresh one per tap works on desktop but goes silent on iPad after a
+// handful of taps. Reusing a single context, resumed on each play,
+// sidesteps that limit.
+let sharedAudioCtx = null;
+function getAudioCtx() {
+  if (!sharedAudioCtx) {
+    sharedAudioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  }
+  if (sharedAudioCtx.state === "suspended") {
+    sharedAudioCtx.resume();
+  }
+  return sharedAudioCtx;
+}
+
 function playDingSound() {
   try {
-    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+    const ctx = getAudioCtx();
     const notes = [1318.5, 1760]; // E6 -> A6, quick upward "ding"
     notes.forEach((freq, i) => {
       const osc  = ctx.createOscillator();
