@@ -23,6 +23,23 @@ function getAudioCtx() {
   return sharedAudioCtx;
 }
 
+// iOS won't fully unlock an AudioContext just by creating it inside a
+// gesture handler — it needs an actual sound (even silent) started
+// during the very first touch. Do that once, as early as possible.
+function unlockAudioOnFirstTouch() {
+  try {
+    const ctx = getAudioCtx();
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    gain.gain.value = 0.0001;
+    osc.connect(gain); gain.connect(ctx.destination);
+    osc.start();
+    osc.stop(ctx.currentTime + 0.01);
+  } catch (e) { /* audio unavailable — skip */ }
+}
+document.addEventListener("pointerdown", unlockAudioOnFirstTouch, { once: true, passive: true });
+document.addEventListener("touchend", unlockAudioOnFirstTouch, { once: true, passive: true });
+
 // Short rising chime — no audio file needed
 function playCelebrationSound() {
   try {
