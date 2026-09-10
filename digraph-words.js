@@ -96,6 +96,51 @@ const DIGRAPHS = {
           <rect x="46" y="64" width="16" height="22" fill="#4A2F1A"/>
           <rect x="70" y="58" width="12" height="12" rx="1" fill="#AEE4FF"/>
         </svg>`
+      },
+      {
+        word: 'fish',
+        chunks: ['f', 'i', 'sh'],
+        image: 'vehicles/fish.jpg',
+        isNew: true,
+        svg: `<svg viewBox="0 0 120 100" xmlns="http://www.w3.org/2000/svg">
+          <ellipse cx="54" cy="50" rx="34" ry="22" fill="#4FC3E8"/>
+          <path d="M88 50 L112 32 L112 68 Z" fill="#2FA9D1"/>
+          <circle cx="38" cy="44" r="3.5" fill="#222"/>
+          <path d="M20 50 Q34 58 50 52" stroke="#2FA9D1" stroke-width="2.5" fill="none"/>
+        </svg>`
+      },
+      {
+        word: 'wish',
+        chunks: ['w', 'i', 'sh'],
+        image: 'vehicles/wish.jpg',
+        isNew: true,
+        svg: `<svg viewBox="0 0 120 100" xmlns="http://www.w3.org/2000/svg">
+          <path d="M60 14 L67 38 L92 38 L71 52 L79 76 L60 61 L41 76 L49 52 L28 38 L53 38 Z" fill="#F5C542"/>
+          <path d="M96 20 L100 28 L108 30 L100 32 L96 40 L92 32 L84 30 L92 28 Z" fill="#FFF176"/>
+        </svg>`
+      },
+      {
+        word: 'dish',
+        chunks: ['d', 'i', 'sh'],
+        image: 'vehicles/dish.jpg',
+        isNew: true,
+        svg: `<svg viewBox="0 0 120 100" xmlns="http://www.w3.org/2000/svg">
+          <ellipse cx="60" cy="58" rx="48" ry="18" fill="#E5E5E5"/>
+          <ellipse cx="60" cy="54" rx="48" ry="18" fill="#FAFAFA"/>
+          <ellipse cx="60" cy="54" rx="30" ry="10" fill="#FF8A65"/>
+        </svg>`
+      },
+      {
+        word: 'rush',
+        chunks: ['r', 'u', 'sh'],
+        image: 'vehicles/rush.jpg',
+        isNew: true,
+        svg: `<svg viewBox="0 0 120 100" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="66" cy="52" r="30" fill="#F5C542"/>
+          <rect x="60" y="10" width="12" height="10" rx="2" fill="#8B5E3C"/>
+          <path d="M66 52 L66 34 M66 52 L80 58" stroke="#8B5E3C" stroke-width="3.5" stroke-linecap="round"/>
+          <path d="M10 40 L28 44 M6 54 L26 54 M10 68 L28 64" stroke="#78909C" stroke-width="3" stroke-linecap="round"/>
+        </svg>`
       }
     ]
   },
@@ -152,6 +197,55 @@ const DIGRAPHS = {
         svg: `<svg viewBox="0 0 120 100" xmlns="http://www.w3.org/2000/svg">
           <circle cx="60" cy="50" r="36" fill="#7CB342"/>
           <path d="M40 52 L54 66 L82 34" stroke="#fff" stroke-width="8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>`
+      },
+      {
+        word: 'chip',
+        chunks: ['ch', 'i', 'p'],
+        image: 'vehicles/chip.jpg',
+        isNew: true,
+        svg: `<svg viewBox="0 0 120 100" xmlns="http://www.w3.org/2000/svg">
+          <path d="M30 60 C24 40 44 26 64 30 C88 34 98 52 90 68 C78 84 40 82 30 60 Z" fill="#F5C542"/>
+          <circle cx="50" cy="52" r="2.5" fill="#C8831A"/>
+          <circle cx="66" cy="46" r="2.5" fill="#C8831A"/>
+          <circle cx="60" cy="64" r="2.5" fill="#C8831A"/>
+          <circle cx="76" cy="60" r="2.5" fill="#C8831A"/>
+        </svg>`
+      },
+      {
+        word: 'chat',
+        chunks: ['ch', 'a', 't'],
+        image: 'vehicles/chat.jpg',
+        isNew: true,
+        svg: `<svg viewBox="0 0 120 100" xmlns="http://www.w3.org/2000/svg">
+          <rect x="10" y="18" width="56" height="38" rx="10" fill="#4FC3E8"/>
+          <path d="M26 56 L26 70 L42 56 Z" fill="#4FC3E8"/>
+          <rect x="54" y="42" width="56" height="38" rx="10" fill="#FF8A65"/>
+          <path d="M94 80 L94 94 L78 80 Z" fill="#FF8A65"/>
+        </svg>`
+      },
+      {
+        word: 'chest',
+        chunks: ['ch', 'e', 's', 't'],
+        image: 'vehicles/chest.jpg',
+        isNew: true,
+        svg: `<svg viewBox="0 0 120 100" xmlns="http://www.w3.org/2000/svg">
+          <rect x="20" y="50" width="80" height="34" rx="3" fill="#B5834A"/>
+          <path d="M20 50 C20 34 100 34 100 50 Z" fill="#8B5E3C"/>
+          <rect x="16" y="48" width="88" height="8" rx="2" fill="#E8C84A"/>
+          <circle cx="60" cy="62" r="6" fill="#E8C84A"/>
+        </svg>`
+      },
+      {
+        word: 'much',
+        chunks: ['m', 'u', 'ch'],
+        image: 'vehicles/much.jpg',
+        isNew: true,
+        svg: `<svg viewBox="0 0 120 100" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="40" cy="66" r="20" fill="#FF8A65"/>
+          <circle cx="66" cy="58" r="24" fill="#F5C542"/>
+          <circle cx="90" cy="68" r="18" fill="#7CB342"/>
+          <circle cx="60" cy="34" r="16" fill="#4FC3E8"/>
         </svg>`
       }
     ]
@@ -212,4 +306,4 @@ const DIGRAPHS = {
 
 // Words with a finished, ready-to-open detail page (word.html).
 // Add a word here once its dedicated page has been approved.
-const DETAIL_PAGE_READY = ['ship', 'shop', 'shed', 'shell', 'shark', 'shut', 'shin', 'shack', 'chop', 'chin', 'chick', 'chess', 'check', 'thick', 'thin', 'thumb', 'thorn', 'throw'];
+const DETAIL_PAGE_READY = ['ship', 'shop', 'shed', 'shell', 'shark', 'shut', 'shin', 'shack', 'fish', 'wish', 'dish', 'rush', 'chop', 'chin', 'chick', 'chess', 'check', 'chip', 'chat', 'chest', 'much', 'thick', 'thin', 'thumb', 'thorn', 'throw'];

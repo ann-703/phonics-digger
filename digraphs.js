@@ -14,22 +14,66 @@ const SLOTS = [
 const grid = document.getElementById('digraph-grid');
 const hubLetters = document.getElementById('hub-letters');
 const nextBtn = document.getElementById('next-digraph-btn');
+const pageDots = document.getElementById('page-dots');
 
 const ORDER = ['sh', 'ch', 'th'];
-const requestedDigraph = new URLSearchParams(window.location.search).get('d');
-let currentIndex = Math.max(0, ORDER.indexOf(requestedDigraph));
 
-function renderDigraph(key) {
+// Flatten each digraph's words into screens of at most SLOTS.length words,
+// so a digraph with more words than fit in one grid (e.g. sh, ch) spills
+// onto additional screens instead of being silently cut off.
+function buildScreens() {
+  const screens = [];
+  ORDER.forEach(key => {
+    const words = (DIGRAPHS[key] && DIGRAPHS[key].words) || [];
+    const pageCount = Math.max(1, Math.ceil(words.length / SLOTS.length));
+    for (let p = 0; p < pageCount; p++) {
+      screens.push({
+        key,
+        words: words.slice(p * SLOTS.length, (p + 1) * SLOTS.length),
+        page: p,
+        pageCount
+      });
+    }
+  });
+  return screens;
+}
+
+const SCREENS = buildScreens();
+
+const requestedDigraph = new URLSearchParams(window.location.search).get('d');
+let currentIndex = Math.max(0, SCREENS.findIndex(s => s.key === requestedDigraph));
+
+function renderDigraph(screen) {
+  const key = screen.key;
+
   // update the center hub letters
   hubLetters.innerHTML = key.split('').map(l => `<span>${l}</span>`).join('');
+
+  // page dots — only shown when a digraph spans more than one screen.
+  // Each dot is clickable: it jumps straight to that page of the same digraph.
+  pageDots.innerHTML = '';
+  if (screen.pageCount > 1) {
+    for (let p = 0; p < screen.pageCount; p++) {
+      const dot = document.createElement('button');
+      dot.type = 'button';
+      dot.className = 'page-dot' + (p === screen.page ? ' active' : '');
+      dot.setAttribute('aria-label', `Page ${p + 1} of ${screen.pageCount}`);
+      const targetIndex = SCREENS.findIndex(s => s.key === key && s.page === p);
+      const jumpToPage = () => {
+        if (targetIndex === -1) return;
+        currentIndex = targetIndex;
+        renderDigraph(SCREENS[currentIndex]);
+      };
+      dot.addEventListener('click', jumpToPage);
+      dot.addEventListener('pointerup', jumpToPage);
+      pageDots.appendChild(dot);
+    }
+  }
 
   // remove existing word cards, keep the hub
   grid.querySelectorAll('.word-card').forEach(el => el.remove());
 
-  const data = DIGRAPHS[key];
-  if (!data || !data.words.length) return;
-
-  data.words.forEach((entry, i) => {
+  screen.words.forEach((entry, i) => {
     const slot = SLOTS[i];
     if (!slot) return;
 
@@ -38,12 +82,21 @@ function renderDigraph(key) {
     card.style.gridColumn = slot.col;
     card.style.gridRow = slot.row;
 
-    const labelHtml = entry.word.replace(
-      new RegExp('^' + key, 'i'),
-      match => `<span class="sh-part">${match}</span>`
-    );
+    // Highlight the digraph wherever it falls — start (ship, chop) or
+    // end (fish, much) — rather than assuming it always leads the word.
+    const startRe = new RegExp('^' + key, 'i');
+    const endRe = new RegExp(key + '$', 'i');
+    let labelHtml;
+    if (startRe.test(entry.word)) {
+      labelHtml = entry.word.replace(startRe, m => `<span class="sh-part">${m}</span>`);
+    } else if (endRe.test(entry.word)) {
+      labelHtml = entry.word.replace(endRe, m => `<span class="sh-part">${m}</span>`);
+    } else {
+      labelHtml = entry.word;
+    }
 
     card.innerHTML = `
+      ${entry.isNew ? '<div class="new-digger-badge" title="New word!">🚜</div>' : ''}
       ${entry.svg}
       <div class="word-label">${labelHtml}</div>
     `;
@@ -99,10 +152,10 @@ function advanceDigraph() {
   const now = Date.now();
   if (now - lastAdvanceAt < 400) return;
   lastAdvanceAt = now;
-  currentIndex = (currentIndex + 1) % ORDER.length;
-  renderDigraph(ORDER[currentIndex]);
+  currentIndex = (currentIndex + 1) % SCREENS.length;
+  renderDigraph(SCREENS[currentIndex]);
 }
 nextBtn.addEventListener('click', advanceDigraph);
 nextBtn.addEventListener('pointerup', advanceDigraph);
 
-renderDigraph(ORDER[currentIndex]);
+renderDigraph(SCREENS[currentIndex]);
