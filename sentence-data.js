@@ -53,13 +53,13 @@ const SENTENCES = [
     image: 'sentences/chick-sat-in-shed.jpg'
   },
   {
-    id: 'shark-bit-thumb',
+    id: 'shark-eats-fish',
     words: [
-      { word: 'shark', chunks: ['sh', 'a', 'r', 'k'] },
-      { word: 'bit', chunks: ['b', 'i', 't'] },
-      { word: 'thumb', chunks: ['th', 'u', 'm', 'b'] }
+      { word: 'Shark', chunks: ['sh', 'a', 'r', 'k'] },
+      { word: 'eats', chunks: ['ea', 't', 's'] },
+      { word: 'fish', chunks: ['f', 'i', 'sh'] }
     ],
-    image: 'sentences/shark-bit-thumb.jpg'
+    image: 'sentences/shark-eats-fish.jpg'
   },
   {
     id: 'fish-hid-in-shell',
