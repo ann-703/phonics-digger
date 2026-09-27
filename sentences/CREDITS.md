@@ -8,7 +8,7 @@ Pixar-style character art (Google Gemini).
 | sam-sat-on-log.jpg | Black cartoon boy character Sam sitting on a log in a sunny forest clearing, used on the "Sam sat on log" sentence page | Google Gemini (generated) |
 | cat-puts-on-hat.jpg | Fluffy cartoon cat putting on a colorful party hat in a cozy playroom, used on the "Cat puts on hat" sentence page | Google Gemini (generated) |
 | pig-dug-big-pit.jpg | Cartoon pig digging a dirt pit with a shovel on a farm, used on the "Pig dug big pit" sentence page | Google Gemini (generated) |
-| sun-is-hot.jpg | Smiling cartoon sun character sitting on a grassy hill, used on the "Sun is hot" sentence page | Google Gemini (generated) |
+| cat-is-sad.jpg | Small fluffy cartoon kitten looking sad with teary eyes in a cozy playroom, used on the "Cat is sad" sentence page | Google Gemini (generated) |
 | chick-sat-in-shed.jpg | Fluffy baby chick sitting on straw inside a wooden garden shed, used on the "Chick sat in shed" sentence page | Google Gemini (generated) |
 | shark-eats-fish.jpg | Friendly cartoon shark smiling at a small cheerful clownfish, underwater coral reef scene, used on the "Shark eats fish" sentence page | Google Gemini (generated) |
 | fish-hid-in-shell.jpg | Small cartoon fish peeking out of a spiral seashell on a coral reef, used on the "Fish hid in shell" sentence page | Google Gemini (generated) |

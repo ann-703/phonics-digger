@@ -34,13 +34,13 @@ const SENTENCES = [
     image: 'sentences/pig-dug-big-pit.jpg'
   },
   {
-    id: 'sun-is-hot',
+    id: 'cat-is-sad',
     words: [
-      { word: 'Sun', chunks: ['s', 'u', 'n'] },
+      { word: 'Cat', chunks: ['c', 'a', 't'] },
       { word: 'is', chunks: ['i', 's'] },
-      { word: 'hot', chunks: ['h', 'o', 't'] }
+      { word: 'sad', chunks: ['s', 'a', 'd'] }
     ],
-    image: 'sentences/sun-is-hot.jpg'
+    image: 'sentences/cat-is-sad.jpg'
   },
   {
     id: 'chick-sat-in-shed',
