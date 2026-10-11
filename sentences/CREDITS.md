@@ -14,3 +14,8 @@ Pixar-style character art (Google Gemini).
 | fish-hid-in-shell.jpg | Small cartoon fish peeking out of a spiral seashell on a coral reef, used on the "Fish hid in shell" sentence page | Google Gemini (generated) |
 | ship-sank-in-mud.jpg | Cartoon toy cargo ship "Chugger" tilted and sinking into a mud puddle, used on the "Ship sank in mud" sentence page | Google Gemini (generated) |
 | dog-jump-on-sofa.jpg | Playful cartoon golden puppy mid-air jumping onto a cozy sofa, used on the "Dog jump on sofa" sentence page | Google Gemini (generated) |
+| three-bats-in-tree.jpg | Three cute cartoon baby bats hanging from a bare tree branch under a big orange moon, used on the "Three bats in tree" Halloween sentence page | Google Gemini (generated) |
+| sheep-and-chick-shop.jpg | Fluffy cartoon sheep trying on a witch hat and a baby chick holding a mask in a Halloween costume shop, used on the "Sheep and chick shop" sentence page | Google Gemini (generated) |
+| bee-sits-on-web.jpg | Smiling cartoon bee on a sparkly spider web on a moonlit Halloween night, used on the "Bee sits on web" sentence page | Google Gemini (generated) |
+| bat-and-fish-chomp.jpg | Cartoon bat and orange fish chomping Halloween candy from a jack-o-lantern bowl, used on the "Bat and fish chomp" sentence page | Google Gemini (generated) |
+| bat-has-big-teeth.jpg | Cartoon bat grinning to show big silly vampire fangs in front of a full moon, used on the "Bat has big teeth" sentence page | Google Gemini (generated) |

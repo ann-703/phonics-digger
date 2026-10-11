@@ -90,5 +90,56 @@ const SENTENCES = [
       { word: 'sofa', chunks: ['s', 'o', 'f', 'a'] }
     ],
     image: 'sentences/dog-jump-on-sofa.jpg'
+  },
+  // ---- Halloween set: ee / sh / ch / th words + "and" (4 words max) ----
+  {
+    id: 'three-bats-in-tree',
+    words: [
+      { word: 'Three', chunks: ['th', 'r', 'ee'] },
+      { word: 'bats', chunks: ['b', 'a', 't', 's'] },
+      { word: 'in', chunks: ['i', 'n'] },
+      { word: 'tree', chunks: ['t', 'r', 'ee'] }
+    ],
+    image: 'sentences/three-bats-in-tree.jpg'
+  },
+  {
+    id: 'sheep-and-chick-shop',
+    words: [
+      { word: 'Sheep', chunks: ['sh', 'ee', 'p'] },
+      { word: 'and', chunks: ['a', 'n', 'd'] },
+      { word: 'chick', chunks: ['ch', 'i', 'ck'] },
+      { word: 'shop', chunks: ['sh', 'o', 'p'] }
+    ],
+    image: 'sentences/sheep-and-chick-shop.jpg'
+  },
+  {
+    id: 'bee-sits-on-web',
+    words: [
+      { word: 'Bee', chunks: ['b', 'ee'] },
+      { word: 'sits', chunks: ['s', 'i', 't', 's'] },
+      { word: 'on', chunks: ['o', 'n'] },
+      { word: 'web', chunks: ['w', 'e', 'b'] }
+    ],
+    image: 'sentences/bee-sits-on-web.jpg'
+  },
+  {
+    id: 'bat-and-fish-chomp',
+    words: [
+      { word: 'Bat', chunks: ['b', 'a', 't'] },
+      { word: 'and', chunks: ['a', 'n', 'd'] },
+      { word: 'fish', chunks: ['f', 'i', 'sh'] },
+      { word: 'chomp', chunks: ['ch', 'o', 'm', 'p'] }
+    ],
+    image: 'sentences/bat-and-fish-chomp.jpg'
+  },
+  {
+    id: 'bat-has-big-teeth',
+    words: [
+      { word: 'Bat', chunks: ['b', 'a', 't'] },
+      { word: 'has', chunks: ['h', 'a', 's'] },
+      { word: 'big', chunks: ['b', 'i', 'g'] },
+      { word: 'teeth', chunks: ['t', 'ee', 'th'] }
+    ],
+    image: 'sentences/bat-has-big-teeth.jpg'
   }
 ];

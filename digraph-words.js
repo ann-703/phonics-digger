@@ -301,9 +301,77 @@ const DIGRAPHS = {
         </svg>`
       }
     ]
+  },
+  ee: {
+    words: [
+      {
+        word: 'bee',
+        chunks: ['b', 'ee'],
+        image: 'vehicles/bee.jpg',
+        isNew: true,
+        svg: `<svg viewBox="0 0 120 100" xmlns="http://www.w3.org/2000/svg">
+          <ellipse cx="46" cy="30" rx="16" ry="12" fill="#E3F2FD" opacity="0.9"/>
+          <ellipse cx="70" cy="28" rx="16" ry="12" fill="#E3F2FD" opacity="0.9"/>
+          <ellipse cx="60" cy="58" rx="34" ry="24" fill="#F5C542"/>
+          <rect x="48" y="35" width="8" height="46" rx="3" fill="#222"/>
+          <rect x="66" y="35" width="8" height="46" rx="3" fill="#222"/>
+          <circle cx="34" cy="54" r="3.5" fill="#222"/>
+          <path d="M94 58 L104 58" stroke="#222" stroke-width="3" stroke-linecap="round"/>
+        </svg>`
+      },
+      {
+        word: 'tree',
+        chunks: ['t', 'r', 'ee'],
+        image: 'vehicles/tree.jpg',
+        isNew: true,
+        svg: `<svg viewBox="0 0 120 100" xmlns="http://www.w3.org/2000/svg">
+          <rect x="52" y="56" width="16" height="34" rx="3" fill="#8B5E3C"/>
+          <circle cx="60" cy="34" r="24" fill="#66BB6A"/>
+          <circle cx="40" cy="48" r="18" fill="#4CAF50"/>
+          <circle cx="80" cy="48" r="18" fill="#4CAF50"/>
+        </svg>`
+      },
+      {
+        word: 'sheep',
+        chunks: ['sh', 'ee', 'p'],
+        image: 'vehicles/sheep.jpg',
+        isNew: true,
+        svg: `<svg viewBox="0 0 120 100" xmlns="http://www.w3.org/2000/svg">
+          <rect x="40" y="62" width="7" height="24" rx="3" fill="#455A64"/>
+          <rect x="74" y="62" width="7" height="24" rx="3" fill="#455A64"/>
+          <circle cx="44" cy="48" r="18" fill="#B0BEC5"/>
+          <circle cx="62" cy="42" r="20" fill="#B0BEC5"/>
+          <circle cx="80" cy="50" r="18" fill="#B0BEC5"/>
+          <circle cx="60" cy="60" r="18" fill="#B0BEC5"/>
+          <circle cx="44" cy="48" r="16" fill="#FAFAFA"/>
+          <circle cx="62" cy="42" r="18" fill="#FAFAFA"/>
+          <circle cx="80" cy="50" r="16" fill="#FAFAFA"/>
+          <circle cx="60" cy="60" r="16" fill="#FAFAFA"/>
+          <ellipse cx="26" cy="48" rx="12" ry="14" fill="#455A64"/>
+          <circle cx="22" cy="45" r="2.5" fill="#fff"/>
+        </svg>`
+      },
+      {
+        word: 'teeth',
+        chunks: ['t', 'ee', 'th'],
+        image: 'vehicles/teeth.jpg',
+        isNew: true,
+        svg: `<svg viewBox="0 0 120 100" xmlns="http://www.w3.org/2000/svg">
+          <path d="M14 40 Q60 10 106 40 Q60 92 14 40 Z" fill="#E57373"/>
+          <path d="M22 40 Q60 22 98 40 Q60 78 22 40 Z" fill="#8E2C2C"/>
+          <rect x="34" y="30" width="12" height="12" rx="3" fill="#fff"/>
+          <rect x="48" y="27" width="12" height="13" rx="3" fill="#fff"/>
+          <rect x="62" y="27" width="12" height="13" rx="3" fill="#fff"/>
+          <rect x="76" y="30" width="12" height="12" rx="3" fill="#fff"/>
+          <rect x="42" y="50" width="12" height="11" rx="3" fill="#fff"/>
+          <rect x="56" y="52" width="12" height="11" rx="3" fill="#fff"/>
+          <rect x="70" y="50" width="12" height="11" rx="3" fill="#fff"/>
+        </svg>`
+      }
+    ]
   }
 };
 
 // Words with a finished, ready-to-open detail page (word.html).
 // Add a word here once its dedicated page has been approved.
-const DETAIL_PAGE_READY = ['ship', 'shop', 'shed', 'shell', 'shark', 'shut', 'shin', 'shack', 'fish', 'wish', 'dish', 'rush', 'chop', 'chin', 'chick', 'chess', 'check', 'chip', 'chat', 'chest', 'much', 'thick', 'thin', 'thumb', 'thorn', 'throw'];
+const DETAIL_PAGE_READY = ['ship', 'shop', 'shed', 'shell', 'shark', 'shut', 'shin', 'shack', 'fish', 'wish', 'dish', 'rush', 'chop', 'chin', 'chick', 'chess', 'check', 'chip', 'chat', 'chest', 'much', 'thick', 'thin', 'thumb', 'thorn', 'throw', 'bee', 'tree', 'sheep', 'teeth'];

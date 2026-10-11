@@ -4,7 +4,7 @@
 // Fixed grid slots around the center hub (col, row) in the 4-col grid.
 // Hub occupies col 2-3, row 2. Words fill row 1 first, then the row-2
 // sides, then row 3 under the hub — digraphs with fewer than 8 words
-// (ch, th) just leave the later slots empty.
+// (ch, th, ee) just leave the later slots empty.
 const SLOTS = [
   { col: 1, row: 1 }, { col: 2, row: 1 }, { col: 3, row: 1 }, { col: 4, row: 1 },
   { col: 1, row: 2 },                                          { col: 4, row: 2 },
@@ -16,7 +16,7 @@ const hubLetters = document.getElementById('hub-letters');
 const nextBtn = document.getElementById('next-digraph-btn');
 const pageDots = document.getElementById('page-dots');
 
-const ORDER = ['sh', 'ch', 'th'];
+const ORDER = ['sh', 'ch', 'th', 'ee'];
 
 // Flatten each digraph's words into screens of at most SLOTS.length words,
 // so a digraph with more words than fit in one grid (e.g. sh, ch) spills
@@ -82,18 +82,14 @@ function renderDigraph(screen) {
     card.style.gridColumn = slot.col;
     card.style.gridRow = slot.row;
 
-    // Highlight the digraph wherever it falls — start (ship, chop) or
-    // end (fish, much) — rather than assuming it always leads the word.
-    const startRe = new RegExp('^' + key, 'i');
-    const endRe = new RegExp(key + '$', 'i');
-    let labelHtml;
-    if (startRe.test(entry.word)) {
-      labelHtml = entry.word.replace(startRe, m => `<span class="sh-part">${m}</span>`);
-    } else if (endRe.test(entry.word)) {
-      labelHtml = entry.word.replace(endRe, m => `<span class="sh-part">${m}</span>`);
-    } else {
-      labelHtml = entry.word;
-    }
+    // Highlight the digraph wherever it falls — start (ship), middle
+    // (sheep) or end (fish) — rather than assuming it leads the word.
+    const at = entry.word.toLowerCase().indexOf(key);
+    const labelHtml = at === -1
+      ? entry.word
+      : entry.word.slice(0, at) +
+        `<span class="sh-part">${entry.word.slice(at, at + key.length)}</span>` +
+        entry.word.slice(at + key.length);
 
     card.innerHTML = `
       ${entry.isNew ? '<div class="new-digger-badge" title="New word!">🚜</div>' : ''}

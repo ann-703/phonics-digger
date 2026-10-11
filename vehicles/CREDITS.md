@@ -34,3 +34,7 @@ character art (Gamma AI and Google Gemini).
 | shack.jpg | Small rustic wooden shack character with a lopsided tin roof, 3D Pixar-style, used on the digraphs "shack" detail page | Google Gemini (generated) |
 
 See also `sentences/CREDITS.md` for Sentence Reader scene images.
+| bee.jpg | Smiling bumblebee among garden flowers, 3D Pixar-style character, used on the digraphs "bee" detail page | Google Gemini (generated) |
+| tree.jpg | Friendly tree with a smiling face on its trunk in a sunny meadow, 3D Pixar-style character, used on the digraphs "tree" detail page | Google Gemini (generated) |
+| sheep.jpg | Fluffy smiling white sheep on a grassy hill, 3D Pixar-style character, used on the digraphs "sheep" detail page | Google Gemini (generated) |
+| teeth.jpg | Cartoon child's big smile showing clean white teeth, holding a toothbrush, 3D Pixar-style, used on the digraphs "teeth" detail page | Google Gemini (generated) |
