@@ -180,11 +180,13 @@
     .word-card svg {
       width: 90px;
       height: 78px;
-      filter: grayscale(1) brightness(1.05);
+      /* Blurred so he reads the word instead of guessing from the picture */
+      filter: grayscale(1) brightness(1.05) blur(10px);
+      opacity: 0.8;
       transition: filter 0.5s ease;
     }
     .word-card.colored svg {
-      filter: grayscale(0);
+      filter: grayscale(0) blur(10px);
     }
 
     .word-label {
