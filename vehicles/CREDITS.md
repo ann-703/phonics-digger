@@ -38,3 +38,11 @@ See also `sentences/CREDITS.md` for Sentence Reader scene images.
 | tree.jpg | Friendly tree with a smiling face on its trunk in a sunny meadow, 3D Pixar-style character, used on the digraphs "tree" detail page | Google Gemini (generated) |
 | sheep.jpg | Fluffy smiling white sheep on a grassy hill, 3D Pixar-style character, used on the digraphs "sheep" detail page | Google Gemini (generated) |
 | teeth.jpg | Cartoon child's big smile showing clean white teeth, holding a toothbrush, 3D Pixar-style, used on the digraphs "teeth" detail page | Google Gemini (generated) |
+| rain.jpg | Smiling fluffy cloud raining blue raindrops, 3D Pixar-style, used on the digraphs "rain" detail page | Google Gemini (generated) |
+| tail.jpg | Happy golden puppy sitting with its long fluffy tail wagging, 3D Pixar-style, used on the digraphs "tail" detail page | Google Gemini (generated) |
+| nail.jpg | Silver hammer with a face hitting a nail into wood, 3D Pixar-style, used on the digraphs "nail" detail page | Google Gemini (generated) |
+| sail.jpg | Little red toy sailboat with a big white sail on blue water, 3D Pixar-style, used on the digraphs "sail" detail page | Google Gemini (generated) |
+| snail.jpg | Smiling snail with a colourful spiral shell on a green leaf, 3D Pixar-style, used on the digraphs "snail" detail page | Google Gemini (generated) |
+| train-word.jpg | Cute colourful toy steam train with a smiling red engine puffing steam, 3D Pixar-style, used on the digraphs "train" detail page | Google Gemini (generated) |
+| paint.jpg | Open pot of red paint with a brush and colourful paint splashes, 3D-rendered, used on the digraphs "paint" detail page | Google Gemini (generated) |
+| chain.jpg | Chunky shiny silver metal chain links, 3D-rendered, used on the digraphs "chain" detail page | Google Gemini (generated) |

@@ -101,7 +101,6 @@ const DIGRAPHS = {
         word: 'fish',
         chunks: ['f', 'i', 'sh'],
         image: 'vehicles/fish.jpg',
-        isNew: true,
         svg: `<svg viewBox="0 0 120 100" xmlns="http://www.w3.org/2000/svg">
           <ellipse cx="54" cy="50" rx="34" ry="22" fill="#4FC3E8"/>
           <path d="M88 50 L112 32 L112 68 Z" fill="#2FA9D1"/>
@@ -113,7 +112,6 @@ const DIGRAPHS = {
         word: 'wish',
         chunks: ['w', 'i', 'sh'],
         image: 'vehicles/wish.jpg',
-        isNew: true,
         svg: `<svg viewBox="0 0 120 100" xmlns="http://www.w3.org/2000/svg">
           <path d="M60 14 L67 38 L92 38 L71 52 L79 76 L60 61 L41 76 L49 52 L28 38 L53 38 Z" fill="#F5C542"/>
           <path d="M96 20 L100 28 L108 30 L100 32 L96 40 L92 32 L84 30 L92 28 Z" fill="#FFF176"/>
@@ -123,7 +121,6 @@ const DIGRAPHS = {
         word: 'dish',
         chunks: ['d', 'i', 'sh'],
         image: 'vehicles/dish.jpg',
-        isNew: true,
         svg: `<svg viewBox="0 0 120 100" xmlns="http://www.w3.org/2000/svg">
           <ellipse cx="60" cy="58" rx="48" ry="18" fill="#E5E5E5"/>
           <ellipse cx="60" cy="54" rx="48" ry="18" fill="#FAFAFA"/>
@@ -134,7 +131,6 @@ const DIGRAPHS = {
         word: 'rush',
         chunks: ['r', 'u', 'sh'],
         image: 'vehicles/rush.jpg',
-        isNew: true,
         svg: `<svg viewBox="0 0 120 100" xmlns="http://www.w3.org/2000/svg">
           <circle cx="66" cy="52" r="30" fill="#F5C542"/>
           <rect x="60" y="10" width="12" height="10" rx="2" fill="#8B5E3C"/>
@@ -203,7 +199,6 @@ const DIGRAPHS = {
         word: 'chip',
         chunks: ['ch', 'i', 'p'],
         image: 'vehicles/chip.jpg',
-        isNew: true,
         svg: `<svg viewBox="0 0 120 100" xmlns="http://www.w3.org/2000/svg">
           <path d="M30 60 C24 40 44 26 64 30 C88 34 98 52 90 68 C78 84 40 82 30 60 Z" fill="#F5C542"/>
           <circle cx="50" cy="52" r="2.5" fill="#C8831A"/>
@@ -216,7 +211,6 @@ const DIGRAPHS = {
         word: 'chat',
         chunks: ['ch', 'a', 't'],
         image: 'vehicles/chat.jpg',
-        isNew: true,
         svg: `<svg viewBox="0 0 120 100" xmlns="http://www.w3.org/2000/svg">
           <rect x="10" y="18" width="56" height="38" rx="10" fill="#4FC3E8"/>
           <path d="M26 56 L26 70 L42 56 Z" fill="#4FC3E8"/>
@@ -228,7 +222,6 @@ const DIGRAPHS = {
         word: 'chest',
         chunks: ['ch', 'e', 's', 't'],
         image: 'vehicles/chest.jpg',
-        isNew: true,
         svg: `<svg viewBox="0 0 120 100" xmlns="http://www.w3.org/2000/svg">
           <rect x="20" y="50" width="80" height="34" rx="3" fill="#B5834A"/>
           <path d="M20 50 C20 34 100 34 100 50 Z" fill="#8B5E3C"/>
@@ -240,7 +233,6 @@ const DIGRAPHS = {
         word: 'much',
         chunks: ['m', 'u', 'ch'],
         image: 'vehicles/much.jpg',
-        isNew: true,
         svg: `<svg viewBox="0 0 120 100" xmlns="http://www.w3.org/2000/svg">
           <circle cx="40" cy="66" r="20" fill="#FF8A65"/>
           <circle cx="66" cy="58" r="24" fill="#F5C542"/>
@@ -308,7 +300,6 @@ const DIGRAPHS = {
         word: 'bee',
         chunks: ['b', 'ee'],
         image: 'vehicles/bee.jpg',
-        isNew: true,
         svg: `<svg viewBox="0 0 120 100" xmlns="http://www.w3.org/2000/svg">
           <ellipse cx="46" cy="30" rx="16" ry="12" fill="#E3F2FD" opacity="0.9"/>
           <ellipse cx="70" cy="28" rx="16" ry="12" fill="#E3F2FD" opacity="0.9"/>
@@ -323,7 +314,6 @@ const DIGRAPHS = {
         word: 'tree',
         chunks: ['t', 'r', 'ee'],
         image: 'vehicles/tree.jpg',
-        isNew: true,
         svg: `<svg viewBox="0 0 120 100" xmlns="http://www.w3.org/2000/svg">
           <rect x="52" y="56" width="16" height="34" rx="3" fill="#8B5E3C"/>
           <circle cx="60" cy="34" r="24" fill="#66BB6A"/>
@@ -335,7 +325,6 @@ const DIGRAPHS = {
         word: 'sheep',
         chunks: ['sh', 'ee', 'p'],
         image: 'vehicles/sheep.jpg',
-        isNew: true,
         svg: `<svg viewBox="0 0 120 100" xmlns="http://www.w3.org/2000/svg">
           <rect x="40" y="62" width="7" height="24" rx="3" fill="#455A64"/>
           <rect x="74" y="62" width="7" height="24" rx="3" fill="#455A64"/>
@@ -355,7 +344,6 @@ const DIGRAPHS = {
         word: 'teeth',
         chunks: ['t', 'ee', 'th'],
         image: 'vehicles/teeth.jpg',
-        isNew: true,
         svg: `<svg viewBox="0 0 120 100" xmlns="http://www.w3.org/2000/svg">
           <path d="M14 40 Q60 10 106 40 Q60 92 14 40 Z" fill="#E57373"/>
           <path d="M22 40 Q60 22 98 40 Q60 78 22 40 Z" fill="#8E2C2C"/>
@@ -369,9 +357,116 @@ const DIGRAPHS = {
         </svg>`
       }
     ]
+  },
+  ai: {
+    words: [
+      {
+        word: 'rain',
+        chunks: ['r', 'ai', 'n'],
+        image: 'vehicles/rain.jpg',
+        isNew: true,
+        svg: `<svg viewBox="0 0 120 100" xmlns="http://www.w3.org/2000/svg">
+          <path d="M34 50 C20 50 18 32 34 30 C36 16 58 12 66 24 C80 18 96 26 92 40 C106 42 104 56 90 56 L36 56 C30 56 30 52 34 50 Z" fill="#90A4AE"/>
+          <path d="M40 66 L34 82 M60 66 L54 82 M80 66 L74 82" stroke="#3D7DCB" stroke-width="5" stroke-linecap="round"/>
+          <path d="M50 74 L46 88 M70 74 L66 88" stroke="#64B5F6" stroke-width="5" stroke-linecap="round"/>
+        </svg>`
+      },
+      {
+        word: 'tail',
+        chunks: ['t', 'ai', 'l'],
+        image: 'vehicles/tail.jpg',
+        isNew: true,
+        svg: `<svg viewBox="0 0 120 100" xmlns="http://www.w3.org/2000/svg">
+          <ellipse cx="46" cy="76" rx="34" ry="14" fill="#E8C17A"/>
+          <path d="M70 72 C96 66 104 42 92 20 C108 30 116 58 96 78 C86 86 74 84 70 72 Z" fill="#B5834A"/>
+          <path d="M92 20 C96 14 102 14 104 20 C100 24 96 24 92 20 Z" fill="#8B5E3C"/>
+          <circle cx="28" cy="70" r="3" fill="#8B5E3C"/><circle cx="44" cy="78" r="3" fill="#8B5E3C"/>
+        </svg>`
+      },
+      {
+        word: 'nail',
+        chunks: ['n', 'ai', 'l'],
+        image: 'vehicles/nail.jpg',
+        isNew: true,
+        svg: `<svg viewBox="0 0 120 100" xmlns="http://www.w3.org/2000/svg">
+          <rect x="14" y="62" width="60" height="16" rx="3" fill="#8B5E3C"/>
+          <rect x="52" y="14" width="16" height="12" rx="2" fill="#B0BEC5"/>
+          <rect x="57" y="26" width="6" height="40" fill="#90A4AE"/>
+          <path d="M57 66 L63 66 L60 76 Z" fill="#78909C"/>
+          <rect x="74" y="30" width="34" height="12" rx="3" fill="#E53935" transform="rotate(-20 90 36)"/>
+          <rect x="30" y="38" width="30" height="8" rx="3" fill="#E8C17A" transform="rotate(10 45 42)"/>
+        </svg>`
+      },
+      {
+        word: 'sail',
+        chunks: ['s', 'ai', 'l'],
+        image: 'vehicles/sail.jpg',
+        isNew: true,
+        svg: `<svg viewBox="0 0 120 100" xmlns="http://www.w3.org/2000/svg">
+          <rect x="58" y="10" width="4" height="62" fill="#5C3A21"/>
+          <path d="M64 12 L100 66 L64 66 Z" fill="#FFFFFF" stroke="#CFD8DC" stroke-width="2"/>
+          <path d="M56 22 L24 66 L56 66 Z" fill="#E53935"/>
+          <path d="M14 70 L106 70 L94 88 L26 88 Z" fill="#3D7DCB"/>
+          <path d="M60 10 L74 14 L60 18 Z" fill="#F5C542"/>
+        </svg>`
+      },
+      {
+        word: 'snail',
+        chunks: ['s', 'n', 'ai', 'l'],
+        image: 'vehicles/snail.jpg',
+        isNew: true,
+        svg: `<svg viewBox="0 0 120 100" xmlns="http://www.w3.org/2000/svg">
+          <path d="M10 82 L92 82 C104 82 108 72 100 66 C98 56 100 40 94 28 L88 30 C92 42 90 52 90 60 L40 60 C26 60 12 68 10 82 Z" fill="#AED581"/>
+          <path d="M92 28 L90 14 M84 30 L80 16" stroke="#7CB342" stroke-width="3" stroke-linecap="round"/>
+          <circle cx="90" cy="13" r="3" fill="#222"/><circle cx="80" cy="15" r="3" fill="#222"/>
+          <circle cx="44" cy="42" r="26" fill="#FF8A65"/>
+          <path d="M44 42 m0 0 a4 4 0 1 1 6 3 a10 10 0 1 1 -14 -8 a17 17 0 1 1 20 20" stroke="#E8552E" stroke-width="3" fill="none"/>
+        </svg>`
+      },
+      {
+        word: 'train',
+        chunks: ['t', 'r', 'ai', 'n'],
+        image: 'vehicles/train-word.jpg',
+        isNew: true,
+        svg: `<svg viewBox="0 0 120 100" xmlns="http://www.w3.org/2000/svg">
+          <rect x="14" y="40" width="48" height="36" rx="4" fill="#E53935"/>
+          <rect x="62" y="26" width="36" height="50" rx="4" fill="#3D7DCB"/>
+          <rect x="68" y="32" width="24" height="16" rx="2" fill="#AEE4FF"/>
+          <rect x="20" y="22" width="12" height="18" fill="#455A64"/>
+          <circle cx="32" cy="16" r="6" fill="#CFD8DC"/>
+          <path d="M98 76 L110 76 L98 66 Z" fill="#F5C542"/>
+          <circle cx="28" cy="82" r="8" fill="#37474F"/><circle cx="50" cy="82" r="8" fill="#37474F"/><circle cx="82" cy="82" r="8" fill="#37474F"/>
+          <rect x="10" y="88" width="100" height="4" fill="#8D6E63"/>
+        </svg>`
+      },
+      {
+        word: 'paint',
+        chunks: ['p', 'ai', 'n', 't'],
+        image: 'vehicles/paint.jpg',
+        isNew: true,
+        svg: `<svg viewBox="0 0 120 100" xmlns="http://www.w3.org/2000/svg">
+          <path d="M22 44 L22 82 Q22 90 30 90 L72 90 Q80 90 80 82 L80 44 Z" fill="#E0E0E0"/>
+          <ellipse cx="51" cy="44" rx="29" ry="9" fill="#7C4DFF"/>
+          <path d="M26 44 Q40 54 50 46 Q60 38 76 46" stroke="#7C4DFF" stroke-width="6" fill="none" stroke-linecap="round" transform="translate(0 4)"/>
+          <rect x="84" y="46" width="8" height="36" rx="2" fill="#F5C542" transform="rotate(25 88 64)"/>
+          <path d="M90 28 L102 32 L98 46 L86 42 Z" fill="#E53935" transform="rotate(25 94 38)"/>
+        </svg>`
+      },
+      {
+        word: 'chain',
+        chunks: ['ch', 'ai', 'n'],
+        image: 'vehicles/chain.jpg',
+        isNew: true,
+        svg: `<svg viewBox="0 0 120 100" xmlns="http://www.w3.org/2000/svg">
+          <rect x="8" y="34" width="44" height="26" rx="13" fill="none" stroke="#78909C" stroke-width="8"/>
+          <rect x="38" y="42" width="44" height="26" rx="13" fill="none" stroke="#B0BEC5" stroke-width="8"/>
+          <rect x="68" y="34" width="44" height="26" rx="13" fill="none" stroke="#78909C" stroke-width="8"/>
+        </svg>`
+      }
+    ]
   }
 };
 
 // Words with a finished, ready-to-open detail page (word.html).
 // Add a word here once its dedicated page has been approved.
-const DETAIL_PAGE_READY = ['ship', 'shop', 'shed', 'shell', 'shark', 'shut', 'shin', 'shack', 'fish', 'wish', 'dish', 'rush', 'chop', 'chin', 'chick', 'chess', 'check', 'chip', 'chat', 'chest', 'much', 'thick', 'thin', 'thumb', 'thorn', 'throw', 'bee', 'tree', 'sheep', 'teeth'];
+const DETAIL_PAGE_READY = ['ship', 'shop', 'shed', 'shell', 'shark', 'shut', 'shin', 'shack', 'fish', 'wish', 'dish', 'rush', 'chop', 'chin', 'chick', 'chess', 'check', 'chip', 'chat', 'chest', 'much', 'thick', 'thin', 'thumb', 'thorn', 'throw', 'bee', 'tree', 'sheep', 'teeth', 'rain', 'tail', 'nail', 'sail', 'snail', 'train', 'paint', 'chain'];

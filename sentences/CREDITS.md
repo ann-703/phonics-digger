@@ -5,17 +5,21 @@ Pixar-style character art (Google Gemini).
 
 | File | Subject | Source |
 |------|---------|--------|
-| sam-sat-on-log.jpg | Black cartoon boy character Sam sitting on a log in a sunny forest clearing, used on the "Sam sat on log" sentence page | Google Gemini (generated) |
-| cat-puts-on-hat.jpg | Fluffy cartoon cat putting on a colorful party hat in a cozy playroom, used on the "Cat puts on hat" sentence page | Google Gemini (generated) |
-| pig-dug-big-pit.jpg | Cartoon pig digging a dirt pit with a shovel on a farm, used on the "Pig dug big pit" sentence page | Google Gemini (generated) |
-| cat-is-sad.jpg | Small fluffy cartoon kitten looking sad with teary eyes in a cozy playroom, used on the "Cat is sad" sentence page | Google Gemini (generated) |
-| chick-sat-in-shed.jpg | Fluffy baby chick sitting on straw inside a wooden garden shed, used on the "Chick sat in shed" sentence page | Google Gemini (generated) |
-| shark-eats-fish.jpg | Friendly cartoon shark smiling at a small cheerful clownfish, underwater coral reef scene, used on the "Shark eats fish" sentence page | Google Gemini (generated) |
-| fish-hid-in-shell.jpg | Small cartoon fish peeking out of a spiral seashell on a coral reef, used on the "Fish hid in shell" sentence page | Google Gemini (generated) |
-| ship-sank-in-mud.jpg | Cartoon toy cargo ship "Chugger" tilted and sinking into a mud puddle, used on the "Ship sank in mud" sentence page | Google Gemini (generated) |
-| dog-jump-on-sofa.jpg | Playful cartoon golden puppy mid-air jumping onto a cozy sofa, used on the "Dog jump on sofa" sentence page | Google Gemini (generated) |
-| three-bats-in-tree.jpg | Three cute cartoon baby bats hanging from a bare tree branch under a big orange moon, used on the "Three bats in tree" Halloween sentence page | Google Gemini (generated) |
-| sheep-and-chick-shop.jpg | Fluffy cartoon sheep trying on a witch hat and a baby chick holding a mask in a Halloween costume shop, used on the "Sheep and chick shop" sentence page | Google Gemini (generated) |
-| bee-sits-on-web.jpg | Smiling cartoon bee on a sparkly spider web on a moonlit Halloween night, used on the "Bee sits on web" sentence page | Google Gemini (generated) |
-| bat-and-fish-chomp.jpg | Cartoon bat and orange fish chomping Halloween candy from a jack-o-lantern bowl, used on the "Bat and fish chomp" sentence page | Google Gemini (generated) |
-| bat-has-big-teeth.jpg | Cartoon bat grinning to show big silly vampire fangs in front of a full moon, used on the "Bat has big teeth" sentence page | Google Gemini (generated) |
+| rat-has-red-hat.jpg | Cute cartoon rat wearing a bright red knitted hat in a sunny meadow, used on the "Rat has red hat" sentence page | Google Gemini (generated) |
+| fox-is-in-box.jpg | Cute fox cub peeking out of an open cardboard box in a playroom, used on the "Fox is in box" sentence page | Google Gemini (generated) |
+| pig-and-duck-run.jpg | Cartoon pink pig and yellow duck running together across a sunny farm field, used on the "Pig and duck run" sentence page | Google Gemini (generated) |
+| hen-sat-on-egg.jpg | Cartoon brown hen sitting on a white egg in a straw nest on a farm, used on the "Hen sat on egg" sentence page | Google Gemini (generated) |
+| chimp-can-paint.jpg | Cartoon chimpanzee painting a colourful picture on an easel in an art studio, used on the "Chimp can paint" sentence page | Google Gemini (generated) |
+| snail-is-in-rain.jpg | Cartoon snail with a swirly shell on a leaf in the rain with raindrops and splashes, used on the "Snail is in rain" sentence page | Google Gemini (generated) |
+| dog-wags-tail.jpg | Happy cartoon golden puppy wagging its tail in a sunny garden, used on the "Dog wags tail" sentence page | Google Gemini (generated) |
+| big-ship-can-sail.jpg | Friendly cartoon red ship sailing on a sparkling blue sea, used on the "Big ship can sail" sentence page | Google Gemini (generated) |
+| three-red-trains.jpg | Three red wooden toy trains on three parallel wooden tracks on a playroom rug, used on the "Three red trains" sentence page | Google Gemini (generated) |
+| sheep-sat-in-rain.jpg | Fluffy cartoon sheep sitting in a grassy field in the rain with puddles, used on the "Sheep sat in rain" sentence page | Google Gemini (generated) |
+| bee-sits-on-snail.jpg | Smiling cartoon bee sitting on top of a snail's swirly shell in a flower garden, used on the "Bee sits on snail" sentence page | Google Gemini (generated) |
+| fish-has-red-tail.jpg | Cute cartoon blue fish with a bright red tail swimming underwater, used on the "Fish has red tail" sentence page | Google Gemini (generated) |
+| chick-is-on-chain.jpg | Fluffy yellow cartoon chick perched on a chunky silver chain in a farmyard, used on the "Chick is on chain" sentence page | Google Gemini (generated) |
+| moth-got-wet.jpg | Cartoon moth with soaked, dripping wings on a rainy green leaf, used on the "Moth got wet" sentence page | Google Gemini (generated) |
+| bee-is-in-tree.jpg | Smiling cartoon bee flying inside a leafy green tree, used on the "Bee is in tree" sentence page | Google Gemini (generated) |
+| sheep-has-green-hat.jpg | Fluffy cartoon sheep wearing a bright green knitted hat in a sunny meadow, used on the "Sheep has green hat" sentence page | Google Gemini (generated) |
+| feet-in-deep-mud.jpg | Child's yellow rubber wellies and striped socks stuck in thick brown mud (no faces), used on the "Feet in deep mud" sentence page | Google Gemini (generated) |
+| frog-sees-red-jeep.jpg | Cartoon green frog looking at a shiny red jeep on a sunny grassy path, used on the "Frog sees red jeep" sentence page | Google Gemini (generated) |

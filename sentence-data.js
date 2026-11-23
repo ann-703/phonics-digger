@@ -1,145 +1,183 @@
 // ---- Sentence Reader data ----
 // `chunks` per word follow the same decoding convention as digraph-words.js:
-// the digraph together as one chunk, each other letter as its own chunk.
+// the digraph (sh, ch, th, ee, ai, ck) together as one chunk, each other letter as its own chunk.
 // `image` = the "comes to life" scene image, revealed by tapping the check.
+// Sentences are 3-4 words; id = kebab-case of the sentence, image = sentences/<id>.jpg.
 const SENTENCES = [
   {
-    id: 'sam-sat-on-log',
+    id: 'rat-has-red-hat',
     words: [
-      { word: 'Sam', chunks: ['s', 'a', 'm'] },
-      { word: 'sat', chunks: ['s', 'a', 't'] },
-      { word: 'on', chunks: ['o', 'n'] },
-      { word: 'log', chunks: ['l', 'o', 'g'] }
-    ],
-    image: 'sentences/sam-sat-on-log.jpg'
-  },
-  {
-    id: 'cat-puts-on-hat',
-    words: [
-      { word: 'Cat', chunks: ['c', 'a', 't'] },
-      { word: 'puts', chunks: ['p', 'u', 't', 's'] },
-      { word: 'on', chunks: ['o', 'n'] },
+      { word: 'Rat', chunks: ['r', 'a', 't'] },
+      { word: 'has', chunks: ['h', 'a', 's'] },
+      { word: 'red', chunks: ['r', 'e', 'd'] },
       { word: 'hat', chunks: ['h', 'a', 't'] }
     ],
-    image: 'sentences/cat-puts-on-hat.jpg'
+    image: 'sentences/rat-has-red-hat.jpg'
   },
   {
-    id: 'pig-dug-big-pit',
+    id: 'fox-is-in-box',
+    words: [
+      { word: 'Fox', chunks: ['f', 'o', 'x'] },
+      { word: 'is', chunks: ['i', 's'] },
+      { word: 'in', chunks: ['i', 'n'] },
+      { word: 'box', chunks: ['b', 'o', 'x'] }
+    ],
+    image: 'sentences/fox-is-in-box.jpg'
+  },
+  {
+    id: 'pig-and-duck-run',
     words: [
       { word: 'Pig', chunks: ['p', 'i', 'g'] },
-      { word: 'dug', chunks: ['d', 'u', 'g'] },
-      { word: 'big', chunks: ['b', 'i', 'g'] },
-      { word: 'pit', chunks: ['p', 'i', 't'] }
+      { word: 'and', chunks: ['a', 'n', 'd'] },
+      { word: 'duck', chunks: ['d', 'u', 'ck'] },
+      { word: 'run', chunks: ['r', 'u', 'n'] }
     ],
-    image: 'sentences/pig-dug-big-pit.jpg'
+    image: 'sentences/pig-and-duck-run.jpg'
   },
   {
-    id: 'cat-is-sad',
+    id: 'hen-sat-on-egg',
     words: [
-      { word: 'Cat', chunks: ['c', 'a', 't'] },
-      { word: 'is', chunks: ['i', 's'] },
-      { word: 'sad', chunks: ['s', 'a', 'd'] }
-    ],
-    image: 'sentences/cat-is-sad.jpg'
-  },
-  {
-    id: 'chick-sat-in-shed',
-    words: [
-      { word: 'Chick', chunks: ['ch', 'i', 'ck'] },
+      { word: 'Hen', chunks: ['h', 'e', 'n'] },
       { word: 'sat', chunks: ['s', 'a', 't'] },
-      { word: 'in', chunks: ['i', 'n'] },
-      { word: 'shed', chunks: ['sh', 'e', 'd'] }
+      { word: 'on', chunks: ['o', 'n'] },
+      { word: 'egg', chunks: ['e', 'g', 'g'] }
     ],
-    image: 'sentences/chick-sat-in-shed.jpg'
+    image: 'sentences/hen-sat-on-egg.jpg'
   },
   {
-    id: 'shark-eats-fish',
+    id: 'chimp-can-paint',
     words: [
-      { word: 'Shark', chunks: ['sh', 'a', 'r', 'k'] },
-      { word: 'eats', chunks: ['ea', 't', 's'] },
-      { word: 'fish', chunks: ['f', 'i', 'sh'] }
+      { word: 'Chimp', chunks: ['ch', 'i', 'm', 'p'] },
+      { word: 'can', chunks: ['c', 'a', 'n'] },
+      { word: 'paint', chunks: ['p', 'ai', 'n', 't'] }
     ],
-    image: 'sentences/shark-eats-fish.jpg'
+    image: 'sentences/chimp-can-paint.jpg'
   },
   {
-    id: 'fish-hid-in-shell',
+    id: 'snail-is-in-rain',
     words: [
-      { word: 'Fish', chunks: ['f', 'i', 'sh'] },
-      { word: 'hid', chunks: ['h', 'i', 'd'] },
+      { word: 'Snail', chunks: ['s', 'n', 'ai', 'l'] },
+      { word: 'is', chunks: ['i', 's'] },
       { word: 'in', chunks: ['i', 'n'] },
-      { word: 'shell', chunks: ['sh', 'e', 'l'] }
+      { word: 'rain', chunks: ['r', 'ai', 'n'] }
     ],
-    image: 'sentences/fish-hid-in-shell.jpg'
+    image: 'sentences/snail-is-in-rain.jpg'
   },
   {
-    id: 'ship-sank-in-mud',
-    words: [
-      { word: 'Ship', chunks: ['sh', 'i', 'p'] },
-      { word: 'sank', chunks: ['s', 'a', 'n', 'k'] },
-      { word: 'in', chunks: ['i', 'n'] },
-      { word: 'mud', chunks: ['m', 'u', 'd'] }
-    ],
-    image: 'sentences/ship-sank-in-mud.jpg'
-  },
-  {
-    id: 'dog-jump-on-sofa',
+    id: 'dog-wags-tail',
     words: [
       { word: 'Dog', chunks: ['d', 'o', 'g'] },
-      { word: 'jump', chunks: ['j', 'u', 'm', 'p'] },
-      { word: 'on', chunks: ['o', 'n'] },
-      { word: 'sofa', chunks: ['s', 'o', 'f', 'a'] }
+      { word: 'wags', chunks: ['w', 'a', 'g', 's'] },
+      { word: 'tail', chunks: ['t', 'ai', 'l'] }
     ],
-    image: 'sentences/dog-jump-on-sofa.jpg'
+    image: 'sentences/dog-wags-tail.jpg'
   },
-  // ---- Halloween set: ee / sh / ch / th words + "and" (4 words max) ----
   {
-    id: 'three-bats-in-tree',
+    id: 'big-ship-can-sail',
+    words: [
+      { word: 'Big', chunks: ['b', 'i', 'g'] },
+      { word: 'ship', chunks: ['sh', 'i', 'p'] },
+      { word: 'can', chunks: ['c', 'a', 'n'] },
+      { word: 'sail', chunks: ['s', 'ai', 'l'] }
+    ],
+    image: 'sentences/big-ship-can-sail.jpg'
+  },
+  {
+    id: 'three-red-trains',
     words: [
       { word: 'Three', chunks: ['th', 'r', 'ee'] },
-      { word: 'bats', chunks: ['b', 'a', 't', 's'] },
-      { word: 'in', chunks: ['i', 'n'] },
-      { word: 'tree', chunks: ['t', 'r', 'ee'] }
+      { word: 'red', chunks: ['r', 'e', 'd'] },
+      { word: 'trains', chunks: ['t', 'r', 'ai', 'n', 's'] }
     ],
-    image: 'sentences/three-bats-in-tree.jpg'
+    image: 'sentences/three-red-trains.jpg'
   },
   {
-    id: 'sheep-and-chick-shop',
+    id: 'sheep-sat-in-rain',
     words: [
       { word: 'Sheep', chunks: ['sh', 'ee', 'p'] },
-      { word: 'and', chunks: ['a', 'n', 'd'] },
-      { word: 'chick', chunks: ['ch', 'i', 'ck'] },
-      { word: 'shop', chunks: ['sh', 'o', 'p'] }
+      { word: 'sat', chunks: ['s', 'a', 't'] },
+      { word: 'in', chunks: ['i', 'n'] },
+      { word: 'rain', chunks: ['r', 'ai', 'n'] }
     ],
-    image: 'sentences/sheep-and-chick-shop.jpg'
+    image: 'sentences/sheep-sat-in-rain.jpg'
   },
   {
-    id: 'bee-sits-on-web',
+    id: 'bee-sits-on-snail',
     words: [
       { word: 'Bee', chunks: ['b', 'ee'] },
       { word: 'sits', chunks: ['s', 'i', 't', 's'] },
       { word: 'on', chunks: ['o', 'n'] },
-      { word: 'web', chunks: ['w', 'e', 'b'] }
+      { word: 'snail', chunks: ['s', 'n', 'ai', 'l'] }
     ],
-    image: 'sentences/bee-sits-on-web.jpg'
+    image: 'sentences/bee-sits-on-snail.jpg'
   },
   {
-    id: 'bat-and-fish-chomp',
+    id: 'fish-has-red-tail',
     words: [
-      { word: 'Bat', chunks: ['b', 'a', 't'] },
-      { word: 'and', chunks: ['a', 'n', 'd'] },
-      { word: 'fish', chunks: ['f', 'i', 'sh'] },
-      { word: 'chomp', chunks: ['ch', 'o', 'm', 'p'] }
-    ],
-    image: 'sentences/bat-and-fish-chomp.jpg'
-  },
-  {
-    id: 'bat-has-big-teeth',
-    words: [
-      { word: 'Bat', chunks: ['b', 'a', 't'] },
+      { word: 'Fish', chunks: ['f', 'i', 'sh'] },
       { word: 'has', chunks: ['h', 'a', 's'] },
-      { word: 'big', chunks: ['b', 'i', 'g'] },
-      { word: 'teeth', chunks: ['t', 'ee', 'th'] }
+      { word: 'red', chunks: ['r', 'e', 'd'] },
+      { word: 'tail', chunks: ['t', 'ai', 'l'] }
     ],
-    image: 'sentences/bat-has-big-teeth.jpg'
+    image: 'sentences/fish-has-red-tail.jpg'
+  },
+  {
+    id: 'chick-is-on-chain',
+    words: [
+      { word: 'Chick', chunks: ['ch', 'i', 'ck'] },
+      { word: 'is', chunks: ['i', 's'] },
+      { word: 'on', chunks: ['o', 'n'] },
+      { word: 'chain', chunks: ['ch', 'ai', 'n'] }
+    ],
+    image: 'sentences/chick-is-on-chain.jpg'
+  },
+  {
+    id: 'moth-got-wet',
+    words: [
+      { word: 'Moth', chunks: ['m', 'o', 'th'] },
+      { word: 'got', chunks: ['g', 'o', 't'] },
+      { word: 'wet', chunks: ['w', 'e', 't'] }
+    ],
+    image: 'sentences/moth-got-wet.jpg'
+  },
+  {
+    id: 'bee-is-in-tree',
+    words: [
+      { word: 'Bee', chunks: ['b', 'ee'] },
+      { word: 'is', chunks: ['i', 's'] },
+      { word: 'in', chunks: ['i', 'n'] },
+      { word: 'tree', chunks: ['t', 'r', 'ee'] }
+    ],
+    image: 'sentences/bee-is-in-tree.jpg'
+  },
+  {
+    id: 'sheep-has-green-hat',
+    words: [
+      { word: 'Sheep', chunks: ['sh', 'ee', 'p'] },
+      { word: 'has', chunks: ['h', 'a', 's'] },
+      { word: 'green', chunks: ['g', 'r', 'ee', 'n'] },
+      { word: 'hat', chunks: ['h', 'a', 't'] }
+    ],
+    image: 'sentences/sheep-has-green-hat.jpg'
+  },
+  {
+    id: 'feet-in-deep-mud',
+    words: [
+      { word: 'Feet', chunks: ['f', 'ee', 't'] },
+      { word: 'in', chunks: ['i', 'n'] },
+      { word: 'deep', chunks: ['d', 'ee', 'p'] },
+      { word: 'mud', chunks: ['m', 'u', 'd'] }
+    ],
+    image: 'sentences/feet-in-deep-mud.jpg'
+  },
+  {
+    id: 'frog-sees-red-jeep',
+    words: [
+      { word: 'Frog', chunks: ['f', 'r', 'o', 'g'] },
+      { word: 'sees', chunks: ['s', 'ee', 's'] },
+      { word: 'red', chunks: ['r', 'e', 'd'] },
+      { word: 'jeep', chunks: ['j', 'ee', 'p'] }
+    ],
+    image: 'sentences/frog-sees-red-jeep.jpg'
   }
 ];

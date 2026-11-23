@@ -4,7 +4,7 @@
 // Fixed grid slots around the center hub (col, row) in the 4-col grid.
 // Hub occupies col 2-3, row 2. Words fill row 1 first, then the row-2
 // sides, then row 3 under the hub — digraphs with fewer than 8 words
-// (ch, th, ee) just leave the later slots empty.
+// (th, ee) leave the later slots empty.
 const SLOTS = [
   { col: 1, row: 1 }, { col: 2, row: 1 }, { col: 3, row: 1 }, { col: 4, row: 1 },
   { col: 1, row: 2 },                                          { col: 4, row: 2 },
@@ -16,7 +16,7 @@ const hubLetters = document.getElementById('hub-letters');
 const nextBtn = document.getElementById('next-digraph-btn');
 const pageDots = document.getElementById('page-dots');
 
-const ORDER = ['sh', 'ch', 'th', 'ee'];
+const ORDER = ['sh', 'ch', 'th', 'ee', 'ai'];
 
 // Flatten each digraph's words into screens of at most SLOTS.length words,
 // so a digraph with more words than fit in one grid (e.g. sh, ch) spills
